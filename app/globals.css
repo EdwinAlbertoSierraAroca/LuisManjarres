@@ -1828,6 +1828,7 @@ h3,
 /* Final landing cascade: keeps the futuristic palette above legacy rules. */
 .landing-shell { background: #080908; color: #f4f0e8; isolation: isolate; }
 .landing-bg { background: radial-gradient(circle at 50% 13%, rgba(255, 91, 43, 0.16), transparent 25%), radial-gradient(circle at 5% 72%, rgba(255, 91, 43, 0.1), transparent 22%), linear-gradient(180deg, #130b07 0%, #080908 45%, #0d0e0d 100%); }
+.landing-content { position: relative; z-index: 1; }
 .landing-shell::after { position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px); background-size: 72px 72px; content: ''; mask-image: linear-gradient(to bottom, black, transparent 70%); pointer-events: none; }
 .landing-header { border-color: rgba(255, 255, 255, 0.12); border-radius: 4px; background: rgba(8, 9, 8, 0.72); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28); }
 .brand-mark--landing { position: relative; width: 4.5rem; height: 4rem; overflow: hidden; border-radius: 4px; background: #ff5b2b; color: #160a05; box-shadow: 0 12px 24px rgba(255, 91, 43, 0.24); }

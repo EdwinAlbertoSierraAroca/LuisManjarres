@@ -268,7 +268,7 @@ export default function Home() {
     <div className="landing-shell" id="top">
       <div className="landing-bg" />
 
-      <div className="mx-auto max-w-[1280px] px-4 py-5 lg:px-8">
+      <div className="landing-content mx-auto max-w-[1280px] px-4 py-5 lg:px-8">
         <header className="landing-header">
           <div className="flex items-center justify-between gap-4 px-5 py-4">
             <div className="flex items-center gap-3">
