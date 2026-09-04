@@ -11,15 +11,15 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   metadataBase: new URL('https://solarstudio.com'),
   title: {
-    default: 'Solar Studio | Energía solar premium',
-    template: '%s | Solar Studio',
+    default: 'PROSOINPEN S.A.S. | Ingeniería y energía fotovoltaica',
+    template: '%s | PROSOINPEN S.A.S.',
   },
-  description: 'Plataforma premium para energía solar, proyectos, clientes y cotizaciones.',
-  applicationName: 'Solar Studio',
-  keywords: ['energía solar', 'paneles solares', 'proyectos solares', 'clientes solar', 'cotizaciones'],
-  authors: [{ name: 'Solar Studio' }],
-  creator: 'Solar Studio',
-  publisher: 'Solar Studio',
+  description: 'Proyectos y soluciones de ingeniería, energía fotovoltaica, sistemas eléctricos, obras civiles y urbanismo.',
+  applicationName: 'PROSOINPEN S.A.S.',
+  keywords: ['PROSOINPEN', 'energía fotovoltaica', 'ingeniería eléctrica', 'obras civiles', 'Morales Bolívar'],
+  authors: [{ name: 'PROSOINPEN S.A.S.' }],
+  creator: 'PROSOINPEN S.A.S.',
+  publisher: 'PROSOINPEN S.A.S.',
   robots: {
     index: true,
     follow: true,
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Solar Studio',
-    description: 'Plataforma premium para energía solar, proyectos, clientes y cotizaciones.',
+    title: 'PROSOINPEN S.A.S.',
+    description: 'Ofrecemos soluciones de ingeniería y energía fotovoltaica.',
     url: 'https://solarstudio.com',
     siteName: 'Solar Studio',
     locale: 'es_ES',
@@ -38,8 +38,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Solar Studio',
-    description: 'Plataforma premium para energía solar, proyectos, clientes y cotizaciones.',
+    title: 'PROSOINPEN S.A.S.',
+    description: 'Ofrecemos soluciones de ingeniería y energía fotovoltaica.',
   },
   referrer: 'origin-when-cross-origin',
   alternates: {

@@ -58,23 +58,25 @@ const stats = [
 ];
 
 const valueCards = [
-  { id: 'mision', title: 'Misión', text: 'Acompañamos a familias y empresas con soluciones solares seguras, estables y realmente rentables.' },
-  { id: 'vision', title: 'Visión', text: 'Ser la marca solar de referencia por innovación, calidad técnica y confianza en cada etapa.' },
-  { id: 'quienes-somos', title: 'Quiénes somos', text: 'Un equipo especializado en estrategia, instalación y acompañamiento energético de alto nivel.' },
+  { id: 'mision', title: 'Misión', text: 'Proveer soluciones integrales en energía solar fotovoltaica mediante el diseño, instalación y mantenimiento de sistemas eficientes y sostenibles, generando valor económico y ambiental para nuestros clientes.' },
+  { id: 'vision', title: 'Visión', text: 'Ser una empresa líder en el sector de energías renovables a nivel nacional e internacional, reconocida por la calidad de nuestros proyectos, innovación tecnológica y compromiso con el desarrollo sostenible.' },
+  {
+    id: 'quienes-somos',
+    title: 'Quiénes somos',
+    text: 'Somos una empresa de ingeniería especializada en el diseño, desarrollo e implementación de proyectos de energía fotovoltaica y obras civiles. Nos enfocamos en brindar soluciones sostenibles, eficientes y adaptadas a las necesidades de nuestros clientes, contribuyendo a la transición hacia energías limpias.\nNuestro equipo está conformado por profesionales altamente capacitados en ingeniería eléctrica, energías renovables y gestión de proyectos, comprometidos con la innovación y la excelencia técnica.',
+  },
 ];
 
 const landingServices = [
-  { title: 'Energía solar residencial', description: 'Sistemas pensados para reducir tu consumo y convertir tu hogar en una fuente de ahorro.', icon: '01' },
-  { title: 'Energía solar empresarial', description: 'Infraestructura solar escalable para operaciones más eficientes, rentables y sostenibles.', icon: '02' },
-  { title: 'Sistemas fotovoltaicos', description: 'Diseño, instalación y monitoreo de soluciones fotovoltaicas a la medida.', icon: '03' },
-  { title: 'Almacenamiento de energía', description: 'Baterías inteligentes para respaldo, continuidad y control de tus picos de demanda.', icon: '04' },
-  { title: 'Consultoría energética', description: 'Diagnóstico y estrategia para tomar mejores decisiones energéticas.', icon: '05' },
+  { title: 'Implementación de sistemas de energía fotovoltaica', description: 'Proyectos solares a medida para hogares, empresas y comunidades.', icon: '01' },
+  { title: 'Montajes, pruebas y puesta en marcha de sistemas eléctricos', description: 'Instalaciones eléctricas industriales y residenciales con respaldo técnico.', icon: '02' },
+  { title: 'Mantenimiento preventivo y correctivo', description: 'Soporte técnico y cuidado operativo para mantener tus sistemas funcionando.', icon: '03' },
+  { title: 'Ingeniería civil estructural', description: 'Obras civiles y construcciones con soluciones técnicas confiables.', icon: '04' },
+  { title: 'Parques y urbanismo', description: 'Desarrollo e infraestructura para espacios públicos y cubiertas.', icon: '05' },
 ];
 
 const projects = [
-  { name: 'Residencial Solar Norte', city: 'Bogotá', value: '42 kW', tag: 'Completado', co2: '18.6 t CO2/año', roi: '4.8 años' },
-  { name: 'Industria EcoMax', city: 'Medellín', value: '180 kW', tag: 'Ejecutando', co2: '74.2 t CO2/año', roi: '3.9 años' },
-  { name: 'Campus Verde', city: 'Cali', value: '96 kW', tag: 'Activo', co2: '41.8 t CO2/año', roi: '4.2 años' },
+  { name: 'Proyecto Fotovoltaico Municipio de Morales', city: 'Morales, Bolívar', value: '396 sistemas', tag: 'Completado', co2: 'Proyecto solar municipal', roi: 'Instalación ejecutada' },
 ];
 
 const testimonials = [
@@ -110,7 +112,7 @@ const showcaseSlides = [
   },
 ];
 
-const partnerLogos = ['Edwin Sierra', 'GREENCORE', 'NEXA', 'VOLTIA', 'SUREN', 'SUNLINK'];
+const partnerLogos = ['PROSOINPEN S.A.S.', 'ENERGÍA FOTOVOLTAICA', 'INGENIERÍA', 'OBRAS CIVILES'];
 
 const initialGalleryItems = [
   { id: 'g1', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80' },
@@ -270,10 +272,17 @@ export default function Home() {
         <header className="landing-header">
           <div className="flex items-center justify-between gap-4 px-5 py-4">
             <div className="flex items-center gap-3">
-              <div className="brand-mark brand-mark--landing">S</div>
+              <div className="brand-mark brand-mark--landing">
+                <img
+                  src="/logo-prosoinpen.svg"
+                  alt="Logo de PROSOINPEN S.A.S."
+                  className="brand-logo"
+                />
+                <span>P</span>
+              </div>
               <div>
-                <div className="brand-kicker">Solar</div>
-                <div className="brand-name brand-name--landing">STUDIO</div>
+                <div className="brand-kicker">PROSOINPEN</div>
+                <div className="brand-name brand-name--landing">S.A.S.</div>
               </div>
             </div>
 
@@ -370,7 +379,7 @@ export default function Home() {
                 <article key={slide.title} className="showcase-slide">
                   <img src={slide.image} alt={slide.title} className="showcase-slide__image" />
                   <div className="showcase-slide__content">
-                    <span className="showcase-slide__label">Solar Studio</span>
+                    <span className="showcase-slide__label">PROSOINPEN S.A.S.</span>
                     <h3>{slide.title}</h3>
                     <p>{slide.subtitle}</p>
                   </div>
@@ -410,12 +419,12 @@ export default function Home() {
             <div className="grid gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
               <div className="relative z-10">
                 <h1 className="hero-title">
-                  <span>Energía solar</span>
+                  <span>Ingeniería y energía</span>
                   <span className="hero-title--muted">para una nueva era.</span>
                 </h1>
 
                 <p className="hero-copy">
-                  Somos una compañía enfocada en transformar la energía en una ventaja estratégica para hogares, negocios y organizaciones que buscan eficiencia, ahorro y sostenibilidad sin comprometer la calidad ni el diseño.
+                  Ofrecemos soluciones de ingeniería y energía fotovoltaica para proyectos que requieren precisión técnica, eficiencia y compromiso con el desarrollo sostenible.
                 </p>
 
                 <div className="mt-8 flex flex-wrap gap-3">
@@ -438,7 +447,7 @@ export default function Home() {
                   <div className="hero-panel-card__header">
                     <div>
                       <div className="panel-tag">Perfil</div>
-                      <div className="hero-panel-title">Solar Studio</div>
+                      <div className="hero-panel-title">PROSOINPEN S.A.S.</div>
                     </div>
                     <span className="status-pill">Desde 2013</span>
                   </div>
@@ -467,7 +476,7 @@ export default function Home() {
             <div className="landing-section-heading mb-7">
               <span className="section-badge">Empresa</span>
               <h2 className="section-title section-title--left">NUESTRA EMPRESA</h2>
-              <p className="landing-section-description">Conoce la misión, visión y el equipo que da forma a Solar Studio.</p>
+              <p className="landing-section-description">Conoce la empresa de ingeniería que desarrolla soluciones solares, eléctricas y civiles.</p>
             </div>
 
             <div className="value-grid">
@@ -760,14 +769,21 @@ export default function Home() {
           <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
             <div>
               <div className="flex items-center gap-3">
-                <div className="brand-mark brand-mark--landing">S</div>
+                <div className="brand-mark brand-mark--landing">
+                  <img
+                    src="/logo-prosoinpen.svg"
+                    alt="Logo de PROSOINPEN S.A.S."
+                    className="brand-logo"
+                  />
+                  <span>P</span>
+                </div>
                 <div>
-                  <div className="brand-kicker">Solar</div>
-                  <div className="brand-name brand-name--landing">STUDIO</div>
+                  <div className="brand-kicker">PROSOINPEN</div>
+                  <div className="brand-name brand-name--landing">S.A.S.</div>
                 </div>
               </div>
               <p className="footer-copy">
-                Soluciones energéticas de alto nivel para quienes valoran eficiencia, sostenibilidad y una experiencia premium.
+                Proyectos y soluciones de ingeniería, energía fotovoltaica, sistemas eléctricos y obras civiles.
               </p>
             </div>
 
@@ -783,9 +799,9 @@ export default function Home() {
             <div>
               <div className="footer-title">Contacto</div>
               <ul className="footer-list">
-                <li>hola@manjarres.com</li>
-                <li>+57 31364617947</li>
-                <li>Barranquilla, Colombia</li>
+                <li>PROSOINPEN S.A.S.</li>
+                <li>NIT: 901960765-2</li>
+                <li>Proyectos y Soluciones de Ingeniería El Pentágono S.A.S.</li>
               </ul>
             </div>
           </div>

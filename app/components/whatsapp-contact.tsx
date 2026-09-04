@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export const whatsappMessage = 'Hola, Solar Studio.Estoy interesado(a) en una solución de energía solar y quisiera recibir asesoría sobre mi proyecto.\n¿Podemos conversar?';
+export const whatsappMessage = 'Hola, PROSOINPEN S.A.S. Estoy interesado(a) en una solución de ingeniería o energía fotovoltaica y quisiera recibir asesoría sobre mi proyecto.\n¿Podemos conversar?';
 export const whatsappUrl = `https://api.whatsapp.com/send?phone=573112167711&text=${encodeURIComponent(whatsappMessage)}&type=phone_number&app_absent=0`;
 
 export function WhatsAppIcon(props: SVGProps<SVGSVGElement>) {
@@ -15,8 +15,15 @@ export function WhatsAppIcon(props: SVGProps<SVGSVGElement>) {
 
 export function WhatsAppFloat() {
   return (
-    <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Contactar a Solar Studio por WhatsApp">
-      <span className="whatsapp-float__brand">S</span>
+    <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Contactar a PROSOINPEN por WhatsApp">
+      <span className="whatsapp-float__brand">
+        <img
+          src="/logo-prosoinpen.svg"
+          alt="PROSOINPEN"
+          className="whatsapp-float__logo"
+        />
+        <span>P</span>
+      </span>
       <WhatsAppIcon className="whatsapp-float__icon" />
       <span className="whatsapp-float__label">WhatsApp</span>
     </a>

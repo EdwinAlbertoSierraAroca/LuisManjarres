@@ -1830,7 +1830,8 @@ h3,
 .landing-bg { background: radial-gradient(circle at 50% 13%, rgba(255, 91, 43, 0.16), transparent 25%), radial-gradient(circle at 5% 72%, rgba(255, 91, 43, 0.1), transparent 22%), linear-gradient(180deg, #130b07 0%, #080908 45%, #0d0e0d 100%); }
 .landing-shell::after { position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px); background-size: 72px 72px; content: ''; mask-image: linear-gradient(to bottom, black, transparent 70%); pointer-events: none; }
 .landing-header { border-color: rgba(255, 255, 255, 0.12); border-radius: 4px; background: rgba(8, 9, 8, 0.72); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28); }
-.brand-mark--landing { border-radius: 4px; background: #ff5b2b; color: #160a05; box-shadow: 0 12px 24px rgba(255, 91, 43, 0.24); }
+.brand-mark--landing { position: relative; width: 4.5rem; height: 4rem; overflow: hidden; border-radius: 4px; background: #ff5b2b; color: #160a05; box-shadow: 0 12px 24px rgba(255, 91, 43, 0.24); }
+.brand-logo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #ffffff; }
 .brand-kicker, .section-badge, .panel-tag, .mini-metric__label { color: #ff7042; }
 .brand-name--landing, .landing-nav-link, .section-title, .hero-title, .hero-panel-title, .mini-metric__value, .big-stat, .value-card h3 { color: #f4f0e8; }
 .landing-nav-link { border-color: transparent; border-radius: 3px; background: transparent; color: rgba(244, 240, 232, 0.68); }
@@ -1859,6 +1860,20 @@ h3,
 .status-pill, .floating-badge { border-color: rgba(255, 255, 255, 0.14); background: rgba(12, 13, 12, 0.8); color: #ff7042; }
 .floating-badge__value { color: #f4f0e8; }
 .value-card__icon { border-radius: 3px; background: rgba(255, 91, 43, 0.14); color: #ff7042; }
+.value-card {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.value-card h3 { text-align: center; }
+.value-card__icon { margin-inline: auto; }
+.value-card p {
+  max-width: 32rem;
+  text-align: justify;
+  text-justify: inter-word;
+  white-space: pre-line;
+}
 .project-card__visual { background: linear-gradient(135deg, rgba(255, 91, 43, 0.7), rgba(20, 22, 20, 0.35)); }
 .gallery-heading { margin-bottom: 1.4rem; }
 .gallery-heading .section-title { margin-top: 0.7rem; font-size: clamp(2rem, 3vw, 3.8rem); }
@@ -1880,7 +1895,8 @@ h3,
 .whatsapp-float { position: fixed; right: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem); z-index: 100; display: inline-flex; align-items: center; gap: 0.55rem; min-height: 3.5rem; padding: 0.45rem 0.75rem 0.45rem 0.45rem; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 9999px; background: #25d366; color: #062b13; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 0 5px rgba(37, 211, 102, 0.1); font-size: 0.8rem; font-weight: 900; transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .whatsapp-float:hover, .whatsapp-float:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4), 0 0 0 7px rgba(37, 211, 102, 0.15); outline: none; }
 .whatsapp-float__icon { width: 2.55rem; height: 2.55rem; color: #25d366; }
-.whatsapp-float__brand { display: inline-flex; align-items: center; justify-content: center; width: 1.65rem; height: 1.65rem; margin-right: -0.25rem; border: 2px solid #25d366; border-radius: 4px; background: #160a05; color: #ff7042; font-size: 0.85rem; font-weight: 900; }
+.whatsapp-float__brand { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 2.15rem; height: 2.15rem; margin-right: -0.25rem; overflow: hidden; border: 2px solid #25d366; border-radius: 4px; background: #160a05; color: #ff7042; font-size: 1rem; font-weight: 900; }
+.whatsapp-float__logo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #ffffff; }
 .whatsapp-float__label { padding-right: 0.2rem; }
 @media (max-width: 640px) {
   .landing-nav-group__items, .contact-form { grid-template-columns: 1fr; }

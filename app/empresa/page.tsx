@@ -46,7 +46,7 @@ export default function EmpresaPage() {
               <div className="flex items-center justify-between gap-3 border-b border-[#b79977]/40 pb-4">
                 <div>
                   <div className="text-[10px] uppercase tracking-[0.26em] text-[#7b5a40]">Perfil</div>
-                  <div className="mt-2 text-3xl font-black text-[#201a17]">Solar Studio</div>
+                  <div className="mt-2 text-3xl font-black text-[#201a17]">PROSOINPEN S.A.S.</div>
                 </div>
                 <span className="stat-pill">Desde 2013</span>
               </div>
