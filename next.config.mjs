@@ -10,7 +10,8 @@ const cspValue = [
   "img-src 'self' data: https://images.unsplash.com",
   "font-src 'self' https://fonts.gstatic.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  isDev ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'" : "script-src 'self'",
+  // Next.js uses inline bootstrap scripts to hydrate the App Router in production.
+  isDev ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'" : "script-src 'self' 'unsafe-inline'",
   "connect-src 'self'",
   "upgrade-insecure-requests",
 ].join('; ');
