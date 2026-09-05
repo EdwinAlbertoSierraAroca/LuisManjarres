@@ -1185,6 +1185,46 @@ h3,
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .about-layout {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    align-items: stretch;
+  }
+
+  .about-image-frame {
+    position: relative;
+    min-height: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 4px;
+    background: #111311;
+  }
+
+  .about-image-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 28rem;
+    object-fit: cover;
+    filter: saturate(0.82) contrast(1.08) brightness(0.76);
+  }
+
+  .about-image-caption {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    padding: 0.8rem 0.9rem;
+    border-left: 2px solid #ff5b2b;
+    background: rgba(8, 9, 8, 0.76);
+    color: #f4f0e8;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
   .showcase-header {
     margin-bottom: 1.2rem;
   }

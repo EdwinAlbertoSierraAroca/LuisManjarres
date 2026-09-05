@@ -17,6 +17,7 @@ const landingNavGroups = [
       { name: 'Visión', href: '#vision' },
       { name: 'Valores', href: '#valores' },
       { name: 'Nuestro enfoque', href: '#enfoque' },
+      { name: 'Sobre nosotros', href: '#sobre-nosotros' },
     ],
   },
   {
@@ -28,6 +29,7 @@ const landingNavGroups = [
       { name: 'Almacenamiento de energía', href: '#soluciones' },
       { name: 'Consultoría energética', href: '#soluciones' },
       { name: 'Calculadora de ahorro', href: '#calculadora' },
+      { name: 'Nuestro portafolio', href: '#nuestro-portafolio' },
     ],
   },
   {
@@ -75,6 +77,46 @@ const landingServices = [
   { title: 'Parques y urbanismo', description: 'Desarrollo e infraestructura para espacios públicos y cubiertas.', icon: '05' },
 ];
 
+const investmentBenefits = [
+  { title: 'Ahorro Garantizado', text: 'Reduce significativamente tus costos de energía desde el primer mes de operación.' },
+  { title: 'Retorno de Inversión', text: 'Recupera tu inversión mientras generas ahorros constantes durante más de 25 años.' },
+  { title: 'Protección Tarifaria', text: 'Blindaje financiero contra las alzas constantes de la red eléctrica tradicional.' },
+  { title: 'Valorización de Activos', text: 'Aumento del valor comercial y tasación real de tu infraestructura corporativa.' },
+  { title: 'Energía Sostenible', text: 'Transición limpia reduciendo de forma medible la huella de carbono.' },
+  { title: 'Inversión Inteligente', text: 'Transformación de un gasto fijo inevitable en un activo rentable y duradero.' },
+];
+
+const portfolioItems = [
+  {
+    title: 'Granjas Solares',
+    subtitle: 'Energía a gran escala',
+    text: 'Desarrollamos proyectos fotovoltaicos de gran capacidad para maximizar la generación y rentabilidad.',
+    icon: '☀',
+    image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=85',
+  },
+  {
+    title: 'Autoconsumo',
+    subtitle: 'Energía para tu hogar y empresa',
+    text: 'Sistemas solares que te permiten ahorrar desde el primer día y avanzar hacia la independencia energética.',
+    icon: '⌂',
+    image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=85',
+  },
+  {
+    title: 'Insumos & Equipos',
+    subtitle: 'Suministros fotovoltaicos',
+    text: 'Estructuras, cable solar, protecciones DC/AC, inversores y paneles seleccionados para proyectos de calidad.',
+    icon: '⌁',
+    image: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=85',
+  },
+  {
+    title: 'Movilidad Eléctrica',
+    subtitle: 'Impulsamos el cambio',
+    text: 'Soluciones de carga y movilidad eléctrica para un transporte más eficiente, moderno y sostenible.',
+    icon: 'ϟ',
+    image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=85',
+  },
+];
+
 const projects = [
   { name: 'Proyecto Fotovoltaico Municipio de Morales', city: 'Morales, Bolívar', value: '396 sistemas', tag: 'Completado', co2: 'Proyecto solar municipal', roi: 'Instalación ejecutada' },
 ];
@@ -115,15 +157,17 @@ const showcaseSlides = [
 const partnerLogos = ['PROSOINPEN S.A.S.', 'ENERGÍA FOTOVOLTAICA', 'INGENIERÍA', 'OBRAS CIVILES'];
 
 const initialGalleryItems = [
-  { id: 'g1', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g2', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g3', category: 'Talleres', image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g4', category: 'Talleres', image: 'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g5', category: 'Creaciones', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g6', category: 'Creaciones', image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g7', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g8', category: 'Talleres', image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80' },
+  { id: 'g1', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80' },
+  { id: 'g2', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=80' },
+  { id: 'g3', category: 'Talleres', image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80' },
+  { id: 'g4', category: 'Talleres', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80' },
+  { id: 'g5', category: 'Creaciones', image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80' },
+  { id: 'g6', category: 'Creaciones', image: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80' },
+  { id: 'g7', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80' },
+  { id: 'g8', category: 'Talleres', image: 'https://images.unsplash.com/photo-1472141521881-95d0e87e2e39?auto=format&fit=crop&w=1200&q=80' },
 ];
+
+const aboutImage = 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1400&q=85';
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -276,7 +320,7 @@ export default function Home() {
                 <img
                   src="/logo-prosoinpen.svg"
                   alt="Logo de PROSOINPEN S.A.S."
-                  className="brand-logo"
+                  className="brand-logo h-20 w-auto max-w-none"
                 />
                 <span>P</span>
               </div>
@@ -472,21 +516,75 @@ export default function Home() {
             </div>
           </section>
 
+          {/* SECCIÓN 1: SOBRE NOSOTROS */}
+          <section
+            id="sobre-nosotros"
+            className="mt-16 relative overflow-hidden rounded-[28px] border border-white/10"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, rgba(8, 12, 11, 0.96) 0%, rgba(8, 12, 11, 0.86) 42%, rgba(8, 12, 11, 0.58) 100%), url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1800&q=85')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          >
+            <div className="relative z-10 p-6 sm:p-8 lg:p-10">
+              <div className="landing-section-heading mb-8 max-w-4xl">
+                <span className="section-badge">SOBRE NOSOTROS</span>
+                <h2 className="section-title section-title--left">
+                  Convertimos la energía en una inversión inteligente
+                </h2>
+                <p className="landing-section-description">
+                  En PROSOINPEN S.A.S. ayudamos a empresas y hogares a convertir la energía en una oportunidad de inversión y rentabilidad auto-sostenible hasta por 30 años. Creemos que la transición energética no solo protege las generaciones futuras, sino que hoy se convierte en una decisión financiera inteligente y altamente estratégica.
+                </p>
+              </div>
+
+              <div className="benefits-grid">
+                {investmentBenefits.map((benefit) => (
+                  <article
+                    key={benefit.title}
+                    className="benefit-card"
+                    style={{
+                      background: 'rgba(10, 20, 18, 0.48)',
+                      borderColor: 'rgba(52, 211, 153, 0.24)',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                  >
+                    <div
+                      className="benefit-card__icon"
+                      aria-hidden="true"
+                      style={{ color: '#34d399' }}
+                    >
+                      ✦
+                    </div>
+                    <h3 className="benefit-card__title">{benefit.title}</h3>
+                    <p className="benefit-card__text">{benefit.text}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+
           <section id="valores" className="mt-12">
             <div className="landing-section-heading mb-7">
-              <span className="section-badge">Empresa</span>
-              <h2 className="section-title section-title--left">NUESTRA EMPRESA</h2>
-              <p className="landing-section-description">Conoce la empresa de ingeniería que desarrolla soluciones solares, eléctricas y civiles.</p>
+              <span className="section-badge">Sobre nosotros</span>
+              <h2 className="section-title section-title--left">Ingeniería detrás de cada proyecto.</h2>
+              <p className="landing-section-description">Conoce al equipo y los principios que convierten cada proyecto solar en una decisión clara, rentable y sostenible.</p>
             </div>
 
-            <div className="value-grid">
-              {valueCards.map((card, index) => (
-                <article id={card.id} key={card.title} className={`value-card ${index === 0 ? 'value-card--large' : ''}`}>
-                  <div className="value-card__icon">{card.title[0]}</div>
-                  <h3>{card.title}</h3>
-                  <p>{card.text}</p>
-                </article>
-              ))}
+            <div className="about-layout">
+              <div className="about-image-frame">
+                <img src={aboutImage} alt="Equipo revisando una instalación de energía solar" />
+                <span className="about-image-caption">Ingeniería que se ve en cada detalle</span>
+              </div>
+              <div className="value-grid">
+                {valueCards.map((card, index) => (
+                  <article id={card.id} key={card.title} className={`value-card ${index === 0 ? 'value-card--large' : ''}`}>
+                    <div className="value-card__icon">{card.title[0]}</div>
+                    <h3>{card.title}</h3>
+                    <p>{card.text}</p>
+                  </article>
+                ))}
+              </div>
             </div>
           </section>
 
@@ -504,12 +602,54 @@ export default function Home() {
                 <article
                   key={service.title}
                   className="landing-service-card"
-                  style={{ backgroundColor: '#211713', borderColor: 'rgba(255, 112, 66, 0.42)', opacity: 1, visibility: 'visible' }}
+                  
                 >
                   <span className="landing-service-card__index">{service.icon}</span>
                   <h3>{service.title}</h3>
                   <p>{service.description}</p>
                   <a href="#contacto" aria-label={`Solicitar información sobre ${service.title}`}>Explorar <span aria-hidden="true">↗</span></a>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {/* SECCIÓN 2: NUESTRO PORTAFOLIO */}
+          <section id="nuestro-portafolio" className="mt-16">
+            <div className="landing-section-heading mb-8 flex items-end justify-between gap-4">
+              <div>
+                <span className="section-badge">SOLUCIONES</span>
+                <h2 className="section-title section-title--left">Nuestro Portafolio</h2>
+                <p className="landing-section-description">
+                  Soluciones inteligentes en energía solar y movilidad eléctrica para un futuro más rentable y sostenible.
+                </p>
+              </div>
+              <span className="landing-section-index">SOL / 04</span>
+            </div>
+
+            <div className="portfolio-grid portfolio-grid--4-cards">
+              {portfolioItems.slice(0, 4).map((item, index) => (
+                <article key={item.title} className="portfolio-card portfolio-card--4-card">
+                  <div className="portfolio-card--4-card__media">
+                    <img src={item.image} alt={item.title} className="portfolio-card--4-card__image" />
+                    <div className="portfolio-card--4-card__gradient" />
+                    <span className="portfolio-card--4-card__icon">{item.icon}</span>
+                  </div>
+
+                  <div className="portfolio-card--4-card__content">
+                    <div className="portfolio-card--4-card__title-row">
+                      <div>
+                        <h3>{item.title}</h3>
+                        <span>{item.subtitle}</span>
+                      </div>
+                      <span className="portfolio-card--4-card__arrow">↗</span>
+                    </div>
+
+                    <p>{item.text}</p>
+
+                    <a href="#contacto" aria-label={`Explorar solución ${item.title}`}>
+                      Explorar solución <span>→</span>
+                    </a>
+                  </div>
                 </article>
               ))}
             </div>
@@ -556,8 +696,8 @@ export default function Home() {
             <div className="gallery-shell">
               <div className="gallery-heading">
                 <span className="section-badge">Proyectos</span>
-                <h2 className="section-title section-title--left">GALERÍA DE PROYECTOS</h2>
-                <p className="landing-section-description">Explora instalaciones, talleres y creaciones que convierten la energía en resultados reales.</p>
+                <h2 className="section-title section-title--left">NUESTRO PORTAFOLIO</h2>
+                <p className="landing-section-description">Explora soluciones, instalaciones y equipos que convierten la energía en resultados reales.</p>
               </div>
 
               <div className="gallery-toolbar">
@@ -764,6 +904,404 @@ export default function Home() {
             </div>
           </section>
         </main>
+
+
+        <style jsx global>{`
+          :root {
+            --solar-green: #36d98a;
+            --solar-green-soft: rgba(54, 217, 138, 0.18);
+            --solar-dark: #07100d;
+            --solar-card: rgba(14, 25, 21, 0.78);
+          }
+
+          html { scroll-behavior: smooth; }
+
+          .investment-section {
+            position: relative;
+            overflow: hidden;
+            min-height: 570px;
+            border: 1px solid rgba(54, 217, 138, 0.14);
+            border-radius: 22px;
+            isolation: isolate;
+            background: #07100d;
+          }
+
+          .investment-section__backdrop {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background:
+              linear-gradient(90deg, rgba(3, 10, 8, .94) 0%, rgba(3, 10, 8, .76) 38%, rgba(3, 10, 8, .42) 100%),
+              url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1800&q=90') center/cover;
+            transform: scale(1.02);
+          }
+
+          .investment-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at 75% 50%, rgba(54,217,138,.10), transparent 38%);
+            pointer-events: none;
+          }
+
+          .investment-section__content {
+            position: relative;
+            padding: 64px 38px;
+          }
+
+          .investment-intro {
+            max-width: 690px;
+            margin-bottom: 34px;
+          }
+
+          .investment-intro .section-title {
+            max-width: 650px;
+            margin-top: 14px;
+            text-shadow: 0 0 28px rgba(54,217,138,.08);
+          }
+
+          .investment-intro .landing-section-description {
+            max-width: 700px;
+          }
+
+          .benefits-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+          }
+
+          .benefit-card {
+            min-height: 125px;
+            padding: 18px 20px;
+            border: 1px solid rgba(255,255,255,.16);
+            border-radius: 15px;
+            background: rgba(10, 19, 16, .58);
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 12px 35px rgba(0,0,0,.14);
+            transition: transform .28s ease, border-color .28s ease, background .28s ease, box-shadow .28s ease;
+          }
+
+          .benefit-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(54,217,138,.48);
+            background: rgba(13, 29, 23, .76);
+            box-shadow: 0 14px 45px rgba(0,0,0,.28), 0 0 25px rgba(54,217,138,.07);
+          }
+
+          .benefit-card__top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+          }
+
+          .benefit-card__icon {
+            display: grid;
+            place-items: center;
+            width: 31px;
+            height: 31px;
+            border: 1px solid rgba(54,217,138,.38);
+            border-radius: 8px;
+            color: var(--solar-green);
+            background: rgba(54,217,138,.09);
+            box-shadow: 0 0 18px rgba(54,217,138,.10);
+          }
+
+          .benefit-card__number {
+            font-size: 10px;
+            letter-spacing: .16em;
+            color: rgba(255,255,255,.38);
+          }
+
+          .benefit-card__title {
+            margin: 0 0 6px;
+            font-size: 15px;
+            color: #fff;
+          }
+
+          .benefit-card__text {
+            margin: 0;
+            color: rgba(255,255,255,.63);
+            font-size: 11px;
+            line-height: 1.55;
+          }
+
+          /* PORTAFOLIO: 4 tarjetas, cuadrícula 2 x 2 */
+          .portfolio-grid--4-cards {
+            width: min(100%, 900px);
+            margin: 0 auto;
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            grid-template-rows: repeat(2, auto);
+            gap: 16px !important;
+            align-items: stretch;
+          }
+
+          .portfolio-card--4-card {
+            min-width: 0;
+            overflow: hidden;
+            padding: 0 !important;
+            border: 1px solid rgba(255,255,255,.12) !important;
+            border-radius: 14px;
+            background: #191919 !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,.20);
+            transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+          }
+
+          .portfolio-card--4-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(54,217,138,.50) !important;
+            box-shadow: 0 18px 45px rgba(0,0,0,.34), 0 0 24px rgba(54,217,138,.08);
+          }
+
+          .portfolio-card--4-card__media {
+            position: relative;
+            width: 100%;
+            height: 165px;
+            overflow: hidden;
+          }
+
+          .portfolio-card--4-card__image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform .5s ease;
+          }
+
+          .portfolio-card--4-card:hover .portfolio-card--4-card__image {
+            transform: scale(1.06);
+          }
+
+          .portfolio-card--4-card__gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 42%, rgba(5,10,8,.72) 100%);
+          }
+
+          .portfolio-card--4-card__icon {
+            position: absolute;
+            left: 13px;
+            bottom: -1px;
+            transform: translateY(50%);
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(54,217,138,.62);
+            border-radius: 8px;
+            color: #36d98a;
+            background: #101814;
+            box-shadow: 0 0 18px rgba(54,217,138,.14);
+            font-size: 16px;
+            z-index: 2;
+          }
+
+          .portfolio-card--4-card__content {
+            padding: 22px 14px 15px;
+          }
+
+          .portfolio-card--4-card__title-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+          }
+
+          .portfolio-card--4-card__title-row h3 {
+            margin: 0;
+            color: #fff;
+            font-size: 15px;
+            line-height: 1.2;
+          }
+
+          .portfolio-card--4-card__title-row span:not(.portfolio-card--4-card__arrow) {
+            display: block;
+            margin-top: 5px;
+            color: #36d98a;
+            font-size: 9px;
+          }
+
+          .portfolio-card--4-card__arrow {
+            color: #36d98a;
+            font-size: 17px;
+            transition: transform .25s ease;
+          }
+
+          .portfolio-card--4-card:hover .portfolio-card--4-card__arrow {
+            transform: translate(3px, -3px);
+          }
+
+          .portfolio-card--4-card__content p {
+            min-height: 43px;
+            margin: 12px 0 12px;
+            color: rgba(255,255,255,.58);
+            font-size: 10px;
+            line-height: 1.55;
+          }
+
+          .portfolio-card--4-card__content a {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color .2s ease, gap .2s ease;
+          }
+
+          .portfolio-card--4-card__content a:hover {
+            color: #36d98a;
+            gap: 10px;
+          }
+
+          .portfolio-heading {
+            max-width: 760px;
+          }
+
+          .portfolio-card--visual {
+            overflow: hidden;
+            padding: 0 !important;
+            border: 1px solid rgba(255,255,255,.13) !important;
+            border-radius: 15px;
+            background: rgba(13, 22, 19, .88) !important;
+            box-shadow: 0 14px 40px rgba(0,0,0,.18);
+            transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+          }
+
+          .portfolio-card--visual:hover {
+            transform: translateY(-7px);
+            border-color: rgba(54,217,138,.55) !important;
+            box-shadow: 0 20px 55px rgba(0,0,0,.35), 0 0 28px rgba(54,217,138,.08);
+          }
+
+          .portfolio-card__image-wrap {
+            position: relative;
+            height: 185px;
+            overflow: hidden;
+          }
+
+          .portfolio-card__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .55s ease, filter .55s ease;
+          }
+
+          .portfolio-card--visual:hover .portfolio-card__image {
+            transform: scale(1.07);
+            filter: saturate(1.08);
+          }
+
+          .portfolio-card__image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(4,10,8,.82));
+          }
+
+          .portfolio-card__icon {
+            position: absolute;
+            left: 14px;
+            bottom: 14px;
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(54,217,138,.5);
+            border-radius: 9px;
+            color: var(--solar-green);
+            background: rgba(5,18,13,.78);
+            backdrop-filter: blur(7px);
+            font-size: 19px;
+            box-shadow: 0 0 20px rgba(54,217,138,.12);
+          }
+
+          .portfolio-card__counter {
+            position: absolute;
+            right: 15px;
+            bottom: 16px;
+            font-size: 10px;
+            letter-spacing: .18em;
+            color: rgba(255,255,255,.58);
+          }
+
+          .portfolio-card__body {
+            padding: 18px 19px 19px;
+          }
+
+          .portfolio-card__header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+          }
+
+          .portfolio-card__title {
+            margin: 0;
+            font-size: 17px;
+            line-height: 1.2;
+            color: #fff;
+          }
+
+          .portfolio-card__subtitle {
+            margin-top: 5px;
+            color: var(--solar-green);
+            font-size: 10px;
+            letter-spacing: .04em;
+          }
+
+          .portfolio-card__arrow {
+            color: var(--solar-green);
+            font-size: 19px;
+            transition: transform .25s ease;
+          }
+
+          .portfolio-card--visual:hover .portfolio-card__arrow {
+            transform: translate(3px, -3px);
+          }
+
+          .portfolio-card__text {
+            margin: 13px 0 15px;
+            color: rgba(255,255,255,.58);
+            font-size: 11px;
+            line-height: 1.6;
+          }
+
+          .portfolio-card__link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color .25s ease, gap .25s ease;
+          }
+
+          .portfolio-card__link:hover {
+            color: var(--solar-green);
+            gap: 12px;
+          }
+
+          @media (max-width: 760px) {
+            .investment-section__content { padding: 42px 20px; }
+            .investment-section { min-height: auto; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .portfolio-grid--4-cards {
+              grid-template-columns: 1fr !important;
+              grid-template-rows: none;
+              width: 100%;
+            }
+            .portfolio-card--4-card__media {
+              height: 190px;
+            }
+          }
+        `}</style>
 
         <footer className="footer-panel">
           <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
