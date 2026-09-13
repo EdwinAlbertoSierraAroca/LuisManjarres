@@ -43,7 +43,7 @@ export function verifyPassword(password: string, hash: string, salt: string): bo
     const a = Buffer.from(derived, 'hex');
     const b = Buffer.from(String(hash ?? ''), 'hex');
     if (a.length !== b.length || a.length === 0) return false;
-    return crypto.timingSafeEqual(a, b);
+    return crypto.timingSafeEqual(a as any, b as any);
   } catch {
     return false;
   }
@@ -52,7 +52,8 @@ export function verifyPassword(password: string, hash: string, salt: string): bo
 // --- JWT mínimo (HS256) sin dependencias externas ---
 
 function b64url(input: Buffer | string): string {
-  return Buffer.from(input)
+  const buf = typeof input === 'string' ? Buffer.from(input) : input;
+  return buf
     .toString('base64')
     .replace(/=/g, '')
     .replace(/\+/g, '-')
@@ -96,7 +97,7 @@ export function verifySession(token: string): SessionPayload | null {
     if (!header || !body || !sig) return null;
     const expected = crypto.createHmac('sha256', getSecret()).update(`${header}.${body}`).digest();
     const given = b64urlDecode(sig);
-    if (expected.length !== given.length || !crypto.timingSafeEqual(expected, given)) return null;
+    if (expected.length !== given.length || !crypto.timingSafeEqual(expected as any, given as any)) return null;
     const payload = JSON.parse(b64urlDecode(body).toString('utf8')) as SessionPayload;
     if (!payload || typeof payload.exp !== 'number') return null;
     if (!['ADMIN', 'EDITOR'].includes(payload.role)) return null;

@@ -34,7 +34,7 @@ const buf = Buffer.from(new Uint8Array(await file.arrayBuffer()));
     }
     const ext = (file.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg');
     const safe = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    fs.writeFileSync(path.join(dir, safe), buf);
+    fs.writeFileSync(path.join(dir, safe), buf as any);
     urls.push(`/uploads/${safe}`);
   }
   return NextResponse.json({ urls });

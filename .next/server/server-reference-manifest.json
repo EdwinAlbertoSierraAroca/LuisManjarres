@@ -1,5 +1,1 @@
-{
-  "node": {},
-  "edge": {},
-  "encryptionKey": "tgpwq9qQAD5Lutku4Rn0kWg17ZX4qn1H5OyZTfGVtvk="
-}
+{"node":{"e27e158e766005eb7dcadf142c69914c3681b725":{"workers":{"app/admin/categories/page":"1954","app/admin/login/page":"1954","app/admin/page":"1954","app/admin/projects/[id]/edit/page":"1954","app/admin/projects/new/page":"1954","app/admin/projects/page":"1954","app/admin/tags/page":"1954","app/admin/users/page":"1954"},"layer":{"app/admin/categories/page":"rsc","app/admin/login/page":"rsc","app/admin/page":"rsc","app/admin/projects/[id]/edit/page":"rsc","app/admin/projects/new/page":"rsc","app/admin/projects/page":"rsc","app/admin/tags/page":"rsc","app/admin/users/page":"rsc"}}},"edge":{},"encryptionKey":"eG6HSir4QPMC45ztvq6K6bcNqy3+hAfLVyEHXvc5oUc="}

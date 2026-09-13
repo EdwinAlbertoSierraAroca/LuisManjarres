@@ -1,4 +1,4 @@
 {
-"terminal.integrated.windowsUseConptyDll": true,
-"claudeCodeChat.permissions.yoloMode": false
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "claudeCodeChat.permissions.yoloMode": false
 }
