@@ -1,6 +1,13 @@
+# Copia este archivo como .env.local y ajusta los valores.
+# Nunca subas .env.local al repositorio.
+
+# Secreto para firmar las sesiones del panel (mínimo 32 caracteres aleatorios)
+ADMIN_SESSION_SECRET=cambia-este-secreto-por-uno-largo-y-aleatorio
+
+# Usuario administrador inicial (se crea automáticamente si la base está vacía)
+ADMIN_EMAIL=ing.edwinsierra@gmail.com.com
+ADMIN_PASSWORD=Amor2026@*
+
+# URL pública del sitio (usada en metadatos)
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 node_modules
-.next
-out
-npm-debug.log*
-.DS_Store
-*.tsbuildinfo

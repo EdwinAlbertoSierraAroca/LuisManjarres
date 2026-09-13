@@ -1,0 +1,4 @@
+{
+  "db": "Base de datos JSON local (data/db.json). Se crea automáticamente al iniciar la app.",
+  "uploads": "Imágenes subidas desde el panel (public/uploads/). Servidas como archivos estáticos."
+}

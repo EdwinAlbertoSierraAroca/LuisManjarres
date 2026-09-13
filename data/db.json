@@ -1,0 +1,245 @@
+{
+  "users": [
+    {
+      "id": "usr_mtybq5hx_8wf8bp",
+      "name": "Administrador",
+      "email": "admin@prosoinpen.com",
+      "passwordHash": "aa0008ce494e45fa4f7336075808715705072c85e04867de2bd28f30a49f1a790193b4cb585b49b06d4e78a0c84baf887bf5302216f5a8f7bc6c53c2b9ebcf29",
+      "passwordSalt": "ec52ce3e12633298f437f9785207a3c5",
+      "role": "ADMIN",
+      "active": true
+    },
+    {
+      "id": "usr_mtygp41z_zi8gfv",
+      "name": "luismanjarres",
+      "email": "luismanjarres@gmail.com",
+      "passwordHash": "29b6f9dd23b46c5122b116f4a677eb651dd73035dbd14af08dcbcb1d443d9d79df65f65470f642503f9a0193ecf6973807803b4749ecb6988367ed4c4ed1b7c1",
+      "passwordSalt": "877c1e8bdf9f03709d74f7c99880ae8c",
+      "role": "EDITOR",
+      "active": true,
+      "createdAt": "2026-09-12T14:09:53.351Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_mtybq5c3_9q1sl2",
+      "name": "Residencial",
+      "slug": "residencial",
+      "icon": "⌂",
+      "active": true
+    },
+    {
+      "id": "cat_mtybq5c3_i4fbsh",
+      "name": "Comercial",
+      "slug": "comercial",
+      "icon": "◧",
+      "active": true
+    },
+    {
+      "id": "cat_mtybq5c3_xq2l2q",
+      "name": "Industrial",
+      "slug": "industrial",
+      "icon": "⬢",
+      "active": true
+    },
+    {
+      "id": "cat_mtybq5c4_kdmajv",
+      "name": "Rural & Agro",
+      "slug": "rural-agro",
+      "icon": "❦",
+      "active": true
+    },
+    {
+      "id": "cat_mtybq5c4_kbmp8d",
+      "name": "Granjas Solares",
+      "slug": "granjas-solares",
+      "icon": "☀",
+      "active": true
+    },
+    {
+      "id": "cat_mtybq5c4_erxrmq",
+      "name": "Institucional",
+      "slug": "institucional",
+      "icon": "▣",
+      "active": true
+    },
+    {
+      "id": "cat_mtybq5c4_ssymsq",
+      "name": "Movilidad Eléctrica",
+      "slug": "movilidad-electrica",
+      "icon": "ϟ",
+      "active": true
+    }
+  ],
+  "subcategories": [
+    {
+      "id": "sub_mtybq5c4_tdmy9q",
+      "categoryId": "cat_mtybq5c3_9q1sl2",
+      "name": "Casa",
+      "slug": "casa"
+    },
+    {
+      "id": "sub_mtybq5c4_iy4i02",
+      "categoryId": "cat_mtybq5c3_9q1sl2",
+      "name": "Apartamento",
+      "slug": "apartamento"
+    }
+  ],
+  "tags": [
+    {
+      "id": "tag_mtybq5c4_264sog",
+      "name": "Autoconsumo"
+    },
+    {
+      "id": "tag_mtybq5c4_y9mgio",
+      "name": "On-Grid"
+    },
+    {
+      "id": "tag_mtybq5c4_5f16ge",
+      "name": "Híbrido"
+    },
+    {
+      "id": "tag_mtybq5c4_zm55z6",
+      "name": "Con baterías"
+    },
+    {
+      "id": "tag_mtybq5c4_0ypjwq",
+      "name": "Gran escala"
+    }
+  ],
+  "projects": [
+    {
+      "id": "prj_mtye1uge_q05ecq",
+      "slug": "sistema-solar-fotovoltaico-vivienda-rural",
+      "createdAt": "2026-09-12T12:55:48.590Z",
+      "updatedAt": "2026-09-12T12:55:48.590Z",
+      "title": "Sistema Solar Fotovoltaico – Vivienda Rural",
+      "categoryId": "cat_mtybq5c4_kdmajv",
+      "subcategory": "Rural",
+      "location": "",
+      "year": 2026,
+      "powerKwp": 60,
+      "solutionType": "Autoconsumo",
+      "description": "Instalación solar fotovoltaica rural, compuesta por paneles solares montados sobre estructura metálica, diseñada para aprovechar la radiación solar y suministrar energía eléctrica de forma sostenible a una vivienda ubicada en zona campestre.",
+      "coverImage": "/uploads/1789217348579-9rx5kg.jpg",
+      "images": [
+        {
+          "id": "img17892173485970",
+          "url": "/uploads/1789217348579-9rx5kg.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17892173485971",
+          "url": "/uploads/1789217348582-1bibrv.jpg",
+          "caption": "Foto"
+        }
+      ],
+      "tagIds": [
+        "tag_mtybq5c4_264sog",
+        "tag_mtybq5c4_zm55z6"
+      ],
+      "featured": true,
+      "active": true
+    },
+    {
+      "id": "prj_mtybq5hx_5khe9x",
+      "title": "Casa El Prado",
+      "slug": "casa-el-prado",
+      "categoryId": "cat_mtybq5c3_9q1sl2",
+      "subcategory": "Casa",
+      "location": "Barranquilla, Atlántico",
+      "year": 2026,
+      "powerKwp": 12.5,
+      "solutionType": "Autoconsumo",
+      "description": "Proyecto fotovoltaico diseñado e instalado por PROSOINPEN S.A.S. con monitoreo y soporte técnico.",
+      "coverImage": "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80",
+      "images": [
+        {
+          "id": "img_mtybq5hy_lmgce0",
+          "url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80",
+          "caption": "Vista principal"
+        }
+      ],
+      "tagIds": [],
+      "featured": true,
+      "active": true,
+      "createdAt": "2026-09-12T11:50:43.797Z",
+      "updatedAt": "2026-09-12T11:50:43.797Z"
+    },
+    {
+      "id": "prj_mtybq5hy_upd9tr",
+      "title": "Finca Santa Ana",
+      "slug": "finca-santa-ana",
+      "categoryId": "cat_mtybq5c4_kdmajv",
+      "subcategory": "General",
+      "location": "Morales, Bolívar",
+      "year": 2026,
+      "powerKwp": 25,
+      "solutionType": "Híbrido",
+      "description": "Proyecto fotovoltaico diseñado e instalado por PROSOINPEN S.A.S. con monitoreo y soporte técnico.",
+      "coverImage": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=80",
+      "images": [
+        {
+          "id": "img_mtybq5hz_uhm7c7",
+          "url": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=80",
+          "caption": "Vista principal"
+        }
+      ],
+      "tagIds": [],
+      "featured": true,
+      "active": true,
+      "createdAt": "2026-09-12T11:50:43.797Z",
+      "updatedAt": "2026-09-12T11:50:43.797Z"
+    },
+    {
+      "id": "prj_mtybq5hz_zq52l3",
+      "title": "Bodega Industrial Norte",
+      "slug": "bodega-industrial-norte",
+      "categoryId": "cat_mtybq5c3_xq2l2q",
+      "subcategory": "General",
+      "location": "Cartagena, Bolívar",
+      "year": 2026,
+      "powerKwp": 120,
+      "solutionType": "Autoconsumo",
+      "description": "Proyecto fotovoltaico diseñado e instalado por PROSOINPEN S.A.S. con monitoreo y soporte técnico.",
+      "coverImage": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80",
+      "images": [
+        {
+          "id": "img_mtybq5hz_3dvfle",
+          "url": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80",
+          "caption": "Vista principal"
+        }
+      ],
+      "tagIds": [],
+      "featured": false,
+      "active": true,
+      "createdAt": "2026-09-12T11:50:43.797Z",
+      "updatedAt": "2026-09-12T11:50:43.797Z"
+    },
+    {
+      "id": "prj_mtybq5hz_n1lcak",
+      "title": "Estación de Carga EV",
+      "slug": "estacion-de-carga-ev",
+      "categoryId": "cat_mtybq5c4_ssymsq",
+      "subcategory": "General",
+      "location": "Medellín, Antioquia",
+      "year": 2026,
+      "powerKwp": 30,
+      "solutionType": "Híbrido",
+      "description": "Proyecto fotovoltaico diseñado e instalado por PROSOINPEN S.A.S. con monitoreo y soporte técnico.",
+      "coverImage": "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=80",
+      "images": [
+        {
+          "id": "img_mtybq5i0_iomxnt",
+          "url": "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=80",
+          "caption": "Vista principal"
+        }
+      ],
+      "tagIds": [],
+      "featured": false,
+      "active": true,
+      "createdAt": "2026-09-12T11:50:43.797Z",
+      "updatedAt": "2026-09-12T11:50:43.797Z"
+    }
+  ]
+}

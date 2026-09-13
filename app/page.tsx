@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { WhatsAppIcon, whatsappUrl } from './components/whatsapp-contact';
+import ProjectsGallery from './components/ProjectsGallery';
 
 const landingNavGroups = [
   {
@@ -154,9 +155,11 @@ const showcaseSlides = [
   },
 ];
 
-const partnerLogos = ['PROSOINPEN S.A.S.', 'ENERGÍA FOTOVOLTAICA', 'INGENIERÍA', 'OBRAS CIVILES'];
+const partnerLogos = ['PROSOINPENSAS.', 'ENERGÍA FOTOVOLTAICA', 'INGENIERÍA', 'OBRAS CIVILES'];
 
-const initialGalleryItems = [
+// Datos históricos de ejemplo (la galería pública ahora usa /api/projects).
+// Se conserva como referencia; `void` evita el error de variable sin uso en el build.
+const legacyGalleryItems = [
   { id: 'g1', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80' },
   { id: 'g2', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=80' },
   { id: 'g3', category: 'Talleres', image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80' },
@@ -167,19 +170,14 @@ const initialGalleryItems = [
   { id: 'g8', category: 'Talleres', image: 'https://images.unsplash.com/photo-1472141521881-95d0e87e2e39?auto=format&fit=crop&w=1200&q=80' },
 ];
 
+void legacyGalleryItems;
+
 const aboutImage = 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1400&q=85';
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [galleryItems, setGalleryItems] = useState(initialGalleryItems);
-  const [adminMode, setAdminMode] = useState(false);
-  const [activeGalleryTab, setActiveGalleryTab] = useState('Todas');
-  const [newCategory, setNewCategory] = useState('');
-  const [newImage, setNewImage] = useState('');
-  const [editingItemId, setEditingItemId] = useState<string | null>(null);
-  const [editingCategory, setEditingCategory] = useState('');
-  const [editingImage, setEditingImage] = useState('');
+  const [logoOpen, setLogoOpen] = useState(false);
   const [openLandingGroup, setOpenLandingGroup] = useState('Inicio');
   const [monthlyKwh, setMonthlyKwh] = useState(450);
   const [energyRate, setEnergyRate] = useState(850);
@@ -194,86 +192,6 @@ export default function Home() {
   const estimatedPanels = Math.max(3, Math.ceil((suggestedKwp * 1000) / 550));
   const estimatedPayback = estimatedAnnualSavings > 0 ? (estimatedInvestment / estimatedAnnualSavings).toFixed(1) : '0';
 
-  const galleryTabs = ['Todas', ...Array.from(new Set(galleryItems.map((item) => item.category)))];
-
-  const filteredGalleryItems =
-    activeGalleryTab === 'Todas'
-      ? galleryItems
-      : galleryItems.filter((item) => item.category === activeGalleryTab);
-
-  useEffect(() => {
-    if (galleryItems.length > 0 && !galleryTabs.includes(activeGalleryTab)) {
-      setActiveGalleryTab('Todas');
-    }
-  }, [galleryItems, galleryTabs, activeGalleryTab]);
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = typeof reader.result === 'string' ? reader.result : '';
-      if (editingItemId) {
-        setEditingImage(result);
-      } else {
-        setNewImage(result);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleAddGalleryItem = () => {
-    const category = newCategory.trim();
-    const image = newImage.trim();
-
-    if (!category || !image) return;
-
-    setGalleryItems((current) => [
-      ...current,
-      {
-        id: `gallery-${Date.now()}`,
-        category,
-        image,
-      },
-    ]);
-
-    setNewCategory('');
-    setNewImage('');
-    setActiveGalleryTab(category);
-  };
-
-  const handleEditStart = (item: { id: string; category: string; image: string }) => {
-    setEditingItemId(item.id);
-    setEditingCategory(item.category);
-    setEditingImage(item.image);
-  };
-
-  const handleSaveEdit = () => {
-    if (!editingItemId) return;
-
-    setGalleryItems((current) =>
-      current.map((item) =>
-        item.id === editingItemId
-          ? { ...item, category: editingCategory.trim() || item.category, image: editingImage.trim() || item.image }
-          : item,
-      ),
-    );
-
-    setEditingItemId(null);
-    setEditingCategory('');
-    setEditingImage('');
-  };
-
-  const handleDeleteItem = (id: string) => {
-    setGalleryItems((current) => current.filter((item) => item.id !== id));
-    if (editingItemId === id) {
-      setEditingItemId(null);
-      setEditingCategory('');
-      setEditingImage('');
-    }
-  };
-
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((previous) => (previous + 1) % showcaseSlides.length);
@@ -281,6 +199,15 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (!logoOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setLogoOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [logoOpen]);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -315,18 +242,32 @@ export default function Home() {
       <div className="landing-content mx-auto max-w-[1280px] px-4 py-5 lg:px-8">
         <header className="landing-header">
           <div className="flex items-center justify-between gap-4 px-5 py-4">
-            <div className="flex items-center gap-3">
-              <div className="brand-mark brand-mark--landing">
+            <div className="flex items-center gap-4">
+              <button
+                type="button"
+                className="brand-logo-wrap"
+                title="PROSOINPEN S.A.S. — NIT: 901960765-2 · clic para ampliar"
+                aria-label="Ampliar logo de PROSOINPEN S.A.S."
+                aria-haspopup="dialog"
+                onClick={() => setLogoOpen(true)}
+              >
                 <img
                   src="/logo-prosoinpen.svg"
-                  alt="Logo de PROSOINPEN S.A.S."
-                  className="brand-logo h-20 w-auto max-w-none"
+                  alt="Logo de PROSOINPEN S.A.S. — Proyectos y Soluciones de Ingeniería El Pentágono, NIT 901960765-2"
+                  className="brand-logo"
+                  width={400}
+                  height={430}
                 />
-                <span>P</span>
-              </div>
+                <span className="brand-logo-zoom" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="M16.5 16.5 21 21M11 8.5v5M8.5 11h5" />
+                  </svg>
+                </span>
+              </button>
               <div>
                 <div className="brand-kicker">PROSOINPEN</div>
-                <div className="brand-name brand-name--landing">S.A.S.</div>
+                <div className="brand-name brand-name--landing">S.A.S. · NIT 901960765-2</div>
               </div>
             </div>
 
@@ -343,6 +284,9 @@ export default function Home() {
               >
                 {mobileNavOpen ? 'Cerrar' : 'Menú'}
               </button>
+              <Link href="/admin/login" className="landing-button landing-button--ghost hidden md:inline-flex" aria-label="Iniciar sesión como administrador">
+                🔐 Login
+              </Link>
               <button className="landing-button landing-button--ghost hidden md:inline-flex">Agenda</button>
               <button className="landing-button landing-button--primary">Solicitar propuesta</button>
             </div>
@@ -381,6 +325,16 @@ export default function Home() {
                 </div>
               );
             })}
+
+            <div className="landing-nav-group">
+              <Link
+                href="/admin/login"
+                className="landing-nav-link landing-nav-link--mobile"
+                onClick={() => setMobileNavOpen(false)}
+              >
+                🔐 Login administración
+              </Link>
+            </div>
           </nav>
         ) : null}
 
@@ -389,20 +343,7 @@ export default function Home() {
           <a href="#calculadora" className="gallery-quick-tab">Calculadora</a>
           <a href="#testimonios" className="gallery-quick-tab">Testimonios</a>
           <a href="#faq" className="gallery-quick-tab">FAQ</a>
-          <span className="gallery-quick-tabs__label gallery-quick-tabs__label--gallery">Galería</span>
-          {['Todas', 'Instalaciones', 'Talleres', 'Creaciones'].map((tab) => (
-            <button
-              key={tab}
-              type="button"
-              className={`gallery-quick-tab ${activeGalleryTab === tab ? 'active' : ''}`}
-              onClick={() => {
-                setActiveGalleryTab(tab);
-                document.getElementById('galeria')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              {tab}
-            </button>
-          ))}
+          <a href="/proyectos" className="gallery-quick-tab">Galería completa</a>
         </div>
 
         <section className="mt-4">
@@ -423,7 +364,7 @@ export default function Home() {
                 <article key={slide.title} className="showcase-slide">
                   <img src={slide.image} alt={slide.title} className="showcase-slide__image" />
                   <div className="showcase-slide__content">
-                    <span className="showcase-slide__label">PROSOINPEN S.A.S.</span>
+                    <span className="showcase-slide__label">PROSOINPENSAS.</span>
                     <h3>{slide.title}</h3>
                     <p>{slide.subtitle}</p>
                   </div>
@@ -480,7 +421,7 @@ export default function Home() {
                   {stats.map((stat) => (
                     <div key={stat.label} className="mini-metric">
                       <div className="mini-metric__label">{stat.label}</div>
-                      <div className="mini-metric__value">{stat.value}</div>
+                      <div className="mini-metric__value" style={{ color: '#FFFFFF', opacity: 1 }}>{stat.value}</div>
                     </div>
                   ))}
                 </div>
@@ -491,7 +432,7 @@ export default function Home() {
                   <div className="hero-panel-card__header">
                     <div>
                       <div className="panel-tag">Perfil</div>
-                      <div className="hero-panel-title">PROSOINPEN S.A.S.</div>
+                      <div className="hero-panel-title" style={{ color: '#FFFFFF', opacity: 1 }}>PROSOINPEN S.A.S.</div>
                     </div>
                     <span className="status-pill">Desde 2013</span>
                   </div>
@@ -499,10 +440,10 @@ export default function Home() {
                   <div className="hero-panel-card__content">
                     <div className="big-stat-block">
                       <div className="panel-tag">Eficiencia</div>
-                      <div className="big-stat">38%</div>
+                      <div className="big-stat" style={{ color: '#FFFFFF', opacity: 1 }}>38%</div>
                     </div>
 
-                    <div className="info-block">
+                    <div className="info-block" style={{ color: '#FFFFFF', opacity: 1 }}>
                       Diseñamos soluciones energéticas inteligentes para acompañar a clientes desde la estrategia hasta la operación, con rigor técnico y una experiencia premium en cada etapa.
                     </div>
                   </div>
@@ -556,8 +497,8 @@ export default function Home() {
                     >
                       ✦
                     </div>
-                    <h3 className="benefit-card__title">{benefit.title}</h3>
-                    <p className="benefit-card__text">{benefit.text}</p>
+                    <h3 className="benefit-card__title" style={{ color: '#FFFFFF', opacity: 1 }}>{benefit.title}</h3>
+                    <p className="benefit-card__text" style={{ color: '#FFFFFF', opacity: 1 }}>{benefit.text}</p>
                   </article>
                 ))}
               </div>
@@ -580,8 +521,8 @@ export default function Home() {
                 {valueCards.map((card, index) => (
                   <article id={card.id} key={card.title} className={`value-card ${index === 0 ? 'value-card--large' : ''}`}>
                     <div className="value-card__icon">{card.title[0]}</div>
-                    <h3>{card.title}</h3>
-                    <p>{card.text}</p>
+                    <h3 style={{ color: '#FFFFFF', opacity: 1 }}>{card.title}</h3>
+                    <p style={{ color: '#FFFFFF', opacity: 1 }}>{card.text}</p>
                   </article>
                 ))}
               </div>
@@ -605,8 +546,8 @@ export default function Home() {
                   
                 >
                   <span className="landing-service-card__index">{service.icon}</span>
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
+                  <h3 style={{ color: '#FFFFFF', opacity: 1 }}>{service.title}</h3>
+                  <p style={{ color: '#FFFFFF', opacity: 1 }}>{service.description}</p>
                   <a href="#contacto" aria-label={`Solicitar información sobre ${service.title}`}>Explorar <span aria-hidden="true">↗</span></a>
                 </article>
               ))}
@@ -638,13 +579,13 @@ export default function Home() {
                   <div className="portfolio-card--4-card__content">
                     <div className="portfolio-card--4-card__title-row">
                       <div>
-                        <h3>{item.title}</h3>
+                        <h3 style={{ color: '#FFFFFF', opacity: 1 }}>{item.title}</h3>
                         <span>{item.subtitle}</span>
                       </div>
                       <span className="portfolio-card--4-card__arrow">↗</span>
                     </div>
 
-                    <p>{item.text}</p>
+                    <p style={{ color: '#FFFFFF', opacity: 1 }}>{item.text}</p>
 
                     <a href="#contacto" aria-label={`Explorar solución ${item.title}`}>
                       Explorar solución <span>→</span>
@@ -701,100 +642,10 @@ export default function Home() {
               </div>
 
               <div className="gallery-toolbar">
-                <div className="gallery-tabs" aria-label="Categorías de galería">
-                  {galleryTabs.map((tab) => (
-                    <button
-                      key={tab}
-                      type="button"
-                      aria-pressed={activeGalleryTab === tab}
-                      className={`gallery-tab ${activeGalleryTab === tab ? 'active' : ''}`}
-                      onClick={() => setActiveGalleryTab(tab)}
-                    >
-                      {tab}
-                    </button>
-                  ))}
-                </div>
-
-                <button type="button" className="gallery-admin-toggle" onClick={() => setAdminMode((value) => !value)}>
-                  {adminMode ? 'Cerrar admin' : 'Admin galería'}
-                </button>
+                <Link href="/proyectos" className="landing-button landing-button--primary">Ver galería completa</Link>
               </div>
 
-              {adminMode ? (
-                <div className="gallery-admin-panel">
-                  <div className="gallery-admin-form">
-                    <label>
-                      <span>Categoría</span>
-                      <input
-                        type="text"
-                        value={newCategory}
-                        onChange={(event) => setNewCategory(event.target.value)}
-                        placeholder="Ej: Instalaciones"
-                      />
-                    </label>
-
-                    <label>
-                      <span>Imagen</span>
-                      <input type="url" value={newImage} onChange={(event) => setNewImage(event.target.value)} placeholder="https://..." />
-                    </label>
-
-                    <label>
-                      <span>Subir archivo</span>
-                      <input type="file" accept="image/*" onChange={handleFileUpload} />
-                    </label>
-
-                    <button type="button" className="gallery-save-button" onClick={handleAddGalleryItem}>
-                      Cargar foto
-                    </button>
-                  </div>
-
-                  {editingItemId ? (
-                    <div className="gallery-admin-form gallery-admin-form--edit">
-                      <label>
-                        <span>Editar categoría</span>
-                        <input value={editingCategory} onChange={(event) => setEditingCategory(event.target.value)} />
-                      </label>
-
-                      <label>
-                        <span>Editar URL</span>
-                        <input value={editingImage} onChange={(event) => setEditingImage(event.target.value)} />
-                      </label>
-
-                      <label>
-                        <span>Actualizar archivo</span>
-                        <input type="file" accept="image/*" onChange={handleFileUpload} />
-                      </label>
-
-                      <div className="gallery-edit-actions">
-                        <button type="button" className="gallery-save-button" onClick={handleSaveEdit}>
-                          Guardar cambios
-                        </button>
-                        <button type="button" className="gallery-cancel-button" onClick={() => {
-                          setEditingItemId(null);
-                          setEditingCategory('');
-                          setEditingImage('');
-                        }}>
-                          Cancelar
-                        </button>
-                      </div>
-                    </div>
-                  ) : null}
-                </div>
-              ) : null}
-
-              <div className="gallery-grid">
-                {filteredGalleryItems.map((item, index) => (
-                  <article key={`${item.category}-${item.id}`} className="gallery-item">
-                    <img src={item.image} alt={item.category} />
-                    {adminMode ? (
-                      <div className="gallery-actions">
-                        <button type="button" onClick={() => handleEditStart(item)}>Editar</button>
-                        <button type="button" onClick={() => handleDeleteItem(item.id)}>Eliminar</button>
-                      </div>
-                    ) : null}
-                  </article>
-                ))}
-              </div>
+              <ProjectsGallery />
             </div>
           </section>
 
@@ -813,15 +664,15 @@ export default function Home() {
                   <div className="project-card__visual" />
                   <div className="project-card__body">
                     <div>
-                      <h3>{project.name}</h3>
-                      <p>{project.city}</p>
+                      <h3 style={{ color: '#FFFFFF', opacity: 1 }}>{project.name}</h3>
+                      <p style={{ color: '#FFFFFF', opacity: 1 }}>{project.city}</p>
                     </div>
                     <span className="project-tag">{project.tag}</span>
                   </div>
-                  <div className="project-card__value">{project.value}</div>
+                  <div className="project-card__value" style={{ color: '#FFFFFF', opacity: 1 }}>{project.value}</div>
                   <div className="project-card__specs">
-                    <span><b>CO2 evitado</b>{project.co2}</span>
-                    <span><b>Retorno</b>{project.roi}</span>
+                    <span style={{ color: '#FFFFFF', opacity: 1 }}><b>CO2 evitado</b>{project.co2}</span>
+                    <span style={{ color: '#FFFFFF', opacity: 1 }}><b>Retorno</b>{project.roi}</span>
                   </div>
                 </article>
               ))}
@@ -837,8 +688,8 @@ export default function Home() {
               {testimonials.map((testimonial) => (
                 <blockquote key={testimonial.name} className="testimonial-card">
                   <span className="testimonial-card__mark">“</span>
-                  <p>{testimonial.quote}</p>
-                  <footer><strong>{testimonial.name}</strong><span>{testimonial.role}</span></footer>
+                  <p style={{ color: '#FFFFFF', opacity: 1 }}>{testimonial.quote}</p>
+                  <footer><strong>{testimonial.name}</strong><span style={{ color: '#FFFFFF', opacity: 1 }}>{testimonial.role}</span></footer>
                 </blockquote>
               ))}
               <div className="trust-strip"><span>DISEÑO A MEDIDA</span><span>MONITOREO</span><span>SOPORTE TÉCNICO</span><span>ENERGÍA LIMPIA</span></div>
@@ -1288,6 +1139,15 @@ export default function Home() {
             gap: 12px;
           }
 
+          /* Máxima legibilidad: blanco puro 100% en TODAS las cards (sobrescribe jsx con hash) */
+          .value-card h3, .value-card p,
+          .benefit-card__title, .benefit-card__text,
+          .portfolio-card--4-card__title-row h3, .portfolio-card--4-card__content p,
+          .portfolio-card__title, .portfolio-card__text {
+            color: #FFFFFF !important;
+            opacity: 1 !important;
+          }
+
           @media (max-width: 760px) {
             .investment-section__content { padding: 42px 20px; }
             .investment-section { min-height: auto; }
@@ -1306,18 +1166,33 @@ export default function Home() {
         <footer className="footer-panel">
           <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
             <div>
-              <div className="flex items-center gap-3">
-                <div className="brand-mark brand-mark--landing">
+              <div className="flex items-center gap-4">
+                <button
+                  type="button"
+                  className="brand-logo-wrap"
+                  title="PROSOINPEN S.A.S. — NIT: 901960765-2 · clic para ampliar"
+                  aria-label="Ampliar logo de PROSOINPEN S.A.S."
+                  aria-haspopup="dialog"
+                  onClick={() => setLogoOpen(true)}
+                >
                   <img
                     src="/logo-prosoinpen.svg"
-                    alt="Logo de PROSOINPEN S.A.S."
+                    alt="Logo de PROSOINPEN S.A.S. — NIT 901960765-2"
                     className="brand-logo"
+                    width={400}
+                    height={430}
+                    loading="lazy"
                   />
-                  <span>P</span>
-                </div>
+                  <span className="brand-logo-zoom" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+                      <circle cx="11" cy="11" r="7" />
+                      <path d="M16.5 16.5 21 21M11 8.5v5M8.5 11h5" />
+                    </svg>
+                  </span>
+                </button>
                 <div>
                   <div className="brand-kicker">PROSOINPEN</div>
-                  <div className="brand-name brand-name--landing">S.A.S.</div>
+                  <div className="brand-name brand-name--landing">S.A.S. · NIT 901960765-2</div>
                 </div>
               </div>
               <p className="footer-copy">
@@ -1337,7 +1212,7 @@ export default function Home() {
             <div>
               <div className="footer-title">Contacto</div>
               <ul className="footer-list">
-                <li>PROSOINPEN S.A.S.</li>
+                <li>PROSOINPENSAS</li>
                 <li>NIT: 901960765-2</li>
                 <li>Proyectos y Soluciones de Ingeniería El Pentágono S.A.S.</li>
               </ul>
@@ -1346,6 +1221,49 @@ export default function Home() {
 
           <div className="footer-bottom">© 2026 Edwin Sierra. Todos los derechos reservados.</div>
         </footer>
+
+        {logoOpen ? (
+          <div
+            className="logo-lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Logo de PROSOINPEN S.A.S. ampliado"
+            onClick={() => setLogoOpen(false)}
+          >
+            <div className="logo-lightbox__backdrop" aria-hidden="true" />
+            <div
+              className="logo-lightbox__panel"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                className="logo-lightbox__close"
+                aria-label="Cerrar logo ampliado"
+                autoFocus
+                onClick={() => setLogoOpen(false)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Escape') setLogoOpen(false);
+                }}
+              >
+                ✕
+              </button>
+              <div className="logo-lightbox__media">
+                <img
+                  src="/logo-prosoinpen.svg"
+                  alt="Logo completo de PROSOINPEN S.A.S. — Proyectos y Soluciones de Ingeniería El Pentágono, NIT 901960765-2"
+                  width={520}
+                  height={560}
+                />
+              </div>
+              <div className="logo-lightbox__title">PROSOINPEN S.A.S.</div>
+              <div className="logo-lightbox__subtitle">NIT 901960765-2</div>
+              <p className="logo-lightbox__text">
+                Proyectos y Soluciones de Ingeniería El Pentágono S.A.S.
+              </p>
+              <p className="logo-lightbox__hint">Clic fuera o ✕ para cerrar</p>
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );
