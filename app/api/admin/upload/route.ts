@@ -27,7 +27,8 @@ export async function POST(req: Request) {
     if (!ALLOWED.has(file.type)) {
       return NextResponse.json({ error: `Tipo no permitido: ${file.type || file.name}. Usa JPG, PNG, WebP o AVIF.` }, { status: 400 });
     }
-    const buf = Buffer.from(await file.arrayBuffer());
+    
+const buf = Buffer.from(new Uint8Array(await file.arrayBuffer()));
     if (buf.length > MAX_BYTES) {
       return NextResponse.json({ error: `${file.name} supera 5 MB.` }, { status: 400 });
     }
