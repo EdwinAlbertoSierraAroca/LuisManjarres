@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import EditModal from './EditModal';
 export type AUser = { id: string; name: string; email: string; role: 'ADMIN' | 'EDITOR'; active: boolean };
-async function parseJsonSafe(r: Response): Promise<any> {
+async function parseJsonSafe(r: Response): Promise<Record<string, unknown>> {
   const text = await r.text();
   if (!text) return {};
   try { return JSON.parse(text); } catch { return { error: `Respuesta no-JSON del servidor (HTTP ${r.status}).` }; }
@@ -28,8 +28,8 @@ export default function Users() {
     finally { setLoading(false); }
   }
   useEffect(() => { load(); }, []);
-  async function create(e: React.FormEvent) {
-    e.preventDefault(); setError(''); setSaving(true);
+Revisa los archivos modificados en el proyecto local D:\ProyectoSolar (git status), verifica que no haya errores de build ni de sintaxis, y ayúdame a hacer commit y push a la rama principal de https://github.com/EdwinAlbertoSierraAroca/LuisManjarre
+https://github.com/EdwinAlbertoSierraAroca/LuisManjarres    e.preventDefault(); setError(''); setSaving(true);
     try {
       const r = await fetch('/api/admin/users', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, password, role }) });
       const d = await parseJsonSafe(r);

@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-export default function Viewer({ images, title }: { images: any[]; title: string }) {
+export default function Viewer({ images, title }: { images: Array<{ url: string }>; title: string }) {
   const [i, setI] = useState(0);
   if (!images?.length) return null;
   const prev = () => setI(v => (v - 1 + images.length) % images.length);

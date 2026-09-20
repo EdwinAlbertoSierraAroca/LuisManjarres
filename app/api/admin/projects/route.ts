@@ -6,7 +6,7 @@ import { adminSession, forbidden, unauthorized } from '../guard';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-function clean(body: any) {
+function clean(body: Record<string, unknown>) {
   const title = String(body.title ?? '').trim();
   const categoryId = String(body.categoryId ?? '').trim();
   const subcategory = String(body.subcategory ?? '').trim() || 'General';
@@ -16,7 +16,7 @@ function clean(body: any) {
   const solutionType = String(body.solutionType ?? '').trim() || 'Autoconsumo';
   const description = String(body.description ?? '').trim();
   const coverImage = String(body.coverImage ?? '').trim();
-  const images = Array.isArray(body.images) ? body.images.slice(0, 30).map((img: any, i: number) => ({
+  const images = Array.isArray(body.images) ? body.images.slice(0, 30).map((img: Record<string, unknown>, i: number) => ({
     id: String(img.id ?? uid('img')),
     url: String(img.url ?? ''),
     caption: String(img.caption ?? `Foto ${i + 1}`),
@@ -34,9 +34,9 @@ export async function GET() {
     ensureSeed();
     const db = readDb();
     return NextResponse.json({ projects: db.projects, categories: db.categories, tags: db.tags });
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error('GET /api/admin/projects failed:', e);
-    return NextResponse.json({ error: 'Error interno al cargar: ' + (e?.message ?? e) }, { status: 500 });
+    return NextResponse.json({ error: 'Error interno al cargar: ' + ((e as Error)?.message ?? e) }, { status: 500 });
   }
 }
 
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     if (!session) return unauthorized();
     if (session.role !== 'ADMIN' && session.role !== 'EDITOR') return forbidden();
     ensureSeed();
-    let body: any = {};
+    let body: Record<string, unknown> = {};
     try {
       body = await req.json();
     } catch {
@@ -66,8 +66,8 @@ export async function POST(req: Request) {
     db.projects.unshift(project);
     writeDb(db);
     return NextResponse.json({ project }, { status: 201 });
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error('POST /api/admin/projects failed:', e);
-    return NextResponse.json({ error: 'Error interno al guardar: ' + (e?.message ?? e) }, { status: 500 });
+    return NextResponse.json({ error: 'Error interno al guardar: ' + ((e as Error)?.message ?? e) }, { status: 500 });
   }
 }

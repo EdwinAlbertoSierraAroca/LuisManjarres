@@ -109,6 +109,322 @@
   ],
   "projects": [
     {
+      "id": "prj_mu9zu4o3_e9k6yh",
+      "slug": "obra-civiles-en-ingenieria-electrica",
+      "createdAt": "2026-09-20T15:51:08.066Z",
+      "updatedAt": "2026-09-20T15:51:08.066Z",
+      "title": "Obra civiles en ingeniería eléctrica",
+      "categoryId": "cat_mtybq5c4_kdmajv",
+      "subcategory": "Obra civiles en ingeniería eléctrica",
+      "location": "Guajira",
+      "year": 2026,
+      "powerKwp": 0,
+      "solutionType": "Autoconsumo",
+      "description": "Ejecución de obras civiles complementarias para proyectos de infraestructura eléctrica, incluyendo adecuaciones, cimentaciones, canalizaciones y construcción de elementos necesarios para la instalación y operación de sistemas eléctricos.",
+      "coverImage": "/uploads/1789919439347-o4l5x9.jpg",
+      "images": [
+        {
+          "id": "img17899194393590",
+          "url": "/uploads/1789919439347-o4l5x9.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194393591",
+          "url": "/uploads/1789919439350-4rjuz9.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194492370",
+          "url": "/uploads/1789919449202-j5fwdm.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194492371",
+          "url": "/uploads/1789919449205-wv6ycv.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194492372",
+          "url": "/uploads/1789919449209-96wmbj.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194492373",
+          "url": "/uploads/1789919449214-zazpid.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194492374",
+          "url": "/uploads/1789919449217-4l1o69.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194492375",
+          "url": "/uploads/1789919449220-d0e968.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194492376",
+          "url": "/uploads/1789919449223-46y2bh.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194492377",
+          "url": "/uploads/1789919449230-piolnm.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194625490",
+          "url": "/uploads/1789919462404-pb8e73.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194625491",
+          "url": "/uploads/1789919462406-0v7379.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194625492",
+          "url": "/uploads/1789919462412-4ys6jv.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194625493",
+          "url": "/uploads/1789919462413-f0p7qi.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194625494",
+          "url": "/uploads/1789919462447-l4eava.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194625495",
+          "url": "/uploads/1789919462449-iicewx.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194625496",
+          "url": "/uploads/1789919462451-k09e5b.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194625497",
+          "url": "/uploads/1789919462486-8tqpox.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194625498",
+          "url": "/uploads/1789919462501-mc66il.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899194625499",
+          "url": "/uploads/1789919462506-tory5f.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991946254910",
+          "url": "/uploads/1789919462511-ajfr8n.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991946254911",
+          "url": "/uploads/1789919462525-igcgpq.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991946254912",
+          "url": "/uploads/1789919462529-vyh0b7.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991946254913",
+          "url": "/uploads/1789919462530-3600bw.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991946254914",
+          "url": "/uploads/1789919462541-5nwx1g.jpg",
+          "caption": "Foto"
+        }
+      ],
+      "tagIds": [
+        "tag_mtybq5c4_zm55z6",
+        "tag_mtybq5c4_0ypjwq",
+        "tag_mtybq5c4_5f16ge",
+        "tag_mtybq5c4_y9mgio",
+        "tag_mtybq5c4_264sog"
+      ],
+      "featured": false,
+      "active": true
+    },
+    {
+      "id": "prj_mu9zqn0k_5pib06",
+      "slug": "polideportivo-el-llanito-barrancabermeja",
+      "createdAt": "2026-09-20T15:48:25.220Z",
+      "updatedAt": "2026-09-20T15:48:25.220Z",
+      "title": "Polideportivo El Llanito – Barrancabermeja",
+      "categoryId": "cat_mtybq5c4_kdmajv",
+      "subcategory": "Proyectos Deportivos",
+      "location": "El Llanito, Barrancabermeja, Santander",
+      "year": 2026,
+      "powerKwp": 0,
+      "solutionType": "Autoconsumo",
+      "description": "Proyecto de adecuación y mejoramiento de infraestructura deportiva en El Llanito, Barrancabermeja, destinado a brindar espacios adecuados para la práctica deportiva y la recreación de la comunidad.",
+      "coverImage": "/uploads/1789919296696-ihvwgo.jpg",
+      "images": [
+        {
+          "id": "img17899192967830",
+          "url": "/uploads/1789919296696-ihvwgo.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899192967831",
+          "url": "/uploads/1789919296700-woynle.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899192967832",
+          "url": "/uploads/1789919296708-c175gt.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899192967833",
+          "url": "/uploads/1789919296712-kwukoy.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899192967834",
+          "url": "/uploads/1789919296715-kug07n.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899192967835",
+          "url": "/uploads/1789919296722-cc16q1.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899192967836",
+          "url": "/uploads/1789919296725-j8v18g.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899192967837",
+          "url": "/uploads/1789919296729-7hqm2g.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899192967838",
+          "url": "/uploads/1789919296732-11qppq.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899192967839",
+          "url": "/uploads/1789919296737-zzaaim.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991929678310",
+          "url": "/uploads/1789919296741-5fwkbz.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991929678311",
+          "url": "/uploads/1789919296744-ydfy8o.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991929678312",
+          "url": "/uploads/1789919296747-q5s6ig.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991929678313",
+          "url": "/uploads/1789919296749-atxv6u.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991929678314",
+          "url": "/uploads/1789919296756-ymmaf3.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991929678315",
+          "url": "/uploads/1789919296759-14ps97.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991929678316",
+          "url": "/uploads/1789919296762-fs8vqe.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991929678317",
+          "url": "/uploads/1789919296765-pbq89b.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991929678318",
+          "url": "/uploads/1789919296773-qrt0x2.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img178991929678319",
+          "url": "/uploads/1789919296777-mfqm0g.jpg",
+          "caption": "Foto"
+        }
+      ],
+      "tagIds": [],
+      "featured": false,
+      "active": true
+    },
+    {
+      "id": "prj_mu9zo06w_utywjb",
+      "slug": "baterias-sanitarias-en-colegios-del-magdalena",
+      "createdAt": "2026-09-20T15:46:22.326Z",
+      "updatedAt": "2026-09-20T15:46:22.326Z",
+      "title": "Baterías Sanitarias en Colegios del Magdalena",
+      "categoryId": "cat_mtybq5c4_kdmajv",
+      "subcategory": "Colegios",
+      "location": "Magdalena",
+      "year": 2026,
+      "powerKwp": 4.9,
+      "solutionType": "Autoconsumo",
+      "description": "Proyecto de adecuación y mejoramiento de baterías sanitarias para instituciones educativas del departamento del Magdalena, orientado a brindar espacios higiénicos, funcionales y adecuados para estudiantes y docentes.",
+      "coverImage": "/uploads/1789919175542-1s07zq.jpg",
+      "images": [
+        {
+          "id": "img17899191755660",
+          "url": "/uploads/1789919175542-1s07zq.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899191755661",
+          "url": "/uploads/1789919175547-n2lfrf.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899191755662",
+          "url": "/uploads/1789919175550-eak1av.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899191755663",
+          "url": "/uploads/1789919175553-sosj2m.jpg",
+          "caption": "Foto"
+        },
+        {
+          "id": "img17899191755664",
+          "url": "/uploads/1789919175556-5sr88u.jpg",
+          "caption": "Foto"
+        }
+      ],
+      "tagIds": [],
+      "featured": false,
+      "active": true
+    },
+    {
       "id": "prj_mtye1uge_q05ecq",
       "slug": "sistema-solar-fotovoltaico-vivienda-rural",
       "createdAt": "2026-09-12T12:55:48.590Z",

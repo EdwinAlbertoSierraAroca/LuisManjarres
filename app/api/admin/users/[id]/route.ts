@@ -32,7 +32,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   const target = db.users.find((u) => u.id === params.id);
   if (!target) return NextResponse.json({ error: 'Usuario no encontrado.' }, { status: 404 });
 
-  let body: any = {};
+  let body: Record<string, unknown> = {};
   try {
     body = await req.json();
   } catch {

@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     if ('error' in auth) return auth.error;
     const { db } = auth;
 
-  let body: any = {};
+  let body: Record<string, unknown> = {};
   try {
     body = await req.json();
   } catch {

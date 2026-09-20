@@ -568,7 +568,7 @@ export default function Home() {
             </div>
 
             <div className="portfolio-grid portfolio-grid--4-cards">
-              {portfolioItems.slice(0, 4).map((item, index) => (
+              {portfolioItems.slice(0, 4).map((item) => (
                 <article key={item.title} className="portfolio-card portfolio-card--4-card">
                   <div className="portfolio-card--4-card__media">
                     <img src={item.image} alt={item.title} className="portfolio-card--4-card__image" />

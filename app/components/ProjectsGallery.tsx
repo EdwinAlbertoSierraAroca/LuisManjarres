@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 export default function ProjectsGallery() {
-  const [projects, setProjects] = useState<any[]>([]);
-  const [cats, setCats] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Array<{ id: string; slug: string; title: string; coverImage: string; subcategory: string }>>([]);
+  const [cats, setCats] = useState<Array<{ id: string; name: string; slug: string }>>([]);
   const [tab, setTab] = useState('todos');
   useEffect(() => {
     fetch('/api/projects?category=' + tab).then(r => r.json()).then(d => {
