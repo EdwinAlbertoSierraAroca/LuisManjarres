@@ -4,10 +4,10 @@ import { ensureSeed } from '@/lib/gallery-seed';
 import { readDb } from '@/lib/gallery-store';
 import Editor from '../../Editor';
 
-export default function EditPage({ params }: { params: { id: string } }) {
+export default async function EditPage({ params }: { params: { id: string } }) {
   if (!getSession()) redirect('/admin/login');
-  ensureSeed();
-  const p = readDb().projects.find(x => x.id === params.id);
+  await ensureSeed();
+  const p = (await readDb()).projects.find(x => x.id === params.id);
   if (!p) redirect('/admin/projects');
   return (
     <div>

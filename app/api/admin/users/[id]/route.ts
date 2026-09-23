@@ -4,6 +4,7 @@ import { readDb, writeDb } from '@/lib/gallery-store';
 import { emailError, hashPassword, passwordPolicyError } from '@/lib/gallery-auth';
 import type { Role } from '@/lib/gallery-types';
 import { adminSession, forbidden, unauthorized } from '../../guard';
+import { withApiErrors } from '@/lib/api-errors';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -12,11 +13,11 @@ function publicUser(u: { id: string; name: string; email: string; role: Role; ac
   return { id: u.id, name: u.name, email: u.email, role: u.role, active: u.active, createdAt: u.createdAt ?? null };
 }
 
-function requireAdmin() {
+async function requireAdmin() {
   const session = adminSession();
   if (!session) return { error: unauthorized() as NextResponse };
-  ensureSeed();
-  const db = readDb();
+  await ensureSeed();
+  const db = await readDb();
   const me = db.users.find((u) => u.id === session.sub);
   if (!me || !me.active || me.role !== 'ADMIN') {
     return { error: (me ? forbidden() : unauthorized()) as NextResponse };
@@ -24,9 +25,9 @@ function requireAdmin() {
   return { db, me, session };
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  const auth = requireAdmin();
-  if ('error' in auth) return auth.error;
+async function handlePUT(req: Request, { params }: { params: { id: string } }) {
+  const auth = await requireAdmin();
+  if (auth.error) return auth.error;
   const { db, me } = auth;
 
   const target = db.users.find((u) => u.id === params.id);
@@ -87,13 +88,13 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     target.passwordSalt = salt;
   }
 
-  writeDb(db);
+  await writeDb(db);
   return NextResponse.json({ user: publicUser(target) });
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const auth = requireAdmin();
-  if ('error' in auth) return auth.error;
+async function handleDELETE(_req: Request, { params }: { params: { id: string } }) {
+  const auth = await requireAdmin();
+  if (auth.error) return auth.error;
   const { db, me } = auth;
 
   const idx = db.users.findIndex((u) => u.id === params.id);
@@ -109,6 +110,9 @@ export async function DELETE(_req: Request, { params }: { params: { id: string }
     }
   }
   db.users.splice(idx, 1);
-  writeDb(db);
+  await writeDb(db);
   return NextResponse.json({ ok: true });
 }
+
+export const PUT = withApiErrors(handlePUT);
+export const DELETE = withApiErrors(handleDELETE);

@@ -13,11 +13,11 @@ function publicUser(u: { id: string; name: string; email: string; role: Role; ac
 }
 
 /** El rol efectivo se lee de la BD (no solo del JWT) para que desactivar/degradar aplique de inmediato. */
-function requireAdmin() {
+async function requireAdmin() {
   const session = adminSession();
   if (!session) return { error: unauthorized() as NextResponse };
-  ensureSeed();
-  const db = readDb();
+  await ensureSeed();
+  const db = await readDb();
   const me = db.users.find((u) => u.id === session.sub);
   if (!me || !me.active || me.role !== 'ADMIN') {
     return { error: (me ? forbidden() : unauthorized()) as NextResponse };
@@ -27,8 +27,8 @@ function requireAdmin() {
 
 export async function GET() {
   try {
-    const auth = requireAdmin();
-    if ('error' in auth) return auth.error;
+    const auth = await requireAdmin();
+    if (auth.error) return auth.error;
     return NextResponse.json({ users: auth.db.users.map(publicUser) });
   } catch (e) {
     console.error('[api/admin/users] GET falló:', e);
@@ -38,8 +38,8 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const auth = requireAdmin();
-    if ('error' in auth) return auth.error;
+    const auth = await requireAdmin();
+    if (auth.error) return auth.error;
     const { db } = auth;
 
   let body: Record<string, unknown> = {};
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
   const now = new Date().toISOString();
   const user = { id: uid('usr'), name, email, passwordHash: hash, passwordSalt: salt, role, active: true, createdAt: now };
   db.users.push(user);
-  writeDb(db);
+  await writeDb(db);
   return NextResponse.json({ user: publicUser(user) }, { status: 201 });
   } catch (e) {
     console.error('[api/admin/users] POST falló:', e);

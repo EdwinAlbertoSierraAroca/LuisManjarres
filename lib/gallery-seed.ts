@@ -3,11 +3,13 @@ import { readDb, writeDb, uid } from './gallery-store';
 
 let seeded = false;
 
-export function ensureSeed() {
+export async function ensureSeed() {
   if (seeded) return;
-  seeded = true;
-  const db = readDb();
-  if (db.users.length > 0 && db.categories.length > 0) return;
+  const db = await readDb();
+  if (db.users.length > 0 && db.categories.length > 0) {
+    seeded = true;
+    return;
+  }
 
   if (db.categories.length === 0) {
     const cats: Array<[string, string, string]> = [
@@ -54,5 +56,6 @@ export function ensureSeed() {
 
   // Sin proyectos de demostración: los proyectos reales se crean desde el panel admin.
 
-  writeDb(db);
+  await writeDb(db);
+  seeded = true;
 }

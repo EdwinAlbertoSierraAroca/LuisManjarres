@@ -27,8 +27,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Usuario y contraseña requeridos.' }, { status: 400 });
   }
 
-  ensureSeed();
-  const db = readDb();
+  await ensureSeed();
+  const db = await readDb();
   const user = db.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
   // Respuesta genérica para no revelar si el usuario existe o está inactivo.
   if (!user || !user.active) {

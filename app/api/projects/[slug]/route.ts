@@ -3,8 +3,8 @@ import { ensureSeed } from '@/lib/gallery-seed';
 import { readDb } from '@/lib/gallery-store';
 
 export async function GET(_req: Request, { params }: { params: { slug: string } }) {
-  ensureSeed();
-  const db = readDb();
+  await ensureSeed();
+  const db = await readDb();
   const project = db.projects.find((p) => p.slug === params.slug && p.active);
   if (!project) return NextResponse.json({ error: 'No encontrado.' }, { status: 404 });
   const category = db.categories.find((c) => c.id === project.categoryId);

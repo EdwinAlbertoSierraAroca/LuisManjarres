@@ -4,11 +4,11 @@ import { getSession } from '@/lib/gallery-session';
 import { ensureSeed } from '@/lib/gallery-seed';
 import { readDb } from '@/lib/gallery-store';
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
   const session = getSession();
   if (!session) redirect('/admin/login');
-  ensureSeed();
-  const db = readDb();
+  await ensureSeed();
+  const db = await readDb();
   const recent = [...db.projects].sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt)).slice(0, 6);
   const catName = (id: string) => db.categories.find((c) => c.id === id)?.name ?? '—';
 

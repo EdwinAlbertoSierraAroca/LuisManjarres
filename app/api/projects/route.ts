@@ -4,10 +4,10 @@ import { readDb } from '@/lib/gallery-store';
 import type { PublicProject } from '@/lib/gallery-types';
 
 export async function GET(req: Request) {
-  ensureSeed();
+  await ensureSeed();
   const { searchParams } = new URL(req.url);
   const category = searchParams.get('category') ?? 'todos';
-  const db = readDb();
+  const db = await readDb();
   const cats = new Map(db.categories.map((c) => [c.id, c]));
   const projects: PublicProject[] = db.projects
     .filter((p) => p.active)

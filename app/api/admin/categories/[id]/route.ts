@@ -2,33 +2,37 @@ import { NextResponse } from 'next/server';
 import { ensureSeed } from '@/lib/gallery-seed';
 import { readDb, writeDb } from '@/lib/gallery-store';
 import { adminSession, forbidden, unauthorized } from '../../guard';
+import { withApiErrors } from '@/lib/api-errors';
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+async function handlePUT(req: Request, { params }: { params: { id: string } }) {
   const session = adminSession();
   if (!session) return unauthorized();
   if (session.role !== 'ADMIN') return forbidden();
-  ensureSeed();
+  await ensureSeed();
   const body = await req.json().catch(() => ({}));
-  const db = readDb();
+  const db = await readDb();
   const cat = db.categories.find((c) => c.id === params.id);
   if (!cat) return NextResponse.json({ error: 'No encontrada.' }, { status: 404 });
   if (body.name !== undefined) cat.name = String(body.name);
   if (body.icon !== undefined) cat.icon = String(body.icon);
   if (body.active !== undefined) cat.active = Boolean(body.active);
-  writeDb(db);
+  await writeDb(db);
   return NextResponse.json({ category: cat });
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+async function handleDELETE(_req: Request, { params }: { params: { id: string } }) {
   const session = adminSession();
   if (!session) return unauthorized();
   if (session.role !== 'ADMIN') return forbidden();
-  ensureSeed();
-  const db = readDb();
+  await ensureSeed();
+  const db = await readDb();
   if (db.projects.some((p) => p.categoryId === params.id)) {
     return NextResponse.json({ error: 'No se puede eliminar: hay proyectos en esta categoría.' }, { status: 409 });
   }
   db.categories = db.categories.filter((c) => c.id !== params.id);
-  writeDb(db);
+  await writeDb(db);
   return NextResponse.json({ ok: true });
 }
+
+export const PUT = withApiErrors(handlePUT);
+export const DELETE = withApiErrors(handleDELETE);

@@ -2,24 +2,25 @@ import { NextResponse } from 'next/server';
 import { ensureSeed } from '@/lib/gallery-seed';
 import { readDb, writeDb } from '@/lib/gallery-store';
 import { adminSession, forbidden, unauthorized } from '../../guard';
+import { withApiErrors } from '@/lib/api-errors';
 
-export async function GET(_req: Request, { params }: { params: { id: string } }) {
+async function handleGET(_req: Request, { params }: { params: { id: string } }) {
   const session = adminSession();
   if (!session) return unauthorized();
-  ensureSeed();
-  const db = readDb();
+  await ensureSeed();
+  const db = await readDb();
   const project = db.projects.find((p) => p.id === params.id);
   if (!project) return NextResponse.json({ error: 'No encontrado.' }, { status: 404 });
   return NextResponse.json({ project, categories: db.categories, tags: db.tags });
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+async function handlePUT(req: Request, { params }: { params: { id: string } }) {
   const session = adminSession();
   if (!session) return unauthorized();
   if (session.role !== 'ADMIN' && session.role !== 'EDITOR') return forbidden();
-  ensureSeed();
+  await ensureSeed();
   const body = await req.json().catch(() => ({}));
-  const db = readDb();
+  const db = await readDb();
   const idx = db.projects.findIndex((p) => p.id === params.id);
   if (idx === -1) return NextResponse.json({ error: 'No encontrado.' }, { status: 404 });
   const current = db.projects[idx];
@@ -43,19 +44,23 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   if (!next.title) return NextResponse.json({ error: 'El título es obligatorio.' }, { status: 400 });
   if (!next.coverImage && next.images.length > 0) next.coverImage = next.images[0].url;
   db.projects[idx] = next;
-  writeDb(db);
+  await writeDb(db);
   return NextResponse.json({ project: next });
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+async function handleDELETE(_req: Request, { params }: { params: { id: string } }) {
   const session = adminSession();
   if (!session) return unauthorized();
   if (session.role !== 'ADMIN') return forbidden();
-  ensureSeed();
-  const db = readDb();
+  await ensureSeed();
+  const db = await readDb();
   const before = db.projects.length;
   db.projects = db.projects.filter((p) => p.id !== params.id);
   if (db.projects.length === before) return NextResponse.json({ error: 'No encontrado.' }, { status: 404 });
-  writeDb(db);
+  await writeDb(db);
   return NextResponse.json({ ok: true });
 }
+
+export const GET = withApiErrors(handleGET);
+export const PUT = withApiErrors(handlePUT);
+export const DELETE = withApiErrors(handleDELETE);

@@ -31,8 +31,8 @@ export async function GET() {
   try {
     const session = adminSession();
     if (!session) return unauthorized();
-    ensureSeed();
-    const db = readDb();
+    await ensureSeed();
+    const db = await readDb();
     return NextResponse.json({ projects: db.projects, categories: db.categories, tags: db.tags });
   } catch (e: unknown) {
     console.error('GET /api/admin/projects failed:', e);
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     const session = adminSession();
     if (!session) return unauthorized();
     if (session.role !== 'ADMIN' && session.role !== 'EDITOR') return forbidden();
-    ensureSeed();
+    await ensureSeed();
     let body: Record<string, unknown> = {};
     try {
       body = await req.json();
@@ -58,13 +58,13 @@ export async function POST(req: Request) {
     if (!data.coverImage && data.images.length > 0) data.coverImage = data.images[0].url;
     if (!data.coverImage) return NextResponse.json({ error: 'Agrega una imagen principal.' }, { status: 400 });
 
-    const db = readDb();
+    const db = await readDb();
     const now = new Date().toISOString();
     let slug = slugify(data.title);
     if (db.projects.some((p) => p.slug === slug)) slug = `${slug}-${Date.now().toString(36)}`;
     const project = { id: uid('prj'), slug, createdAt: now, updatedAt: now, ...data };
     db.projects.unshift(project);
-    writeDb(db);
+    await writeDb(db);
     return NextResponse.json({ project }, { status: 201 });
   } catch (e: unknown) {
     console.error('POST /api/admin/projects failed:', e);

@@ -10,9 +10,9 @@ export function generateStaticParams() {
 
 export const dynamicParams = true;
 
-export default function Page({ params }: { params: { slug: string } }) {
-  ensureSeed();
-  const db = readDb();
+export default async function Page({ params }: { params: { slug: string } }) {
+  await ensureSeed();
+  const db = await readDb();
   const p = db.projects.find((x) => x.slug === params.slug && x.active);
   if (!p) notFound();
   const project = p as NonNullable<typeof p>;
