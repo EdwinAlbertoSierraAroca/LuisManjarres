@@ -8,8 +8,10 @@ const manrope = Manrope({
   variable: '--font-manrope',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://luis-manjarres.vercel.app';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://solarstudio.com'),
+  metadataBase: new URL(siteUrl),
   title: {
     default: 'PROSOINPEN S.A.S. | Ingeniería y energía fotovoltaica',
     template: '%s | PROSOINPEN S.A.S.',
@@ -31,9 +33,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'PROSOINPEN S.A.S.',
     description: 'Ofrecemos soluciones de ingeniería y energía fotovoltaica.',
-    url: 'https://solarstudio.com',
-    siteName: 'Solar Studio',
-    locale: 'es_ES',
+    url: siteUrl,
+    siteName: 'PROSOINPEN S.A.S.',
+    locale: 'es_CO',
     type: 'website',
   },
   twitter: {

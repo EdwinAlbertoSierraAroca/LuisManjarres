@@ -2507,3 +2507,55 @@ h3,
   color: #FFFFFF !important;
   opacity: 1 !important;
 }
+
+/* ==========================================================
+   Ajustes responsive y de legibilidad (celular / tablet / PC)
+   ========================================================== */
+
+/* Encabezado: botón principal como enlace y versión corta en móvil */
+.header-cta { white-space: nowrap; }
+.header-cta__short { display: none; }
+.header-brand-name { white-space: nowrap; }
+
+@media (max-width: 640px) {
+  .landing-header > div { gap: 0.75rem; padding: 0.75rem 0.85rem; }
+  .landing-header .brand-logo-wrap { width: 52px; border-radius: 12px; padding: 4px; }
+  .landing-header .brand-kicker { font-size: 0.68rem; letter-spacing: 0.14em; }
+  .landing-header .header-brand-name { letter-spacing: 0.12em; }
+  .landing-header > div > div:first-child { gap: 0.6rem; min-width: 0; }
+  .landing-header > div > div:last-child { gap: 0.5rem; }
+  .header-brand-nit { display: none; }
+  .header-cta { padding-inline: 0.9rem; }
+  .header-cta__long { display: none; }
+  .header-cta__short { display: inline; }
+  .landing-menu-toggle { padding-inline: 0.75rem; }
+}
+
+/* Misión / Visión / Quiénes somos */
+.landing-shell .value-card p,
+.value-card p {
+  text-align: left;
+  text-justify: auto;
+  hyphens: auto;
+}
+
+@media (max-width: 1080px) {
+  .about-layout { grid-template-columns: 1fr; }
+  .about-image-frame img { min-height: 20rem; max-height: 26rem; }
+}
+
+@media (max-width: 640px) {
+  .about-layout .value-grid { grid-template-columns: 1fr; }
+  .about-image-frame img { min-height: 15rem; max-height: 18rem; }
+  .value-card { padding: 1.4rem 1.25rem; }
+}
+
+/* Textos pequeños: mínimo legible */
+.landing-shell .benefit-card__text,
+.landing-shell .portfolio-card--4-card__content p { line-height: 1.55; }
+
+/* PC: Misión y Visión lado a lado, "Quiénes somos" a todo el ancho */
+@media (min-width: 1081px) {
+  .about-layout .value-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about-layout .value-grid .value-card:last-child { grid-column: 1 / -1; }
+}

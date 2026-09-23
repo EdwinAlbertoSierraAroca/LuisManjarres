@@ -39,7 +39,6 @@ const landingNavGroups = [
       { name: 'Proyectos realizados', href: '#proyectos' },
       { name: 'Casos de éxito', href: '#proyectos' },
       { name: 'Galería', href: '#galeria' },
-      { name: 'Testimonios', href: '#testimonios' },
     ],
   },
   {
@@ -122,10 +121,9 @@ const projects = [
   { name: 'Proyecto Fotovoltaico Municipio de Morales', city: 'Morales, Bolívar', value: '396 sistemas', tag: 'Completado', co2: 'Proyecto solar municipal', roi: 'Instalación ejecutada' },
 ];
 
-const testimonials = [
-  { quote: 'Solar Studio convirtió un proyecto técnico complejo en una decisión clara y rentable.', name: 'Laura M.', role: 'Directora de Operaciones, EcoMax' },
-  { quote: 'El acompañamiento fue preciso desde el diagnóstico hasta el monitoreo de nuestra instalación.', name: 'Andrés R.', role: 'Gerente, Campus Verde' },
-];
+// Agrega aquí testimonios REALES de clientes (con su autorización).
+// Mientras la lista esté vacía, la sección y sus enlaces no se muestran.
+const testimonials: Array<{ quote: string; name: string; role: string }> = [];
 
 const faqs = [
   { question: '¿Qué mantenimiento requieren los paneles?', answer: 'Recomendamos una revisión preventiva y limpieza técnica periódica. Nuestro equipo también puede monitorear el rendimiento de forma remota.' },
@@ -280,7 +278,7 @@ export default function Home() {
               </button>
               <div>
                 <div className="brand-kicker">PROSOINPEN</div>
-                <div className="brand-name brand-name--landing">S.A.S. · NIT 901960765-2</div>
+                <div className="brand-name brand-name--landing header-brand-name">S.A.S.<span className="header-brand-nit"> · NIT 901960765-2</span></div>
               </div>
             </div>
 
@@ -297,11 +295,14 @@ export default function Home() {
               >
                 {mobileNavOpen ? 'Cerrar' : 'Menú'}
               </button>
-              <Link href="/admin/login" className="landing-button landing-button--ghost hidden md:inline-flex" aria-label="Iniciar sesión como administrador">
+              <Link href="/admin/login" className="landing-button landing-button--ghost hidden lg:inline-flex" aria-label="Iniciar sesión como administrador">
                 🔐 Login
               </Link>
-              <button className="landing-button landing-button--ghost hidden md:inline-flex">Agenda</button>
-              <button className="landing-button landing-button--primary">Solicitar propuesta</button>
+              <a href="#contacto" className="landing-button landing-button--ghost hidden lg:inline-flex">Agenda</a>
+              <a href="#contacto" className="landing-button landing-button--primary header-cta">
+                <span className="header-cta__long">Solicitar propuesta</span>
+                <span className="header-cta__short">Cotizar</span>
+              </a>
             </div>
           </div>
         </header>
@@ -354,7 +355,7 @@ export default function Home() {
         <div className="gallery-quick-tabs" aria-label="Accesos rápidos">
           <span className="gallery-quick-tabs__label">Explorar</span>
           <a href="#calculadora" className="gallery-quick-tab">Calculadora</a>
-          <a href="#testimonios" className="gallery-quick-tab">Testimonios</a>
+          {testimonials.length > 0 ? <a href="#testimonios" className="gallery-quick-tab">Testimonios</a> : null}
           <a href="#faq" className="gallery-quick-tab">FAQ</a>
           <a href="/proyectos" className="gallery-quick-tab">Galería completa</a>
         </div>
@@ -498,15 +499,15 @@ export default function Home() {
                     key={benefit.title}
                     className="benefit-card"
                     style={{
-                      background: 'rgba(10, 20, 18, 0.48)',
-                      borderColor: 'rgba(52, 211, 153, 0.24)',
+                      background: 'rgba(255, 255, 255, 0.04)',
+                      borderColor: 'rgba(255, 255, 255, 0.12)',
                       backdropFilter: 'blur(10px)',
                     }}
                   >
                     <div
                       className="benefit-card__icon"
                       aria-hidden="true"
-                      style={{ color: '#34d399' }}
+                      style={{ color: '#ff7042' }}
                     >
                       ✦
                     </div>
@@ -700,6 +701,7 @@ export default function Home() {
             </div>
           </section>
 
+          {testimonials.length > 0 ? (
           <section id="testimonios" className="landing-testimonials mt-12">
             <div className="landing-section-heading">
               <span className="section-badge">Confianza</span>
@@ -716,6 +718,7 @@ export default function Home() {
               <div className="trust-strip"><span>DISEÑO A MEDIDA</span><span>MONITOREO</span><span>SOPORTE TÉCNICO</span><span>ENERGÍA LIMPIA</span></div>
             </div>
           </section>
+          ) : null}
 
           <section id="faq" className="landing-faq mt-12">
             <div className="landing-section-heading">
@@ -780,8 +783,8 @@ export default function Home() {
 
         <style jsx global>{`
           :root {
-            --solar-green: #36d98a;
-            --solar-green-soft: rgba(54, 217, 138, 0.18);
+            --solar-green: #ff7042;
+            --solar-green-soft: rgba(255, 91, 43, 0.16);
             --solar-dark: #07100d;
             --solar-card: rgba(14, 25, 21, 0.78);
           }
@@ -883,7 +886,7 @@ export default function Home() {
           }
 
           .benefit-card__number {
-            font-size: 10px;
+            font-size: 12px;
             letter-spacing: .16em;
             color: rgba(255,255,255,.38);
           }
@@ -897,7 +900,7 @@ export default function Home() {
           .benefit-card__text {
             margin: 0;
             color: rgba(255,255,255,.63);
-            font-size: 11px;
+            font-size: 13.5px;
             line-height: 1.55;
           }
 
@@ -965,8 +968,8 @@ export default function Home() {
             place-items: center;
             border: 1px solid rgba(54,217,138,.62);
             border-radius: 8px;
-            color: #36d98a;
-            background: #101814;
+            color: #ff7042;
+            background: rgba(255, 91, 43, 0.12);
             box-shadow: 0 0 18px rgba(54,217,138,.14);
             font-size: 16px;
             z-index: 2;
@@ -993,12 +996,12 @@ export default function Home() {
           .portfolio-card--4-card__title-row span:not(.portfolio-card--4-card__arrow) {
             display: block;
             margin-top: 5px;
-            color: #36d98a;
+            color: #ff7042;
             font-size: 9px;
           }
 
           .portfolio-card--4-card__arrow {
-            color: #36d98a;
+            color: #ff7042;
             font-size: 17px;
             transition: transform .25s ease;
           }
@@ -1011,7 +1014,7 @@ export default function Home() {
             min-height: 43px;
             margin: 12px 0 12px;
             color: rgba(255,255,255,.58);
-            font-size: 10px;
+            font-size: 12px;
             line-height: 1.55;
           }
 
@@ -1020,14 +1023,14 @@ export default function Home() {
             align-items: center;
             gap: 7px;
             color: #fff;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 600;
             text-decoration: none;
             transition: color .2s ease, gap .2s ease;
           }
 
           .portfolio-card--4-card__content a:hover {
-            color: #36d98a;
+            color: #ff7042;
             gap: 10px;
           }
 
@@ -1097,7 +1100,7 @@ export default function Home() {
             position: absolute;
             right: 15px;
             bottom: 16px;
-            font-size: 10px;
+            font-size: 12px;
             letter-spacing: .18em;
             color: rgba(255,255,255,.58);
           }
@@ -1123,7 +1126,7 @@ export default function Home() {
           .portfolio-card__subtitle {
             margin-top: 5px;
             color: var(--solar-green);
-            font-size: 10px;
+            font-size: 12px;
             letter-spacing: .04em;
           }
 
@@ -1140,7 +1143,7 @@ export default function Home() {
           .portfolio-card__text {
             margin: 13px 0 15px;
             color: rgba(255,255,255,.58);
-            font-size: 11px;
+            font-size: 13.5px;
             line-height: 1.6;
           }
 
@@ -1149,7 +1152,7 @@ export default function Home() {
             align-items: center;
             gap: 8px;
             color: #fff;
-            font-size: 11px;
+            font-size: 13.5px;
             font-weight: 600;
             text-decoration: none;
             transition: color .25s ease, gap .25s ease;
@@ -1240,7 +1243,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="footer-bottom">© 2026 Edwin Sierra. Todos los derechos reservados.</div>
+          <div className="footer-bottom">© {new Date().getFullYear()} PROSOINPEN S.A.S. · NIT 901960765-2. Todos los derechos reservados.</div>
         </footer>
 
         {logoOpen ? (

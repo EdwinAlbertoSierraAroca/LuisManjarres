@@ -25,7 +25,7 @@ export default function ProjectsGallery() {
                 <div><h3 style={{ color: '#FFFFFF', opacity: 1 }}>{p.title}</h3><p style={{ color: '#FFFFFF', opacity: 1 }}>{p.location} - {p.year}</p></div>
                 <span className="project-tag">{p.categoryName}</span>
               </div>
-              <div className="project-card__value" style={{ color: '#FFFFFF', opacity: 1 }}>{p.powerKwp} kWp</div>
+              {Number(p.powerKwp) > 0 ? <div className="project-card__value" style={{ color: '#FFFFFF', opacity: 1 }}>{p.powerKwp} kWp</div> : null}
               <div className="project-card__specs"><span style={{ color: '#FFFFFF', opacity: 1 }}><b>Solucion</b>{p.solutionType}</span><span style={{ color: '#FFFFFF', opacity: 1 }}><b>Fotos</b>{p.images?.length ?? 0}</span></div>
             </article>
           </Link>
