@@ -174,7 +174,8 @@ const ABOUT_ROTATION_MS = 5000;
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [aboutIndex, setAboutIndex] = useState(0);
-  const [contactSent, setContactSent] = useState(false);
+  const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'sent' | 'mailto' | 'error'>('idle');
+  const [contactError, setContactError] = useState('');
 
   useEffect(() => {
     if (aboutImages.length < 2) return;
@@ -227,20 +228,43 @@ export default function Home() {
     return () => window.cancelAnimationFrame(frame);
   }, []);
 
-  const handleContactSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleContactSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const subject = `Solicitud de información de ${String(formData.get('name') ?? '')}`;
-    const body = [
-      `Nombre: ${String(formData.get('name') ?? '')}`,
-      `Correo: ${String(formData.get('email') ?? '')}`,
-      `Teléfono: ${String(formData.get('phone') ?? '')}`,
-      '',
-      String(formData.get('message') ?? ''),
-    ].join('\n');
-
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const payload = {
+      name: String(formData.get('name') ?? ''),
+      email: String(formData.get('email') ?? ''),
+      phone: String(formData.get('phone') ?? ''),
+      message: String(formData.get('message') ?? ''),
+      website: String(formData.get('website') ?? ''),
+    };
+    setContactStatus('sending');
+    setContactError('');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setContactStatus('sent');
+        form.reset();
+        return;
+      }
+      if (!data.fallback) {
+        setContactStatus('error');
+        setContactError(data.error || 'No pudimos enviar tu solicitud.');
+        return;
+      }
+    } catch {
+      // Sin conexión con el servidor: usamos el correo del visitante como respaldo.
+    }
+    const subject = `Solicitud de información de ${payload.name}`;
+    const body = [`Nombre: ${payload.name}`, `Correo: ${payload.email}`, `Teléfono: ${payload.phone}`, '', payload.message].join('\n');
     window.location.href = `mailto:ing.edwinsierra@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setContactSent(true);
+    setContactStatus('mailto');
   };
 
   return (
@@ -738,10 +762,24 @@ export default function Home() {
                     <span>¿En qué podemos ayudarte?</span>
                     <textarea name="message" required maxLength={1200} rows={4} />
                   </label>
-                  <button type="submit" className="landing-button landing-button--primary">Solicitar información</button>
-                  {contactSent ? (
+                  <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="contact-form__trap" />
+                  <button type="submit" className="landing-button landing-button--primary" disabled={contactStatus === 'sending'}>
+                    {contactStatus === 'sending' ? 'Enviando...' : 'Solicitar información'}
+                  </button>
+                  {contactStatus === 'sent' ? (
+                    <p className="contact-form__notice" role="status">
+                      ¡Gracias! Recibimos tu solicitud y te contactaremos muy pronto.
+                    </p>
+                  ) : null}
+                  {contactStatus === 'mailto' ? (
                     <p className="contact-form__notice" role="status">
                       Abrimos tu aplicación de correo con el mensaje listo. Si no se abrió, escríbenos por{' '}
+                      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+                    </p>
+                  ) : null}
+                  {contactStatus === 'error' ? (
+                    <p className="contact-form__notice contact-form__notice--error" role="alert">
+                      {contactError} También puedes escribirnos por{' '}
                       <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
                     </p>
                   ) : null}

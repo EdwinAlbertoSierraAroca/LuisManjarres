@@ -2593,3 +2593,5 @@ h3,
   }
   .landing-shell .showcase-slide__content { padding: 1rem 1.1rem; }
 }
+.contact-form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.contact-form__notice--error { border-left-color: #f87171; background: rgba(248, 113, 113, 0.12); }

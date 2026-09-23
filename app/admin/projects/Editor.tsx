@@ -16,18 +16,66 @@ export default function Editor({ initial, projectId }: any) {
       .then(d => { setCats(d.categories ?? []); setTags(d.tags ?? []); if (!initial && d.categories?.[0]) set('categoryId', d.categories[0].id); })
       .catch(() => {});
   }, []);
+  const [uploading, setUploading] = useState(false);
+  const [sessionUploads, setSessionUploads] = useState<string[]>([]);
   async function up(files: FileList | null) {
     if (!files?.length) return;
-    const fd = new FormData();
-    Array.from(files).slice(0, 20).forEach(x => fd.append('files', x));
-    const r = await fetch('/api/admin/upload', { method: 'POST', body: fd });
-    const t = await r.text();
-    let d: any = {};
-    try { d = t ? JSON.parse(t) : {}; } catch { d = {}; }
-    if (!r.ok) { setMsg(d.error || ('Error al subir (HTTP ' + r.status + ')')); return; }
-    const ni = (d.urls ?? []).map((url: string, i: number) => ({ id: 'img' + Date.now() + i, url, caption: 'Foto' }));
-    if (!ni.length) { setMsg('El servidor no devolvió URLs. Intenta de nuevo.'); return; }
-    setF((s: any) => ({ ...s, images: [...s.images, ...ni].slice(0, 30), coverImage: s.coverImage || ni[0]?.url }));
+    const list = Array.from(files).slice(0, 20);
+    setUploading(true);
+    const uploaded: string[] = [];
+    try {
+      for (let i = 0; i < list.length; i++) {
+        setMsg(`Subiendo foto ${i + 1} de ${list.length}...`);
+        const file = await compressImage(list[i]);
+        const fd = new FormData();
+        fd.append('files', file);
+        const r = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+        const t = await r.text();
+        let d: any = {};
+        try { d = t ? JSON.parse(t) : {}; } catch { d = {}; }
+        if (!r.ok) {
+          setMsg((d.error || ('Error al subir (HTTP ' + r.status + ')')) + (uploaded.length ? ` Se subieron ${uploaded.length} de ${list.length}.` : ''));
+          break;
+        }
+        uploaded.push(...(d.urls ?? []));
+      }
+      if (uploaded.length) {
+        const ni = uploaded.map((url: string, k: number) => ({ id: 'img' + Date.now() + k, url, caption: '' }));
+        setSessionUploads((s) => [...s, ...uploaded]);
+        setF((s: any) => ({ ...s, images: [...s.images, ...ni].slice(0, 30), coverImage: s.coverImage || ni[0]?.url }));
+        setMsg((m) => (m.startsWith('Subiendo') ? `${uploaded.length} foto(s) subida(s). Recuerda guardar el proyecto.` : m));
+      }
+    } catch (err: any) {
+      setMsg('Error de red al subir: ' + (err?.message ?? err));
+    } finally {
+      setUploading(false);
+    }
+  }
+  function removeImage(id: string) {
+    const img = f.images.find((x: any) => x.id === id);
+    setF((s: any) => {
+      const images = s.images.filter((x: any) => x.id !== id);
+      const coverImage = s.coverImage === img?.url ? (images[0]?.url ?? '') : s.coverImage;
+      return { ...s, images, coverImage };
+    });
+    // Si la foto se subió en esta sesión y aún no está guardada, se borra de una vez del almacenamiento.
+    if (img && sessionUploads.includes(img.url)) {
+      fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: img.url }) }).catch(() => {});
+      setSessionUploads((s) => s.filter((u) => u !== img.url));
+    }
+  }
+  function moveImage(id: string, dir: -1 | 1) {
+    setF((s: any) => {
+      const images = [...s.images];
+      const k = images.findIndex((x: any) => x.id === id);
+      const n = k + dir;
+      if (k < 0 || n < 0 || n >= images.length) return s;
+      [images[k], images[n]] = [images[n], images[k]];
+      return { ...s, images };
+    });
+  }
+  function setCaption(id: string, caption: string) {
+    setF((s: any) => ({ ...s, images: s.images.map((x: any) => (x.id === id ? { ...x, caption } : x)) }));
   }
   async function save(e: any) {
     e.preventDefault();
@@ -72,18 +120,55 @@ export default function Editor({ initial, projectId }: any) {
       <label style={L}>Descripcion<textarea value={f.description} onChange={e => set('description', e.target.value)} rows={3} style={I} /></label>
       <label style={L}>Imagen principal<input value={f.coverImage} onChange={e => set('coverImage', e.target.value)} style={I} placeholder="https://... o sube abajo" /></label>
       {f.coverImage ? <img src={f.coverImage} alt="" style={{ maxHeight: 180, objectFit: 'cover', borderRadius: 10 }} /> : null}
-      <div><b style={{ fontSize: 13 }}>Galeria</b><br /><input type="file" accept="image/*" multiple onChange={e => up(e.target.files)} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6, marginTop: 8 }}>
-          {f.images.map((im: any) => <div key={im.id}><img src={im.url} alt="" style={{ width: '100%', height: 70, objectFit: 'cover', borderRadius: 8 }} /><div style={{ display: 'flex', gap: 4 }}><button type="button" onClick={() => set('coverImage', im.url)} style={B}>Portada</button><button type="button" onClick={() => set('images', f.images.filter((x: any) => x.id !== im.id))} style={B}>X</button></div></div>)}
+      <div><b style={{ fontSize: 13 }}>Galeria ({f.images.length}/30)</b><br />
+        <input type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple disabled={uploading} onChange={e => { up(e.target.files); e.target.value = ''; }} />
+        <p style={{ fontSize: 11, color: '#64748b', margin: '4px 0 0' }}>Las fotos se optimizan automáticamente antes de subirlas. Los cambios se aplican al guardar el proyecto.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(150px,1fr))', gap: 10, marginTop: 8 }}>
+          {f.images.map((im: any, k: number) => (
+            <div key={im.id} style={{ border: f.coverImage === im.url ? '2px solid #0f766e' : '1px solid #e2e8f0', borderRadius: 10, padding: 6 }}>
+              <img src={im.url} alt={im.caption || ''} style={{ width: '100%', height: 90, objectFit: 'cover', borderRadius: 8 }} />
+              <input value={im.caption ?? ''} onChange={e => setCaption(im.id, e.target.value)} placeholder="Descripción (opcional)" maxLength={140} style={{ ...I, fontSize: 11, padding: 4 }} />
+              <div style={{ display: 'flex', gap: 4, marginTop: 4, flexWrap: 'wrap' }}>
+                <button type="button" onClick={() => set('coverImage', im.url)} style={B} disabled={f.coverImage === im.url}>{f.coverImage === im.url ? 'Portada ✓' : 'Portada'}</button>
+                <button type="button" onClick={() => moveImage(im.id, -1)} style={B} disabled={k === 0} aria-label="Mover a la izquierda">←</button>
+                <button type="button" onClick={() => moveImage(im.id, 1)} style={B} disabled={k === f.images.length - 1} aria-label="Mover a la derecha">→</button>
+                <button type="button" onClick={() => removeImage(im.id)} style={{ ...B, background: '#fee2e2', color: '#b91c1c' }} aria-label="Quitar foto">Quitar</button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <div><b style={{ fontSize: 13 }}>Etiquetas</b><div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>{tags.map(t => <button type="button" key={t.id} onClick={() => set('tagIds', f.tagIds.includes(t.id) ? f.tagIds.filter((x: string) => x !== t.id) : [...f.tagIds, t.id])} style={{ padding: '4px 10px', borderRadius: 20, fontSize: 12, background: f.tagIds.includes(t.id) ? '#0f766e' : '#eee', color: f.tagIds.includes(t.id) ? '#fff' : '#000' }}>{t.name}</button>)}</div></div>
       <div style={{ display: 'flex', gap: 14, fontSize: 13 }}><label><input type="checkbox" checked={f.featured} onChange={e => set('featured', e.target.checked)} /> Destacado</label><label><input type="checkbox" checked={f.active} onChange={e => set('active', e.target.checked)} /> Visible</label></div>
-      {msg ? <p style={{ color: 'red', fontSize: 13 }}>{msg}</p> : null}
-      <button style={{ padding: 12, borderRadius: 10, background: '#0f766e', color: '#fff', fontWeight: 800 }}>Guardar proyecto</button>
+      {msg ? <p style={{ color: /error|no se|supera|no permitido|conecta/i.test(msg) ? '#b91c1c' : '#0f766e', fontSize: 13 }}>{msg}</p> : null}
+      <button disabled={uploading} style={{ padding: 12, borderRadius: 10, background: uploading ? '#94a3b8' : '#0f766e', color: '#fff', fontWeight: 800 }}>{uploading ? 'Subiendo fotos...' : 'Guardar proyecto'}</button>
     </form>
   );
 }
 const L: any = { fontSize: 13, fontWeight: 800 };
 const I: any = { display: 'block', width: '100%', marginTop: 4, border: '1px solid #ddd', borderRadius: 8, padding: 8 };
 const B: any = { fontSize: 11, background: '#eee', borderRadius: 6, padding: '2px 6px' };
+
+/** Reduce la foto a máx. 2000 px y la recomprime (JPEG/WebP) para subir rápido y bajo el límite de Vercel. */
+async function compressImage(file: File, maxSide = 2000, quality = 0.85): Promise<File> {
+  if (!file.type.startsWith('image/') || file.type === 'image/avif') return file;
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+    if (scale === 1 && file.size < 1.5 * 1024 * 1024) { bitmap.close(); return file; }
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) { bitmap.close(); return file; }
+    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close();
+    const type = file.type === 'image/png' ? 'image/webp' : 'image/jpeg';
+    const blob: Blob | null = await new Promise((res) => canvas.toBlob(res, type, quality));
+    if (!blob || blob.size >= file.size) return file;
+    const name = file.name.replace(/\.[^.]+$/, '') + (type === 'image/webp' ? '.webp' : '.jpg');
+    return new File([blob], name, { type });
+  } catch {
+    return file;
+  }
+}

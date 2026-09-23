@@ -3,6 +3,24 @@ import { ensureSeed } from '@/lib/gallery-seed';
 import { readDb, writeDb } from '@/lib/gallery-store';
 import { adminSession, forbidden, unauthorized } from '../../guard';
 import { withApiErrors } from '@/lib/api-errors';
+import { deleteImages, projectImageUrls } from '@/lib/media-store';
+
+type ImageInput = { id?: unknown; url?: unknown; caption?: unknown };
+function cleanImages(list: unknown[]) {
+  return list
+    .slice(0, 30)
+    .map((img, i) => {
+      const x = (img ?? {}) as ImageInput;
+      return { id: String(x.id ?? `img_${Date.now()}_${i}`), url: String(x.url ?? '').trim(), caption: String(x.caption ?? '').slice(0, 140) };
+    })
+    .filter((img) => img.url);
+}
+
+/** URLs que dejó de usar este proyecto y que ningún otro proyecto usa. */
+function orphanedUrls(before: string[], after: string[], others: Array<{ coverImage?: string; images?: Array<{ url: string }> }>) {
+  const keep = new Set([...after, ...others.flatMap(projectImageUrls)]);
+  return before.filter((u) => !keep.has(u));
+}
 
 async function handleGET(_req: Request, { params }: { params: { id: string } }) {
   const session = adminSession();
@@ -35,7 +53,7 @@ async function handlePUT(req: Request, { params }: { params: { id: string } }) {
     solutionType: body.solutionType !== undefined ? String(body.solutionType) : current.solutionType,
     description: body.description !== undefined ? String(body.description) : current.description,
     coverImage: body.coverImage !== undefined ? String(body.coverImage) : current.coverImage,
-    images: Array.isArray(body.images) ? body.images : current.images,
+    images: Array.isArray(body.images) ? cleanImages(body.images) : current.images,
     tagIds: Array.isArray(body.tagIds) ? body.tagIds.map(String) : current.tagIds,
     featured: body.featured !== undefined ? Boolean(body.featured) : current.featured,
     active: body.active !== undefined ? Boolean(body.active) : current.active,
@@ -45,6 +63,8 @@ async function handlePUT(req: Request, { params }: { params: { id: string } }) {
   if (!next.coverImage && next.images.length > 0) next.coverImage = next.images[0].url;
   db.projects[idx] = next;
   await writeDb(db);
+  const others = db.projects.filter((p) => p.id !== next.id);
+  await deleteImages(orphanedUrls(projectImageUrls(current), projectImageUrls(next), others));
   return NextResponse.json({ project: next });
 }
 
@@ -54,10 +74,11 @@ async function handleDELETE(_req: Request, { params }: { params: { id: string } 
   if (session.role !== 'ADMIN') return forbidden();
   await ensureSeed();
   const db = await readDb();
-  const before = db.projects.length;
+  const removed = db.projects.find((p) => p.id === params.id);
+  if (!removed) return NextResponse.json({ error: 'No encontrado.' }, { status: 404 });
   db.projects = db.projects.filter((p) => p.id !== params.id);
-  if (db.projects.length === before) return NextResponse.json({ error: 'No encontrado.' }, { status: 404 });
   await writeDb(db);
+  await deleteImages(orphanedUrls(projectImageUrls(removed), [], db.projects));
   return NextResponse.json({ ok: true });
 }
 
