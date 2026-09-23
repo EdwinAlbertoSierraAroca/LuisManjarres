@@ -2559,3 +2559,17 @@ h3,
   .about-layout .value-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .about-layout .value-grid .value-card:last-child { grid-column: 1 / -1; }
 }
+
+/* Dato destacado (Morales) y confirmación del formulario */
+.info-block__caption { margin-top: 0.35rem; font-size: 0.85rem; color: rgba(244, 240, 232, 0.78); }
+.contact-form__notice {
+  grid-column: 1 / -1;
+  margin-top: 0.25rem;
+  padding: 0.75rem 0.9rem;
+  border-left: 2px solid #ff5b2b;
+  background: rgba(255, 91, 43, 0.1);
+  color: #f4f0e8;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.contact-form__notice a { color: #ff7042; text-decoration: underline; }

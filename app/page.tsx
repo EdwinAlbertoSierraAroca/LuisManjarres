@@ -30,14 +30,13 @@ const landingNavGroups = [
       { name: 'Almacenamiento de energía', href: '#soluciones' },
       { name: 'Consultoría energética', href: '#soluciones' },
       { name: 'Calculadora de ahorro', href: '#calculadora' },
-      { name: 'Nuestro portafolio', href: '#nuestro-portafolio' },
+      { name: 'Líneas de solución', href: '#nuestro-portafolio' },
     ],
   },
   {
     title: 'Proyectos',
     items: [
-      { name: 'Proyectos realizados', href: '#proyectos' },
-      { name: 'Casos de éxito', href: '#proyectos' },
+      { name: 'Proyectos realizados', href: '#galeria' },
       { name: 'Galería', href: '#galeria' },
     ],
   },
@@ -54,9 +53,9 @@ const landingNavGroups = [
 ];
 
 const stats = [
-  { label: 'Clientes', value: '240+' },
-  { label: 'Ahorro', value: '38%' },
-  { label: 'Proyectos', value: '1.2K' },
+  { label: 'Sistemas en Morales', value: '396' },
+  { label: 'Departamentos con obras', value: '5' },
+  { label: 'Líneas de servicio', value: '5' },
 ];
 
 const valueCards = [
@@ -117,10 +116,6 @@ const portfolioItems = [
   },
 ];
 
-const projects = [
-  { name: 'Proyecto Fotovoltaico Municipio de Morales', city: 'Morales, Bolívar', value: '396 sistemas', tag: 'Completado', co2: 'Proyecto solar municipal', roi: 'Instalación ejecutada' },
-];
-
 // Agrega aquí testimonios REALES de clientes (con su autorización).
 // Mientras la lista esté vacía, la sección y sus enlaces no se muestran.
 const testimonials: Array<{ quote: string; name: string; role: string }> = [];
@@ -179,6 +174,7 @@ const ABOUT_ROTATION_MS = 5000;
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [aboutIndex, setAboutIndex] = useState(0);
+  const [contactSent, setContactSent] = useState(false);
 
   useEffect(() => {
     if (aboutImages.length < 2) return;
@@ -244,6 +240,7 @@ export default function Home() {
     ].join('\n');
 
     window.location.href = `mailto:ing.edwinsierra@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setContactSent(true);
   };
 
   return (
@@ -427,8 +424,8 @@ export default function Home() {
                 </p>
 
                 <div className="mt-8 flex flex-wrap gap-3">
-                  <button className="landing-button landing-button--primary">Contáctanos</button>
-                  <button className="landing-button landing-button--ghost">Nuestra historia</button>
+                  <a href="#contacto" className="landing-button landing-button--primary">Contáctanos</a>
+                  <a href="#valores" className="landing-button landing-button--ghost">Nuestra historia</a>
                 </div>
 
                 <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -448,13 +445,14 @@ export default function Home() {
                       <div className="panel-tag">Perfil</div>
                       <div className="hero-panel-title" style={{ color: '#FFFFFF', opacity: 1 }}>PROSOINPEN S.A.S.</div>
                     </div>
-                    <span className="status-pill">Desde 2013</span>
+                    <span className="status-pill">NIT 901960765-2</span>
                   </div>
 
                   <div className="hero-panel-card__content">
                     <div className="big-stat-block">
-                      <div className="panel-tag">Eficiencia</div>
-                      <div className="big-stat" style={{ color: '#FFFFFF', opacity: 1 }}>38%</div>
+                      <div className="panel-tag">Proyecto destacado</div>
+                      <div className="big-stat" style={{ color: '#FFFFFF', opacity: 1 }}>396</div>
+                      <div className="info-block__caption">sistemas fotovoltaicos · Municipio de Morales, Bolívar</div>
                     </div>
 
                     <div className="info-block" style={{ color: '#FFFFFF', opacity: 1 }}>
@@ -463,10 +461,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="floating-badge">
-                  <div className="panel-tag">Confianza</div>
-                  <div className="floating-badge__value">98%</div>
-                </div>
               </div>
             </div>
           </section>
@@ -521,7 +515,7 @@ export default function Home() {
 
           <section id="valores" className="mt-12">
             <div className="landing-section-heading mb-7">
-              <span className="section-badge">Sobre nosotros</span>
+              <span className="section-badge">Equipo</span>
               <h2 className="section-title section-title--left">Ingeniería detrás de cada proyecto.</h2>
               <p className="landing-section-description">Conoce al equipo y los principios que convierten cada proyecto solar en una decisión clara, rentable y sostenible.</p>
             </div>
@@ -581,7 +575,7 @@ export default function Home() {
             <div className="landing-section-heading mb-8 flex items-end justify-between gap-4">
               <div>
                 <span className="section-badge">SOLUCIONES</span>
-                <h2 className="section-title section-title--left">Nuestro Portafolio</h2>
+                <h2 className="section-title section-title--left">Líneas de solución</h2>
                 <p className="landing-section-description">
                   Soluciones inteligentes en energía solar y movilidad eléctrica para un futuro más rentable y sostenible.
                 </p>
@@ -671,35 +665,6 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="proyectos" className="mt-12">
-              <div className="landing-section-heading mb-6 flex items-center justify-between gap-4">
-              <div>
-                <span className="section-badge">Proyectos</span>
-                <h2 className="section-title section-title--left">Casos con presencia.</h2>
-              </div>
-              <button className="landing-button landing-button--ghost hidden sm:inline-flex">Ver más</button>
-            </div>
-
-            <div className="project-grid">
-              {projects.map((project) => (
-                <article key={project.name} className="project-card">
-                  <div className="project-card__visual" />
-                  <div className="project-card__body">
-                    <div>
-                      <h3 style={{ color: '#FFFFFF', opacity: 1 }}>{project.name}</h3>
-                      <p style={{ color: '#FFFFFF', opacity: 1 }}>{project.city}</p>
-                    </div>
-                    <span className="project-tag">{project.tag}</span>
-                  </div>
-                  <div className="project-card__value" style={{ color: '#FFFFFF', opacity: 1 }}>{project.value}</div>
-                  <div className="project-card__specs">
-                    <span style={{ color: '#FFFFFF', opacity: 1 }}><b>CO2 evitado</b>{project.co2}</span>
-                    <span style={{ color: '#FFFFFF', opacity: 1 }}><b>Retorno</b>{project.roi}</span>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
 
           {testimonials.length > 0 ? (
           <section id="testimonios" className="landing-testimonials mt-12">
@@ -774,6 +739,12 @@ export default function Home() {
                     <textarea name="message" required maxLength={1200} rows={4} />
                   </label>
                   <button type="submit" className="landing-button landing-button--primary">Solicitar información</button>
+                  {contactSent ? (
+                    <p className="contact-form__notice" role="status">
+                      Abrimos tu aplicación de correo con el mensaje listo. Si no se abrió, escríbenos por{' '}
+                      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+                    </p>
+                  ) : null}
                 </form>
               </div>
             </div>

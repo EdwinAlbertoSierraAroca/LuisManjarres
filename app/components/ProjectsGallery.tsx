@@ -22,7 +22,7 @@ export default function ProjectsGallery() {
             <article className="project-card">
               <div className="project-card__visual" style={p.coverImage ? { backgroundImage: 'url(' + p.coverImage + ')', backgroundSize: 'cover', backgroundPosition: 'center' } : {}} />
               <div className="project-card__body">
-                <div><h3 style={{ color: '#FFFFFF', opacity: 1 }}>{p.title}</h3><p style={{ color: '#FFFFFF', opacity: 1 }}>{p.location} - {p.year}</p></div>
+                <div><h3 style={{ color: '#FFFFFF', opacity: 1 }}>{p.title}</h3><p style={{ color: '#FFFFFF', opacity: 1 }}>{[p.location, p.year].filter(Boolean).join(' · ')}</p></div>
                 <span className="project-tag">{p.categoryName}</span>
               </div>
               {Number(p.powerKwp) > 0 ? <div className="project-card__value" style={{ color: '#FFFFFF', opacity: 1 }}>{p.powerKwp} kWp</div> : null}
