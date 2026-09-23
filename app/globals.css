@@ -2573,3 +2573,23 @@ h3,
   line-height: 1.5;
 }
 .contact-form__notice a { color: #ff7042; text-decoration: underline; }
+
+/* Carrusel principal: mitad de altura, mismo estilo */
+.landing-shell .showcase-slide,
+.landing-shell .showcase-slide__image {
+  min-height: clamp(240px, 32vh, 320px);
+  height: clamp(240px, 32vh, 320px);
+}
+.landing-shell .showcase-slide__content { padding: 1.4rem 1.6rem; }
+.landing-shell .showcase-slide__content h3 {
+  font-size: clamp(1.6rem, 2.6vw, 2.8rem);
+  line-height: 1.05;
+}
+@media (max-width: 560px) {
+  .landing-shell .showcase-slide,
+  .landing-shell .showcase-slide__image {
+    min-height: 220px;
+    height: 220px;
+  }
+  .landing-shell .showcase-slide__content { padding: 1rem 1.1rem; }
+}

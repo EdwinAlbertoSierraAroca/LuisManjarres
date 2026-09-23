@@ -105,7 +105,7 @@ const portfolioItems = [
     subtitle: 'Suministros fotovoltaicos',
     text: 'Estructuras, cable solar, protecciones DC/AC, inversores y paneles seleccionados para proyectos de calidad.',
     icon: '⌁',
-    image: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=85',
+    image: '/images/sistema-solar-molino.jpg',
   },
   {
     title: 'Movilidad Eléctrica',
@@ -144,7 +144,7 @@ const showcaseSlides = [
     title: 'Diseño para hogares',
     subtitle: 'Soluciones elegantes y funcionales',
     image:
-      'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80',
+      '/images/sistema-solar-molino.jpg',
   },
 ];
 
@@ -159,7 +159,7 @@ const legacyGalleryItems = [
   { id: 'g4', category: 'Talleres', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80' },
   { id: 'g5', category: 'Creaciones', image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80' },
   { id: 'g6', category: 'Creaciones', image: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g7', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80' },
+  { id: 'g7', category: 'Instalaciones', image: '/images/sistema-solar-molino.jpg' },
   { id: 'g8', category: 'Talleres', image: 'https://images.unsplash.com/photo-1472141521881-95d0e87e2e39?auto=format&fit=crop&w=1200&q=80' },
 ];
 
