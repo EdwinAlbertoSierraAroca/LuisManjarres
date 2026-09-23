@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 export default function ProjectsGallery() {
-  const [projects, setProjects] = useState<Array<{ id: string; slug: string; title: string; coverImage: string; subcategory: string }>>([]);
+  const [projects, setProjects] = useState<Array<{ id: string; slug: string; title: string; coverImage: string; subcategory: string; location?: string; year?: number | string; categoryName?: string; powerKwp?: number | string; solutionType?: string; images?: string[] }>>([]);
   const [cats, setCats] = useState<Array<{ id: string; name: string; slug: string }>>([]);
   const [tab, setTab] = useState('todos');
   useEffect(() => {
