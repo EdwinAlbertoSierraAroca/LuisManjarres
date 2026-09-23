@@ -172,10 +172,23 @@ const legacyGalleryItems = [
 
 void legacyGalleryItems;
 
-const aboutImage = 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1400&q=85';
+const aboutImages = [
+  { src: '/about/instalacion-techo.jpg', alt: 'Equipo instalando paneles solares sobre el techo de una vivienda' },
+  { src: '/about/instalacion-campo.jpg', alt: 'Sistema solar en estructura de piso junto a una cabaña en zona rural' },
+];
+const ABOUT_ROTATION_MS = 5000;
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [aboutIndex, setAboutIndex] = useState(0);
+
+  useEffect(() => {
+    if (aboutImages.length < 2) return;
+    const timer = setInterval(() => {
+      setAboutIndex((current) => (current + 1) % aboutImages.length);
+    }, ABOUT_ROTATION_MS);
+    return () => clearInterval(timer);
+  }, []);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [logoOpen, setLogoOpen] = useState(false);
   const [openLandingGroup, setOpenLandingGroup] = useState('Inicio');
@@ -514,7 +527,15 @@ export default function Home() {
 
             <div className="about-layout">
               <div className="about-image-frame">
-                <img src={aboutImage} alt="Equipo revisando una instalación de energía solar" />
+                {aboutImages.map((image, index) => (
+                  <img
+                    key={image.src}
+                    src={image.src}
+                    alt={image.alt}
+                    className={`about-image-slide ${index === aboutIndex ? 'is-active' : ''}`}
+                    aria-hidden={index !== aboutIndex}
+                  />
+                ))}
                 <span className="about-image-caption">Ingeniería que se ve en cada detalle</span>
               </div>
               <div className="value-grid">

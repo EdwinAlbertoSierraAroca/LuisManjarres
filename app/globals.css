@@ -1316,6 +1316,27 @@ h3,
     filter: saturate(0.82) contrast(1.08) brightness(0.76);
   }
 
+  /* Carrusel: la primera imagen da la altura, las demás se superponen */
+  .about-image-frame img.about-image-slide {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .about-image-frame img.about-image-slide:not(:first-child) {
+    position: absolute;
+    inset: 0;
+  }
+
+  .about-image-frame img.about-image-slide.is-active {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-image-frame img.about-image-slide {
+      transition: none;
+    }
+  }
+
   .about-image-caption {
     position: absolute;
     right: 1rem;
