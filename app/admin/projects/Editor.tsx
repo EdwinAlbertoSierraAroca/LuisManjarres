@@ -106,21 +106,21 @@ export default function Editor({ initial, projectId }: any) {
     <form onSubmit={save} style={{ display: 'grid', gap: 12, background: '#fff', color: '#0f172a', borderRadius: 16, padding: 20 }}>
       <label style={L}>Nombre del proyecto<input value={f.title} onChange={e => set('title', e.target.value)} required style={I} placeholder="Casa El Prado" /></label>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-        <label style={L}>Categoria<select value={f.categoryId} onChange={e => set('categoryId', e.target.value)} required style={I}><option value="">Seleccionar</option>{cats.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
-        <label style={L}>Subcategoria<input value={f.subcategory} onChange={e => set('subcategory', e.target.value)} style={I} /></label>
+        <label style={L}>Categoría<select value={f.categoryId} onChange={e => set('categoryId', e.target.value)} required style={I}><option value="">Seleccionar</option>{cats.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
+        <label style={L}>Subcategoría<input value={f.subcategory} onChange={e => set('subcategory', e.target.value)} style={I} /></label>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-        <label style={L}>Ubicacion<input value={f.location} onChange={e => set('location', e.target.value)} style={I} placeholder="Barranquilla, Atlantico" /></label>
-        <label style={L}>Solucion<select value={f.solutionType} onChange={e => set('solutionType', e.target.value)} style={I}>{['Autoconsumo', 'Hibrido', 'On-Grid', 'Off-Grid', 'Gran escala'].map(o => <option key={o}>{o}</option>)}</select></label>
+        <label style={L}>Ubicación<input value={f.location} onChange={e => set('location', e.target.value)} style={I} placeholder="Barranquilla, Atlántico" /></label>
+        <label style={L}>Solución<select value={f.solutionType} onChange={e => set('solutionType', e.target.value)} style={I}>{['Autoconsumo', 'Híbrido', 'On-Grid', 'Off-Grid', 'Gran escala'].map(o => <option key={o}>{o}</option>)}</select></label>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
         <label style={L}>Potencia kWp<input type="number" step="0.1" value={f.powerKwp} onChange={e => set('powerKwp', Number(e.target.value))} style={I} /></label>
-        <label style={L}>Ano<input type="number" value={f.year} onChange={e => set('year', Number(e.target.value))} style={I} /></label>
+        <label style={L}>Año<input type="number" value={f.year} onChange={e => set('year', Number(e.target.value))} style={I} /></label>
       </div>
-      <label style={L}>Descripcion<textarea value={f.description} onChange={e => set('description', e.target.value)} rows={3} style={I} /></label>
+      <label style={L}>Descripción<textarea value={f.description} onChange={e => set('description', e.target.value)} rows={3} style={I} /></label>
       <label style={L}>Imagen principal<input value={f.coverImage} onChange={e => set('coverImage', e.target.value)} style={I} placeholder="https://... o sube abajo" /></label>
       {f.coverImage ? <img src={f.coverImage} alt="" style={{ maxHeight: 180, objectFit: 'cover', borderRadius: 10 }} /> : null}
-      <div><b style={{ fontSize: 13 }}>Galeria ({f.images.length}/30)</b><br />
+      <div><b style={{ fontSize: 13 }}>Galería ({f.images.length}/30)</b><br />
         <input type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple disabled={uploading} onChange={e => { up(e.target.files); e.target.value = ''; }} />
         <p style={{ fontSize: 11, color: '#64748b', margin: '4px 0 0' }}>Las fotos se optimizan automáticamente antes de subirlas. Los cambios se aplican al guardar el proyecto.</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(150px,1fr))', gap: 10, marginTop: 8 }}>

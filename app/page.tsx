@@ -78,19 +78,19 @@ const landingServices = [
 ];
 
 const investmentBenefits = [
-  { title: 'Ahorro Garantizado', text: 'Reduce significativamente tus costos de energía desde el primer mes de operación.' },
-  { title: 'Retorno de Inversión', text: 'Recupera tu inversión mientras generas ahorros constantes durante más de 25 años.' },
-  { title: 'Protección Tarifaria', text: 'Blindaje financiero contra las alzas constantes de la red eléctrica tradicional.' },
-  { title: 'Valorización de Activos', text: 'Aumento del valor comercial y tasación real de tu infraestructura corporativa.' },
-  { title: 'Energía Sostenible', text: 'Transición limpia reduciendo de forma medible la huella de carbono.' },
-  { title: 'Inversión Inteligente', text: 'Transformación de un gasto fijo inevitable en un activo rentable y duradero.' },
+  { title: 'Ahorro garantizado', text: 'Reduce significativamente tus costos de energía desde el primer mes de operación.' },
+  { title: 'Retorno de inversión', text: 'Recupera tu inversión mientras generas ahorros constantes durante más de 25 años.' },
+  { title: 'Protección tarifaria', text: 'Blindaje financiero contra las alzas constantes de la red eléctrica tradicional.' },
+  { title: 'Valorización de activos', text: 'Aumento del valor comercial y tasación real de tu infraestructura corporativa.' },
+  { title: 'Energía sostenible', text: 'Transición limpia reduciendo de forma medible la huella de carbono.' },
+  { title: 'Inversión inteligente', text: 'Transformación de un gasto fijo inevitable en un activo rentable y duradero.' },
 ];
 
 const portfolioItems = [
   {
-    title: 'Granjas Solares',
+    title: 'Granjas solares',
     subtitle: 'Energía a gran escala',
-    text: 'Desarrollamos proyectos fotovoltaicos de gran capacidad para maximizar la generación y rentabilidad.',
+    text: 'Desarrollamos proyectos fotovoltaicos de gran capacidad para maximizar la generación y la rentabilidad.',
     icon: '☀',
     image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=85',
   },
@@ -102,14 +102,14 @@ const portfolioItems = [
     image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=85',
   },
   {
-    title: 'Insumos & Equipos',
+    title: 'Insumos y equipos',
     subtitle: 'Suministros fotovoltaicos',
     text: 'Estructuras, cable solar, protecciones DC/AC, inversores y paneles seleccionados para proyectos de calidad.',
     icon: '⌁',
     image: '/images/sistema-solar-molino.jpg',
   },
   {
-    title: 'Movilidad Eléctrica',
+    title: 'Movilidad eléctrica',
     subtitle: 'Impulsamos el cambio',
     text: 'Soluciones de carga y movilidad eléctrica para un transporte más eficiente, moderno y sostenible.',
     icon: 'ϟ',
@@ -124,7 +124,7 @@ const testimonials: Array<{ quote: string; name: string; role: string }> = [];
 const faqs = [
   { question: '¿Qué mantenimiento requieren los paneles?', answer: 'Recomendamos una revisión preventiva y limpieza técnica periódica. Nuestro equipo también puede monitorear el rendimiento de forma remota.' },
   { question: '¿Qué garantía tienen los sistemas?', answer: 'La cobertura depende del equipo y del proyecto. Presentamos las garantías de componentes, instalación y rendimiento de forma clara en cada propuesta.' },
-  { question: '¿Ustedes gestionan los trámites con la red?', answer: 'Sí. Acompañamos la documentación, validaciones y coordinación necesaria para la conexión del sistema según la normativa aplicable.' },
+  { question: '¿Ustedes gestionan los trámites con la red?', answer: 'Sí. Acompañamos la documentación, las validaciones y la coordinación necesarias para la conexión del sistema según la normativa aplicable.' },
   { question: '¿Tienen opciones de financiación?', answer: 'Evaluamos alternativas de financiación con aliados y estructuramos la propuesta para que puedas comparar inversión, ahorro y retorno.' },
 ];
 
@@ -136,7 +136,7 @@ const showcaseSlides = [
       'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    title: 'Energia inteligente',
+    title: 'Energía inteligente',
     subtitle: 'Monitoreo y optimización en tiempo real',
     image:
       'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80',
@@ -149,7 +149,7 @@ const showcaseSlides = [
   },
 ];
 
-const partnerLogos = ['PROSOINPENSAS.', 'ENERGÍA FOTOVOLTAICA', 'INGENIERÍA', 'OBRAS CIVILES'];
+const partnerLogos = ['PROSOINPEN S.A.S.', 'ENERGÍA FOTOVOLTAICA', 'INGENIERÍA', 'OBRAS CIVILES'];
 
 // Datos históricos de ejemplo (la galería pública ahora usa /api/projects).
 // Se conserva como referencia; `void` evita el error de variable sin uso en el build.
@@ -319,9 +319,9 @@ export default function Home() {
                 {mobileNavOpen ? 'Cerrar' : 'Menú'}
               </button>
               <Link href="/admin/login" className="landing-button landing-button--ghost hidden lg:inline-flex" aria-label="Iniciar sesión como administrador">
-                🔐 Login
+                🔐 Ingresar
               </Link>
-              <a href="#contacto" className="landing-button landing-button--ghost hidden lg:inline-flex">Agenda</a>
+              <a href="#contacto" className="landing-button landing-button--ghost hidden lg:inline-flex">Agendar</a>
               <a href="#contacto" className="landing-button landing-button--primary header-cta">
                 <span className="header-cta__long">Solicitar propuesta</span>
                 <span className="header-cta__short">Cotizar</span>
@@ -369,7 +369,7 @@ export default function Home() {
                 className="landing-nav-link landing-nav-link--mobile"
                 onClick={() => setMobileNavOpen(false)}
               >
-                🔐 Login administración
+                🔐 Acceso administración
               </Link>
               <ThemeToggle className="theme-toggle--block" />
             </div>
@@ -380,7 +380,7 @@ export default function Home() {
           <span className="gallery-quick-tabs__label">Explorar</span>
           <a href="#calculadora" className="gallery-quick-tab">Calculadora</a>
           {testimonials.length > 0 ? <a href="#testimonios" className="gallery-quick-tab">Testimonios</a> : null}
-          <a href="#faq" className="gallery-quick-tab">FAQ</a>
+          <a href="#faq" className="gallery-quick-tab">Preguntas</a>
           <a href="/proyectos" className="gallery-quick-tab">Galería completa</a>
         </div>
 
@@ -402,7 +402,7 @@ export default function Home() {
                 <article key={slide.title} className="showcase-slide">
                   <img src={slide.image} alt={slide.title} className="showcase-slide__image" />
                   <div className="showcase-slide__content">
-                    <span className="showcase-slide__label">PROSOINPENSAS.</span>
+                    <span className="showcase-slide__label">PROSOINPEN S.A.S.</span>
                     <h3>{slide.title}</h3>
                     <p>{slide.subtitle}</p>
                   </div>
@@ -483,7 +483,7 @@ export default function Home() {
                     </div>
 
                     <div className="info-block" style={{ color: '#FFFFFF', opacity: 1 }}>
-                      Diseñamos soluciones energéticas inteligentes para acompañar a clientes desde la estrategia hasta la operación, con rigor técnico y una experiencia premium en cada etapa.
+                      Diseñamos soluciones energéticas inteligentes para acompañar a clientes desde la estrategia hasta la operación, con rigor técnico y una experiencia de primer nivel en cada etapa.
                     </div>
                   </div>
                 </div>
@@ -505,12 +505,12 @@ export default function Home() {
           >
             <div className="relative z-10 p-6 sm:p-8 lg:p-10">
               <div className="landing-section-heading mb-8 max-w-4xl">
-                <span className="section-badge">SOBRE NOSOTROS</span>
+                <span className="section-badge">Sobre nosotros</span>
                 <h2 className="section-title section-title--left">
                   Convertimos la energía en una inversión inteligente
                 </h2>
                 <p className="landing-section-description">
-                  En PROSOINPEN S.A.S. ayudamos a empresas y hogares a convertir la energía en una oportunidad de inversión y rentabilidad auto-sostenible hasta por 30 años. Creemos que la transición energética no solo protege las generaciones futuras, sino que hoy se convierte en una decisión financiera inteligente y altamente estratégica.
+                  En PROSOINPEN S.A.S. ayudamos a empresas y hogares a convertir la energía en una oportunidad de inversión y rentabilidad autosostenible durante más de 25 años. Creemos que la transición energética no solo protege a las generaciones futuras, sino que hoy se convierte en una decisión financiera inteligente y altamente estratégica.
                 </p>
               </div>
 
@@ -576,7 +576,7 @@ export default function Home() {
             <div className="landing-section-heading mb-7 flex items-end justify-between gap-4">
               <div>
                 <span className="section-badge">Soluciones</span>
-                <h2 className="section-title section-title--left">NUESTROS SERVICIOS</h2>
+                <h2 className="section-title section-title--left">Nuestros servicios</h2>
               </div>
               <span className="landing-section-index">SOL / 05</span>
             </div>
@@ -601,7 +601,7 @@ export default function Home() {
           <section id="nuestro-portafolio" className="mt-16">
             <div className="landing-section-heading mb-8 flex items-end justify-between gap-4">
               <div>
-                <span className="section-badge">SOLUCIONES</span>
+                <span className="section-badge">Soluciones</span>
                 <h2 className="section-title section-title--left">Líneas de solución</h2>
                 <p className="landing-section-description">
                   Soluciones inteligentes en energía solar y movilidad eléctrica para un futuro más rentable y sostenible.
@@ -680,7 +680,7 @@ export default function Home() {
             <div className="gallery-shell">
               <div className="gallery-heading">
                 <span className="section-badge">Proyectos</span>
-                <h2 className="section-title section-title--left">NUESTRO PORTAFOLIO</h2>
+                <h2 className="section-title section-title--left">Nuestro portafolio</h2>
                 <p className="landing-section-description">Explora soluciones, instalaciones y equipos que convierten la energía en resultados reales.</p>
               </div>
 
@@ -740,7 +740,7 @@ export default function Home() {
                   <span className="section-badge">Contacto</span>
                   <h2 className="section-title section-title--left">Hablemos de tu próximo proyecto.</h2>
                   <p className="cta-copy">
-                    Te acompañamos desde el diagnóstico inicial hasta la puesta en marcha, con acompañamiento humano, técnico y responsable en cada etapa.
+                    Te acompañamos desde el diagnóstico inicial hasta la puesta en marcha, con un equipo humano, técnico y responsable en cada etapa.
                   </p>
                   <a className="whatsapp-button" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                     <WhatsAppIcon className="whatsapp-button__icon" />
@@ -1248,7 +1248,7 @@ export default function Home() {
             <div>
               <div className="footer-title">Contacto</div>
               <ul className="footer-list">
-                <li>PROSOINPENSAS</li>
+                <li>PROSOINPEN S.A.S.</li>
                 <li>NIT: 901960765-2</li>
                 <li>Proyectos y Soluciones de Ingeniería El Pentágono S.A.S.</li>
               </ul>
@@ -1299,7 +1299,7 @@ export default function Home() {
               <p className="logo-lightbox__text">
                 Proyectos y Soluciones de Ingeniería El Pentágono S.A.S.
               </p>
-              <p className="logo-lightbox__hint">Clic fuera o ✕ para cerrar</p>
+              <p className="logo-lightbox__hint">Haz clic fuera o en ✕ para cerrar</p>
             </div>
           </div>
         ) : null}

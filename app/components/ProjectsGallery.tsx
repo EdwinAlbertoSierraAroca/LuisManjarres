@@ -26,7 +26,7 @@ export default function ProjectsGallery() {
                 <span className="project-tag">{p.categoryName}</span>
               </div>
               {Number(p.powerKwp) > 0 ? <div className="project-card__value" style={{ color: '#FFFFFF', opacity: 1 }}>{p.powerKwp} kWp</div> : null}
-              <div className="project-card__specs"><span style={{ color: '#FFFFFF', opacity: 1 }}><b>Solucion</b>{p.solutionType}</span><span style={{ color: '#FFFFFF', opacity: 1 }}><b>Fotos</b>{p.images?.length ?? 0}</span></div>
+              <div className="project-card__specs"><span style={{ color: '#FFFFFF', opacity: 1 }}><b>Solución</b>{p.solutionType}</span><span style={{ color: '#FFFFFF', opacity: 1 }}><b>Fotos</b>{p.images?.length ?? 0}</span></div>
             </article>
           </Link>
         ))}

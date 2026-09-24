@@ -2724,3 +2724,38 @@ h3,
 }
 .theme-toggle--block { width: 100%; justify-content: center; margin-top: 0.75rem; }
 .footer-bottom--theme { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+
+/* ==========================================================
+   Sistema tipográfico (legibilidad)
+   - Títulos en formato de oración, con espaciado que respira
+   - Mayúsculas solo en etiquetas pequeñas (badges, kickers)
+   ========================================================== */
+.landing-shell h1,
+.landing-shell h2 {
+  text-transform: none !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.02 !important;
+  text-wrap: balance;
+}
+.landing-shell .hero-title { letter-spacing: -0.035em !important; line-height: 0.98 !important; }
+.landing-shell h3,
+.landing-shell h4 {
+  letter-spacing: -0.01em !important;
+  line-height: 1.25;
+}
+.landing-shell .showcase-slide__content h3 { letter-spacing: -0.025em !important; line-height: 1.05; }
+.landing-shell p { text-wrap: pretty; }
+
+/* Contraste: etiquetas sobre recuadros teñidos con el color de acento */
+.landing-shell .big-stat-block .panel-tag,
+.landing-shell .big-stat-block .info-block__caption {
+  color: rgba(var(--ps-text-rgb), 0.92) !important;
+}
+.landing-shell .big-stat-block .panel-tag {
+  display: inline-block;
+  padding: 0.3rem 0.55rem;
+  border-radius: 3px;
+  background: rgba(var(--ps-bg-rgb), 0.45);
+}
+.landing-shell .benefit-card__title { font-weight: 750 !important; font-size: 1.05rem; margin-top: 0.35rem; }
+.landing-shell .benefit-card__text { margin-top: 0.3rem; }
