@@ -2619,3 +2619,33 @@ h3,
 @media (max-width: 480px) {
   .hero-panel-card__header { flex-wrap: wrap; gap: 0.6rem; }
 }
+
+/* Misión / Visión / Quiénes somos: mismo efecto de selección que las tarjetas de servicios
+   (hover en PC, toque o foco en celular y teclado) */
+.landing-shell .value-card {
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.landing-shell .value-card:hover,
+.landing-shell .value-card:focus-visible,
+.landing-shell .value-card:focus,
+.landing-shell .value-card:active {
+  border-color: #ff7042;
+  background: rgba(255, 91, 43, 0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(255, 91, 43, 0.16);
+  outline: none;
+}
+.landing-shell .value-card:hover .value-card__icon,
+.landing-shell .value-card:focus .value-card__icon,
+.landing-shell .value-card:active .value-card__icon {
+  background: #ff5b2b;
+  color: #160a05;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-shell .value-card:hover,
+  .landing-shell .value-card:focus,
+  .landing-shell .value-card:active { transform: none; }
+}

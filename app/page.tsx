@@ -559,7 +559,7 @@ export default function Home() {
               </div>
               <div className="value-grid">
                 {valueCards.map((card, index) => (
-                  <article id={card.id} key={card.title} className={`value-card ${index === 0 ? 'value-card--large' : ''}`}>
+                  <article id={card.id} key={card.title} tabIndex={0} className={`value-card ${index === 0 ? 'value-card--large' : ''}`}>
                     <div className="value-card__icon">{card.title[0]}</div>
                     <h3 style={{ color: '#FFFFFF', opacity: 1 }}>{card.title}</h3>
                     <p style={{ color: '#FFFFFF', opacity: 1 }}>{card.text}</p>

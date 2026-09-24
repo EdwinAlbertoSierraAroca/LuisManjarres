@@ -3,6 +3,8 @@ import { ensureSeed } from '@/lib/gallery-seed';
 import { readDb } from '@/lib/gallery-store';
 import type { PublicProject } from '@/lib/gallery-types';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
   await ensureSeed();
   const { searchParams } = new URL(req.url);

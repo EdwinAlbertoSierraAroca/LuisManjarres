@@ -4,11 +4,8 @@ import { ensureSeed } from '@/lib/gallery-seed';
 import { readDb } from '@/lib/gallery-store';
 import Viewer from './Viewer';
 
-export function generateStaticParams() {
-  return [];
-}
-
-export const dynamicParams = true;
+// Los proyectos se leen de la base (Redis) en cada visita: la página debe ser dinámica.
+export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   await ensureSeed();

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { ensureSeed } from '@/lib/gallery-seed';
 import { readDb } from '@/lib/gallery-store';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(_req: Request, { params }: { params: { slug: string } }) {
   await ensureSeed();
   const db = await readDb();
