@@ -8,6 +8,9 @@ const manrope = Manrope({
   variable: '--font-manrope',
 });
 
+const themeInitScript =
+  "try{var t=localStorage.getItem('ps-theme');if(t==='solar'||t==='marca'){document.documentElement.dataset.theme=t}}catch(e){}";
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://luis-manjarres.vercel.app';
 
 export const metadata: Metadata = {
@@ -51,7 +54,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" data-theme="marca" suppressHydrationWarning>
+      <head>
+        {/* Aplica el tema guardado antes de pintar, para evitar parpadeo. */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className={manrope.variable}>
         {children}
         <WhatsAppFloat />

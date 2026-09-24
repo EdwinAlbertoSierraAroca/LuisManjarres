@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { WhatsAppIcon, whatsappUrl } from './components/whatsapp-contact';
 import ProjectsGallery from './components/ProjectsGallery';
+import ThemeToggle from './components/theme-toggle';
 
 const landingNavGroups = [
   {
@@ -306,6 +307,7 @@ export default function Home() {
             <nav className="hidden" aria-label="Navegación principal" />
 
             <div className="flex items-center gap-3">
+              <ThemeToggle />
               <button
                 type="button"
                 className="landing-menu-toggle"
@@ -369,6 +371,7 @@ export default function Home() {
               >
                 🔐 Login administración
               </Link>
+              <ThemeToggle className="theme-toggle--block" />
             </div>
           </nav>
         ) : null}
@@ -495,7 +498,7 @@ export default function Home() {
             className="mt-16 relative overflow-hidden rounded-[28px] border border-white/10"
             style={{
               backgroundImage:
-                "linear-gradient(90deg, rgba(8, 12, 11, 0.96) 0%, rgba(8, 12, 11, 0.86) 42%, rgba(8, 12, 11, 0.58) 100%), url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1800&q=85')",
+                "linear-gradient(90deg, rgba(var(--ps-deep-rgb), 0.96) 0%, rgba(var(--ps-deep-rgb), 0.86) 42%, rgba(var(--ps-deep-rgb), 0.58) 100%), url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1800&q=85')",
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
@@ -525,7 +528,7 @@ export default function Home() {
                     <div
                       className="benefit-card__icon"
                       aria-hidden="true"
-                      style={{ color: '#ff7042' }}
+                      style={{ color: 'var(--ps-accent-2)' }}
                     >
                       ✦
                     </div>
@@ -792,10 +795,10 @@ export default function Home() {
 
         <style jsx global>{`
           :root {
-            --solar-green: #ff7042;
-            --solar-green-soft: rgba(255, 91, 43, 0.16);
-            --solar-dark: #07100d;
-            --solar-card: rgba(14, 25, 21, 0.78);
+            --solar-green: var(--ps-accent-2);
+            --solar-green-soft: rgba(var(--ps-accent-rgb), 0.16);
+            --solar-dark: var(--ps-deep);
+            --solar-card: rgba(var(--ps-deep-2-rgb), 0.78);
           }
 
           html { scroll-behavior: smooth; }
@@ -804,10 +807,10 @@ export default function Home() {
             position: relative;
             overflow: hidden;
             min-height: 570px;
-            border: 1px solid rgba(54, 217, 138, 0.14);
+            border: 1px solid rgba(var(--ps-glow-rgb), 0.14);
             border-radius: 22px;
             isolation: isolate;
-            background: #07100d;
+            background: var(--ps-deep);
           }
 
           .investment-section__backdrop {
@@ -815,7 +818,7 @@ export default function Home() {
             inset: 0;
             z-index: -2;
             background:
-              linear-gradient(90deg, rgba(3, 10, 8, .94) 0%, rgba(3, 10, 8, .76) 38%, rgba(3, 10, 8, .42) 100%),
+              linear-gradient(90deg, rgba(var(--ps-deep-rgb), .94) 0%, rgba(var(--ps-deep-rgb), .76) 38%, rgba(var(--ps-deep-rgb), .42) 100%),
               url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1800&q=90') center/cover;
             transform: scale(1.02);
           }
@@ -825,7 +828,7 @@ export default function Home() {
             position: absolute;
             inset: 0;
             z-index: -1;
-            background: radial-gradient(circle at 75% 50%, rgba(54,217,138,.10), transparent 38%);
+            background: radial-gradient(circle at 75% 50%, rgba(var(--ps-glow-rgb), .10), transparent 38%);
             pointer-events: none;
           }
 
@@ -842,7 +845,7 @@ export default function Home() {
           .investment-intro .section-title {
             max-width: 650px;
             margin-top: 14px;
-            text-shadow: 0 0 28px rgba(54,217,138,.08);
+            text-shadow: 0 0 28px rgba(var(--ps-glow-rgb), .08);
           }
 
           .investment-intro .landing-section-description {
@@ -862,7 +865,7 @@ export default function Home() {
             padding: 18px 20px;
             border: 1px solid rgba(255,255,255,.16);
             border-radius: 15px;
-            background: rgba(10, 19, 16, .58);
+            background: rgba(var(--ps-deep-2-rgb), .58);
             backdrop-filter: blur(10px);
             box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 12px 35px rgba(0,0,0,.14);
             transition: transform .28s ease, border-color .28s ease, background .28s ease, box-shadow .28s ease;
@@ -870,9 +873,9 @@ export default function Home() {
 
           .benefit-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(54,217,138,.48);
-            background: rgba(13, 29, 23, .76);
-            box-shadow: 0 14px 45px rgba(0,0,0,.28), 0 0 25px rgba(54,217,138,.07);
+            border-color: rgba(var(--ps-glow-rgb), .48);
+            background: rgba(var(--ps-deep-2-rgb), .76);
+            box-shadow: 0 14px 45px rgba(0,0,0,.28), 0 0 25px rgba(var(--ps-glow-rgb), .07);
           }
 
           .benefit-card__top {
@@ -887,11 +890,11 @@ export default function Home() {
             place-items: center;
             width: 31px;
             height: 31px;
-            border: 1px solid rgba(54,217,138,.38);
+            border: 1px solid rgba(var(--ps-glow-rgb), .38);
             border-radius: 8px;
             color: var(--solar-green);
-            background: rgba(54,217,138,.09);
-            box-shadow: 0 0 18px rgba(54,217,138,.10);
+            background: rgba(var(--ps-glow-rgb), .09);
+            box-shadow: 0 0 18px rgba(var(--ps-glow-rgb), .10);
           }
 
           .benefit-card__number {
@@ -930,15 +933,15 @@ export default function Home() {
             padding: 0 !important;
             border: 1px solid rgba(255,255,255,.12) !important;
             border-radius: 14px;
-            background: #191919 !important;
+            background: var(--ps-surface) !important;
             box-shadow: 0 10px 30px rgba(0,0,0,.20);
             transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
           }
 
           .portfolio-card--4-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(54,217,138,.50) !important;
-            box-shadow: 0 18px 45px rgba(0,0,0,.34), 0 0 24px rgba(54,217,138,.08);
+            border-color: rgba(var(--ps-glow-rgb), .50) !important;
+            box-shadow: 0 18px 45px rgba(0,0,0,.34), 0 0 24px rgba(var(--ps-glow-rgb), .08);
           }
 
           .portfolio-card--4-card__media {
@@ -963,7 +966,7 @@ export default function Home() {
           .portfolio-card--4-card__gradient {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0) 42%, rgba(5,10,8,.72) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 42%, rgba(var(--ps-deep-rgb), .72) 100%);
           }
 
           .portfolio-card--4-card__icon {
@@ -975,11 +978,11 @@ export default function Home() {
             height: 34px;
             display: grid;
             place-items: center;
-            border: 1px solid rgba(54,217,138,.62);
+            border: 1px solid rgba(var(--ps-glow-rgb), .62);
             border-radius: 8px;
-            color: #ff7042;
-            background: rgba(255, 91, 43, 0.12);
-            box-shadow: 0 0 18px rgba(54,217,138,.14);
+            color: var(--ps-accent-2);
+            background: rgba(var(--ps-accent-rgb), 0.12);
+            box-shadow: 0 0 18px rgba(var(--ps-glow-rgb), .14);
             font-size: 16px;
             z-index: 2;
           }
@@ -1005,12 +1008,12 @@ export default function Home() {
           .portfolio-card--4-card__title-row span:not(.portfolio-card--4-card__arrow) {
             display: block;
             margin-top: 5px;
-            color: #ff7042;
+            color: var(--ps-accent-2);
             font-size: 9px;
           }
 
           .portfolio-card--4-card__arrow {
-            color: #ff7042;
+            color: var(--ps-accent-2);
             font-size: 17px;
             transition: transform .25s ease;
           }
@@ -1039,7 +1042,7 @@ export default function Home() {
           }
 
           .portfolio-card--4-card__content a:hover {
-            color: #ff7042;
+            color: var(--ps-accent-2);
             gap: 10px;
           }
 
@@ -1052,15 +1055,15 @@ export default function Home() {
             padding: 0 !important;
             border: 1px solid rgba(255,255,255,.13) !important;
             border-radius: 15px;
-            background: rgba(13, 22, 19, .88) !important;
+            background: rgba(var(--ps-deep-2-rgb), .88) !important;
             box-shadow: 0 14px 40px rgba(0,0,0,.18);
             transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
           }
 
           .portfolio-card--visual:hover {
             transform: translateY(-7px);
-            border-color: rgba(54,217,138,.55) !important;
-            box-shadow: 0 20px 55px rgba(0,0,0,.35), 0 0 28px rgba(54,217,138,.08);
+            border-color: rgba(var(--ps-glow-rgb), .55) !important;
+            box-shadow: 0 20px 55px rgba(0,0,0,.35), 0 0 28px rgba(var(--ps-glow-rgb), .08);
           }
 
           .portfolio-card__image-wrap {
@@ -1085,7 +1088,7 @@ export default function Home() {
           .portfolio-card__image-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(4,10,8,.82));
+            background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(var(--ps-deep-rgb), .82));
           }
 
           .portfolio-card__icon {
@@ -1096,13 +1099,13 @@ export default function Home() {
             place-items: center;
             width: 38px;
             height: 38px;
-            border: 1px solid rgba(54,217,138,.5);
+            border: 1px solid rgba(var(--ps-glow-rgb), .5);
             border-radius: 9px;
             color: var(--solar-green);
-            background: rgba(5,18,13,.78);
+            background: rgba(var(--ps-deep-rgb), .78);
             backdrop-filter: blur(7px);
             font-size: 19px;
-            box-shadow: 0 0 20px rgba(54,217,138,.12);
+            box-shadow: 0 0 20px rgba(var(--ps-glow-rgb), .12);
           }
 
           .portfolio-card__counter {
@@ -1252,7 +1255,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="footer-bottom">© {new Date().getFullYear()} PROSOINPEN S.A.S. · NIT 901960765-2. Todos los derechos reservados.</div>
+          <div className="footer-bottom footer-bottom--theme">
+            <span>© {new Date().getFullYear()} PROSOINPEN S.A.S. · NIT 901960765-2. Todos los derechos reservados.</span>
+            <ThemeToggle />
+          </div>
         </footer>
 
         {logoOpen ? (
