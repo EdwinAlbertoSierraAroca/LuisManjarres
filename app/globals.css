@@ -2595,3 +2595,27 @@ h3,
 }
 .contact-form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .contact-form__notice--error { border-left-color: #f87171; background: rgba(248, 113, 113, 0.12); }
+
+/* Móvil: la regla base de servicios usa !important, así que las media queries también lo necesitan */
+@media (max-width: 900px) {
+  .landing-services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 600px) {
+  .landing-services-grid { grid-template-columns: 1fr !important; }
+  .landing-service-card { min-height: 0 !important; padding: 1.25rem !important; }
+  .landing-service-card h3 { font-size: 1.2rem; line-height: 1.25; }
+}
+@media (max-width: 420px) {
+  .solar-calculator__results { grid-template-columns: 1fr !important; }
+  .hero-title { font-size: clamp(2.2rem, 11vw, 3rem); overflow-wrap: anywhere; }
+}
+
+/* Sección Empresa: que la cuadrícula no se ensanche por contenido que no se parte */
+.landing-hero > .grid { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1024px) {
+  .landing-hero > .grid { grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr); }
+}
+.landing-hero > .grid > * { min-width: 0; }
+@media (max-width: 480px) {
+  .hero-panel-card__header { flex-wrap: wrap; gap: 0.6rem; }
+}
