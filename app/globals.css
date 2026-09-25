@@ -24,20 +24,21 @@
   --ps-deep-2-rgb: 8, 30, 38;
 }
 :root[data-theme="solar"] {
-  /* Solar sobrio: charcoal cálido + naranja solo como acento */
-  --ps-accent: #f56b3d;        --ps-accent-rgb: 245, 107, 61;
-  --ps-accent-2: #e8906c;      --ps-accent-2-rgb: 232, 144, 108;
-  --ps-glow: #d8a47f;          --ps-glow-rgb: 216, 164, 127;
-  --ps-text: #f6f1ec;          --ps-text-rgb: 246, 241, 236;
-  --ps-muted-rgb: 196, 184, 174;
+  /* Paleta Solar sobria (propuesta aprobada) */
+  --ps-accent: #f56b3d;        --ps-accent-rgb: 245, 107, 61;    /* Naranja solar: acento */
+  --ps-accent-2: #ff8a5b;      --ps-accent-2-rgb: 255, 138, 91;  /* Naranja claro: acento secundario */
+  --ps-glow: #ff8a5b;          --ps-glow-rgb: 255, 138, 91;
+  --ps-text: #f5f1ed;          --ps-text-rgb: 245, 241, 237;     /* Blanco cálido */
+  --ps-muted-rgb: 184, 176, 170;                                  /* Gris cálido #B8B0AA */
   --ps-on-accent: #1e0f08;
-  --ps-bg-top: #2a1b15;
-  --ps-bg: #241712;            --ps-bg-rgb: 36, 23, 18;
-  --ps-deep: #1f140f;          --ps-deep-rgb: 31, 20, 15;
-  --ps-surface: #2b1c17;       --ps-surface-rgb: 43, 28, 23;
-  --ps-warm: #321f18;          --ps-warm-rgb: 50, 31, 24;
-  --ps-deep-2-rgb: 40, 26, 21;
-  --ps-line: rgba(255, 236, 222, 0.08);
+  --ps-bg-top: #241712;
+  --ps-bg: #241712;            --ps-bg-rgb: 36, 23, 18;          /* Marrón carbón: fondo */
+  --ps-deep: #241712;          --ps-deep-rgb: 36, 23, 18;
+  --ps-surface: #2b1c17;       --ps-surface-rgb: 43, 28, 23;     /* Header y tarjetas */
+  --ps-warm: #321f18;          --ps-warm-rgb: 50, 31, 24;        /* Superficies secundarias */
+  --ps-deep-2-rgb: 50, 31, 24;
+  --ps-border: #68402e;        --ps-border-rgb: 104, 64, 46;     /* Bordes */
+  --ps-line: rgba(104, 64, 46, 0.55);
 }
 
 :root {
@@ -2892,3 +2893,22 @@ h3,
 /* Ícono de las categorías (ambos temas) */
 .logo-pill { display: inline-flex !important; align-items: center; gap: 0.55rem; }
 .logo-pill__icon { width: 1.05rem; height: 1.05rem; flex: none; color: var(--ps-accent-2); }
+
+/* Paleta Solar: bordes con el marrón medio (#68402E) en los elementos principales */
+:root[data-theme="solar"] .landing-header,
+:root[data-theme="solar"] .hero-panel-card,
+:root[data-theme="solar"] .value-card,
+:root[data-theme="solar"] .landing-service-card,
+:root[data-theme="solar"] .mini-metric,
+:root[data-theme="solar"] .faq-item,
+:root[data-theme="solar"] .footer-panel,
+:root[data-theme="solar"] .cta-panel,
+:root[data-theme="solar"] .benefit-card,
+:root[data-theme="solar"] .landing-shell .logo-pill { border-color: var(--ps-line) !important; }
+:root[data-theme="solar"] .contact-form input,
+:root[data-theme="solar"] .contact-form textarea { background: var(--ps-warm) !important; border-color: var(--ps-border) !important; color: var(--ps-text) !important; }
+:root[data-theme="solar"] .contact-form input:focus,
+:root[data-theme="solar"] .contact-form textarea:focus { border-color: var(--ps-accent) !important; outline: none; }
+:root[data-theme="solar"] .project-tag { color: var(--ps-accent-2) !important; background: rgba(var(--ps-accent-rgb), 0.1) !important; border-color: var(--ps-line) !important; }
+:root[data-theme="solar"] .gallery-tab { background: var(--ps-surface) !important; border-color: var(--ps-line) !important; }
+:root[data-theme="solar"] .gallery-tab.active { background: var(--ps-accent) !important; color: var(--ps-on-accent) !important; border-color: var(--ps-accent) !important; }
