@@ -24,17 +24,18 @@
   --ps-deep-2-rgb: 8, 30, 38;
 }
 :root[data-theme="solar"] {
-  --ps-accent: #ff5b2b;        --ps-accent-rgb: 255, 91, 43;
-  --ps-accent-2: #ff7042;      --ps-accent-2-rgb: 255, 112, 66;
-  --ps-glow: #36d98a;          --ps-glow-rgb: 54, 217, 138;
-  --ps-text: #f4f0e8;          --ps-text-rgb: 244, 240, 232;
-  --ps-on-accent: #160a05;
-  --ps-bg-top: #130b07;
-  --ps-bg: #080908;            --ps-bg-rgb: 8, 9, 8;
-  --ps-deep: #07100d;          --ps-deep-rgb: 5, 10, 8;
-  --ps-surface: #111311;       --ps-surface-rgb: 20, 22, 20;
-  --ps-warm: #211713;          --ps-warm-rgb: 23, 20, 18;
-  --ps-deep-2-rgb: 13, 24, 20;
+  /* Solar refinado: naranja cálido sobre café tostado (antes casi negro) */
+  --ps-accent: #ff6a3d;        --ps-accent-rgb: 255, 106, 61;
+  --ps-accent-2: #ff8a5c;      --ps-accent-2-rgb: 255, 138, 92;
+  --ps-glow: #ffb347;          --ps-glow-rgb: 255, 179, 71;
+  --ps-text: #fbf5ee;          --ps-text-rgb: 251, 245, 238;
+  --ps-on-accent: #1d0c05;
+  --ps-bg-top: #3a1c10;
+  --ps-bg: #1c120d;            --ps-bg-rgb: 28, 18, 13;
+  --ps-deep: #150d09;          --ps-deep-rgb: 21, 13, 9;
+  --ps-surface: #2a1b14;       --ps-surface-rgb: 48, 31, 23;
+  --ps-warm: #33211a;          --ps-warm-rgb: 52, 33, 26;
+  --ps-deep-2-rgb: 36, 24, 18;
 }
 
 :root {
@@ -2759,3 +2760,50 @@ h3,
 }
 .landing-shell .benefit-card__title { font-weight: 750 !important; font-size: 1.05rem; margin-top: 0.35rem; }
 .landing-shell .benefit-card__text { margin-top: 0.3rem; }
+
+
+/* ==========================================================
+   Tema "solar" refinado: más luz, tarjetas visibles, fotos vivas
+   ========================================================== */
+:root[data-theme="solar"] .landing-bg {
+  background:
+    radial-gradient(circle at 50% 6%, rgba(var(--ps-accent-rgb), 0.30), transparent 34%),
+    radial-gradient(circle at 92% 40%, rgba(var(--ps-glow-rgb), 0.12), transparent 26%),
+    radial-gradient(circle at 4% 70%, rgba(var(--ps-accent-rgb), 0.14), transparent 26%),
+    linear-gradient(180deg, var(--ps-bg-top) 0%, var(--ps-bg) 38%, var(--ps-deep) 100%);
+}
+:root[data-theme="solar"] .landing-header,
+:root[data-theme="solar"] .gallery-quick-tabs,
+:root[data-theme="solar"] .logo-marquee,
+:root[data-theme="solar"] .mini-metric,
+:root[data-theme="solar"] .hero-panel-card,
+:root[data-theme="solar"] .value-card,
+:root[data-theme="solar"] .gallery-shell,
+:root[data-theme="solar"] .project-card,
+:root[data-theme="solar"] .cta-panel,
+:root[data-theme="solar"] .footer-panel,
+:root[data-theme="solar"] .landing-service-card,
+:root[data-theme="solar"] .faq-item {
+  background-color: rgba(var(--ps-surface-rgb), 0.78) !important;
+  border-color: rgba(var(--ps-accent-2-rgb), 0.22) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+}
+:root[data-theme="solar"] .landing-header { background-color: rgba(var(--ps-surface-rgb), 0.86) !important; }
+/* Fotos: menos oscurecidas */
+:root[data-theme="solar"] .showcase-slide__image,
+:root[data-theme="solar"] .about-image-frame img { filter: saturate(0.95) contrast(1.05) brightness(0.9) !important; }
+:root[data-theme="solar"] .showcase-slide__content { background: linear-gradient(180deg, transparent 35%, rgba(var(--ps-deep-rgb), 0.82) 100%) !important; }
+/* Botones secundarios con borde visible */
+:root[data-theme="solar"] .landing-button--ghost { border-color: rgba(var(--ps-text-rgb), 0.28) !important; background: rgba(var(--ps-text-rgb), 0.05) !important; }
+
+/* Franja de especialidades legible (ambos temas) */
+.landing-shell .logo-marquee { padding-top: 0.9rem; padding-bottom: 0.9rem; }
+.landing-shell .logo-pill {
+  color: rgba(var(--ps-text-rgb), 0.92) !important;
+  border-color: rgba(var(--ps-accent-2-rgb), 0.38) !important;
+  background: rgba(var(--ps-accent-rgb), 0.10) !important;
+  font-weight: 800;
+}
+:root[data-theme="solar"] .investment-section { background: var(--ps-warm) !important; border: 1px solid rgba(var(--ps-accent-2-rgb), 0.2); }
+:root[data-theme="solar"] .investment-section__backdrop { opacity: 0.55; }
+:root[data-theme="solar"] .benefit-card { background: rgba(var(--ps-surface-rgb), 0.72) !important; border-color: rgba(var(--ps-accent-2-rgb), 0.22) !important; }
