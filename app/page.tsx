@@ -121,6 +121,37 @@ const portfolioItems = [
 // Mientras la lista esté vacía, la sección y sus enlaces no se muestran.
 const testimonials: Array<{ quote: string; name: string; role: string }> = [];
 
+const regulations = [
+  { icon: '⚡', code: 'RETIE', name: 'Reglamento Técnico de Instalaciones Eléctricas',
+    what: 'Norma obligatoria del Ministerio de Minas y Energía que garantiza que las instalaciones eléctricas sean seguras para las personas y los inmuebles.',
+    message: 'Todas nuestras instalaciones cumplen con la certificación RETIE, garantizando la máxima seguridad eléctrica y el cumplimiento normativo exigido en Colombia.' },
+  { icon: '🔌', code: 'CREG 174 de 2021', name: 'Autogeneración a pequeña escala (AGPE)',
+    what: 'Resolución de la Comisión de Regulación de Energía y Gas que permite a hogares y empresas generar su propia energía solar y entregar sus excedentes a la red pública.',
+    message: 'Aprovecha tus excedentes: la energía que no consumas puede venderse o intercambiarse con la red, reduciendo aún más tu factura.' },
+  { icon: '🏛️', code: 'Ley 1715 de 2014 · Ley 2099 de 2021', name: 'Incentivos tributarios',
+    what: 'Marco legal de la transición energética en Colombia que otorga beneficios fiscales a quienes invierten en energías renovables.',
+    message: 'Exclusión de IVA, 0 % de aranceles y deducción de hasta el 50 % de la inversión en el impuesto de renta, previo registro del proyecto.' },
+];
+
+const warranties = [
+  { icon: '☀️', item: 'Paneles solares', detail: 'Garantía de producto de 12 a 15 años y de potencia hasta 25 años, según el fabricante.' },
+  { icon: '🔄', item: 'Inversores', detail: 'De 5 a 10 años, según el fabricante y el modelo.' },
+  { icon: '🏗️', item: 'Montaje e ingeniería civil', detail: 'Garantía directa de PROSOINPEN sobre estructuras y sellado de cubiertas.' },
+];
+
+const brands = [
+  { name: 'Jinko Solar', type: 'Paneles' },
+  { name: 'LONGi', type: 'Paneles' },
+  { name: 'Huawei', type: 'Inversores' },
+  { name: 'Growatt', type: 'Inversores' },
+];
+
+const postSales = [
+  { icon: '🧽', title: 'Limpieza de paneles', text: 'Limpieza periódica para mantener la máxima generación.' },
+  { icon: '🌡️', title: 'Inspección termográfica', text: 'Detección temprana de puntos calientes (hotspots) en los módulos.' },
+  { icon: '🛠️', title: 'Soporte técnico local', text: 'Atención preventiva y correctiva en la región.' },
+];
+
 const faqs = [
   { question: '¿Qué mantenimiento requieren los paneles?', answer: 'Recomendamos una revisión preventiva y limpieza técnica periódica. Nuestro equipo también puede monitorear el rendimiento de forma remota.' },
   { question: '¿Qué garantía tienen los sistemas?', answer: 'La cobertura depende del equipo y del proyecto. Presentamos las garantías de componentes, instalación y rendimiento de forma clara en cada propuesta.' },
@@ -496,6 +527,7 @@ export default function Home() {
         <div className="gallery-quick-tabs" aria-label="Accesos rápidos">
           <span className="gallery-quick-tabs__label">Explorar</span>
           <a href="#calculadora" className="gallery-quick-tab">Calculadora</a>
+          <a href="#respaldo" className="gallery-quick-tab">Normativa y garantías</a>
           {testimonials.length > 0 ? <a href="#testimonios" className="gallery-quick-tab">Testimonios</a> : null}
           <a href="#faq" className="gallery-quick-tab">Preguntas</a>
           <a href="/proyectos" className="gallery-quick-tab">Galería completa</a>
@@ -759,6 +791,88 @@ export default function Home() {
             </div>
           </section>
 
+          <section id="respaldo" className="trust mt-12" aria-labelledby="respaldo-titulo">
+            <div className="landing-section-heading">
+              <span className="section-badge">Respaldo técnico y legal</span>
+              <h2 id="respaldo-titulo" className="section-title section-title--left">Seguridad en cada etapa de tu proyecto.</h2>
+              <p className="landing-section-description">Normativa colombiana, equipos de fabricantes reconocidos, monitoreo en tiempo real y soporte después de la instalación.</p>
+            </div>
+
+            {/* Marco regulatorio */}
+            <h3 className="trust__title">Marco regulatorio en Colombia</h3>
+            <div className="trust-reg">
+              {regulations.map((r) => (
+                <article key={r.code} className="trust-reg__card">
+                  <span className="trust-reg__icon" aria-hidden="true">{r.icon}</span>
+                  <span className="trust-reg__code">{r.code}</span>
+                  <h4>{r.name}</h4>
+                  <p className="trust-reg__what">{r.what}</p>
+                  <p className="trust-reg__msg">{r.message}</p>
+                </article>
+              ))}
+            </div>
+
+            {/* Garantías y marcas */}
+            <div className="trust-grid">
+              <div className="trust-box">
+                <h3 className="trust__title">Garantías y equipos de calidad</h3>
+                <ul className="trust-warranty">
+                  {warranties.map((w) => (
+                    <li key={w.item}>
+                      <span className="trust-warranty__icon" aria-hidden="true">{w.icon}</span>
+                      <div><b>{w.item}</b><span>{w.detail}</span></div>
+                    </li>
+                  ))}
+                </ul>
+                <p className="trust-brands__label">Trabajamos con equipos de fabricantes reconocidos</p>
+                <div className="trust-brands">
+                  {brands.map((b) => (
+                    <span key={b.name} className="trust-brand"><b>{b.name}</b><small>{b.type}</small></span>
+                  ))}
+                </div>
+                <p className="trust-note">Las garantías de equipos corresponden a las de cada fabricante y se detallan en la propuesta de tu proyecto.</p>
+              </div>
+
+              {/* Monitoreo */}
+              <div className="trust-box trust-box--monitor">
+                <div>
+                  <h3 className="trust__title">Monitoreo en tiempo real</h3>
+                  <p className="trust-text">Después de la instalación sigues tu sistema desde el celular: energía generada, ahorro y alertas de mantenimiento.</p>
+                  <ul className="trust-checks">
+                    <li>Energía generada cada día en kWh</li>
+                    <li>Ahorro económico estimado en COP</li>
+                    <li>Diagnóstico y alertas automáticas</li>
+                  </ul>
+                </div>
+                <div className="phone" aria-label="Ejemplo ilustrativo de la aplicación de monitoreo">
+                  <div className="phone__screen">
+                    <div className="phone__top"><span>Mi sistema solar</span><i>● En línea</i></div>
+                    <div className="phone__big"><small>Generado hoy</small><b>18,6 <em>kWh</em></b></div>
+                    <div className="phone__bars" aria-hidden="true">
+                      {[20, 35, 55, 78, 92, 100, 88, 70, 48, 26].map((h, i) => <span key={i} style={{ height: `${h}%` }} />)}
+                    </div>
+                    <div className="phone__row"><span>Ahorro del mes</span><b>$412.300</b></div>
+                    <div className="phone__row"><span>CO₂ evitado</span><b>70 kg</b></div>
+                    <div className="phone__alert">✓ Sin alertas · próxima limpieza en 12 días</div>
+                  </div>
+                  <span className="phone__tag">Ejemplo ilustrativo</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Postventa */}
+            <h3 className="trust__title">Mantenimiento y soporte postventa</h3>
+            <div className="trust-post">
+              {postSales.map((s) => (
+                <div key={s.title} className="trust-post__item">
+                  <span aria-hidden="true">{s.icon}</span>
+                  <b>{s.title}</b>
+                  <p>{s.text}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
           <section id="calculadora" className="solar-calculator mt-12">
             <div className="landing-section-heading">
               <span className="section-badge">Estimador solar</span>
@@ -942,6 +1056,22 @@ export default function Home() {
                   </div>
                 );
               })}
+            </div>
+          </section>
+
+          <section className="legal-card mt-12" aria-labelledby="legal-titulo">
+            <header className="legal-card__head">
+              <span className="section-badge">Marco regulatorio y legal</span>
+              <h2 id="legal-titulo">Garantizamos la legalización y certificación de tu proyecto</h2>
+            </header>
+            <div className="legal-card__grid">
+              <div className="legal-card__item"><span className="legal-card__icon" aria-hidden="true">⚡</span><b>RETIE</b><p>Diseño y montaje bajo la norma de seguridad eléctrica.</p></div>
+              <div className="legal-card__item"><span className="legal-card__icon" aria-hidden="true">🔌</span><b>CREG 174 de 2021</b><p>Venta e inyección de excedentes a la red pública.</p></div>
+              <div className="legal-card__item"><span className="legal-card__icon" aria-hidden="true">🏛️</span><b>Ley 1715 / 2099</b><p>Beneficios tributarios: deducción de hasta el 50 % en renta y exclusión de IVA.</p></div>
+            </div>
+            <div className="legal-card__foot">
+              <span className="legal-card__icon" aria-hidden="true">📜</span>
+              <div><b>Gestión integral con la UPME y el operador de red</b><p>Nos encargamos de todo el papeleo legal con tu operador de red local.</p></div>
             </div>
           </section>
 
