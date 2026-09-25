@@ -3175,3 +3175,6 @@ h3,
   .impact-band__stats > div:nth-child(even) { padding-left: .9rem; border-left: 1px solid rgba(245,241,237,.16); }
   .impact-band__stats > div:nth-child(n+3) { border-top: 1px solid rgba(245,241,237,.16); }
 }
+
+/* Slider con fotos de la galería: puntos que se acomodan en varias filas */
+.showcase-dots { flex-wrap: wrap; gap: 0.45rem; padding: 0 1rem; }

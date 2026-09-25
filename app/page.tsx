@@ -174,7 +174,44 @@ const faqs: Array<{ category: FaqCategory; question: string; answer: string }> =
   { category: 'instalacion', question: '¿Cuánto tiempo toma la instalación y puesta en marcha del proyecto?', answer: 'El montaje físico en techo o estructura toma entre 2 y 5 días según el tamaño del sistema. El proceso completo, incluidos los trámites de legalización y conexión ante el operador de red, toma en promedio de 4 a 8 semanas.' },
 ];
 
-const showcaseSlides: Array<{ title: string; subtitle: string; image: string; position?: string }> = [
+type ShowcaseSlide = { title: string; subtitle: string; image: string; position?: string };
+
+/** Máximo de fotos de la galería (subidas desde el panel) que se suman al slider. */
+const MAX_UPLOADED_SLIDES = 20;
+
+type GalleryApiProject = {
+  title: string;
+  location?: string;
+  categoryName?: string;
+  coverImage?: string;
+  images?: Array<{ url: string; caption?: string }>;
+  featured?: boolean;
+};
+
+function slidesFromProjects(projects: GalleryApiProject[]): ShowcaseSlide[] {
+  // Intercala las fotos de cada proyecto (portada primero) para que el slider
+  // muestre variedad y no solo las fotos del primer proyecto.
+  const ordered = [...projects].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
+  const queues = ordered.map((project) => {
+    const subtitle = [project.location, project.categoryName].filter(Boolean).join(' · ');
+    const imgs = [...(project.coverImage ? [{ url: project.coverImage, caption: '' }] : []), ...(project.images ?? [])];
+    return imgs.map((img) => ({ title: project.title, subtitle: img.caption?.trim() || subtitle, image: img.url?.trim() ?? '' }));
+  });
+  const seen = new Set<string>();
+  const out: ShowcaseSlide[] = [];
+  for (let round = 0; out.length < MAX_UPLOADED_SLIDES && queues.some((q) => q.length > round); round += 1) {
+    for (const queue of queues) {
+      const slide = queue[round];
+      if (!slide || !slide.image || seen.has(slide.image) || !/^(https:\/\/|\/)/.test(slide.image)) continue;
+      seen.add(slide.image);
+      out.push(slide);
+      if (out.length >= MAX_UPLOADED_SLIDES) break;
+    }
+  }
+  return out;
+}
+
+const showcaseSlides: ShowcaseSlide[] = [
   {
     title: 'Instalación industrial',
     subtitle: 'Paneles y almacenamiento para alta demanda',
@@ -294,6 +331,9 @@ const suggestedTariff = (region: CalcRegionId, profileId: CalcProfileId) => {
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [uploadedSlides, setUploadedSlides] = useState<ShowcaseSlide[]>([]);
+  const allSlides = [...showcaseSlides, ...uploadedSlides];
+  const slideCount = allSlides.length;
   const [aboutIndex, setAboutIndex] = useState(0);
   const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'sent' | 'mailto' | 'error'>('idle');
   const [contactError, setContactError] = useState('');
@@ -373,13 +413,27 @@ export default function Home() {
     document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  // Suma al slider las fotos cargadas desde el panel de administración (galería).
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/projects', { cache: 'no-store' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { projects?: GalleryApiProject[] } | null) => {
+        if (!cancelled && data?.projects?.length) setUploadedSlides(slidesFromProjects(data.projects));
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveIndex((previous) => (previous + 1) % showcaseSlides.length);
+      setActiveIndex((previous) => (previous + 1) % slideCount);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [slideCount]);
 
   useEffect(() => {
     if (!logoOpen) return;
@@ -572,8 +626,8 @@ export default function Home() {
               className="showcase-track"
               style={{ transform: `translateX(-${activeIndex * 100}%)` }}
             >
-              {showcaseSlides.map((slide) => (
-                <article key={slide.title} className="showcase-slide">
+              {allSlides.map((slide, index) => (
+                <article key={`${slide.image}-${index}`} className="showcase-slide">
                   <img src={slide.image} alt={slide.title} className="showcase-slide__image" style={slide.position ? { objectPosition: slide.position } : undefined} loading="lazy" />
                   <div className="showcase-slide__content">
                     <span className="showcase-slide__label">PROSOINPEN S.A.S.</span>
@@ -586,9 +640,9 @@ export default function Home() {
           </div>
 
           <div className="showcase-dots" aria-label="Selector de imagen">
-            {showcaseSlides.map((slide, index) => (
+            {allSlides.map((slide, index) => (
               <button
-                key={`${slide.title}-dot`}
+                key={`${slide.image}-${index}-dot`}
                 type="button"
                 aria-label={`Ver imagen ${index + 1}`}
                 className={`showcase-dot ${index === activeIndex ? 'active' : ''}`}
