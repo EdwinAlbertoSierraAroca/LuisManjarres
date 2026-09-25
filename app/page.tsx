@@ -185,18 +185,59 @@ function PillIcon({ label }: { label: string }) {
 }
 
 type CalcProfileId = 'residencial' | 'rural' | 'comercial' | 'industrial';
-/** Perfiles del estimador. coverage: % del consumo cubierto por defecto; costFactor: ajuste del costo por kWp. */
-const CALC_PROFILES: Array<{ id: CalcProfileId; icon: string; label: string; tagline: string; coverage: number; costFactor: number; battery: boolean; autonomyDays: number; tax: boolean; note: string }> = [
-  { id: 'residencial', icon: '🏠', label: 'Residencial', tagline: 'Ahorro en hogares', coverage: 80, costFactor: 1, battery: false, autonomyDays: 0, tax: false,
-    note: 'Sistema conectado a la red para reducir la factura de tu hogar. Los excedentes pueden entregarse a la red según la regulación vigente.' },
-  { id: 'rural', icon: '🌾', label: 'Rural / Fincas', tagline: 'Baterías e independencia', coverage: 100, costFactor: 1.15, battery: true, autonomyDays: 1, tax: false,
-    note: 'Sistema aislado o híbrido con baterías de litio: energía propia día y noche, independencia de la red pública y bombeo de agua en veredas y pueblos.' },
-  { id: 'comercial', icon: '🏢', label: 'Comercial', tagline: 'Ahorro en horario diurno', coverage: 70, costFactor: 0.95, battery: false, autonomyDays: 0, tax: true,
-    note: 'Ideal para negocios que consumen energía de día: la generación solar coincide con el horario de operación y reduce el costo operativo.' },
-  { id: 'industrial', icon: '🏭', label: 'Industrial', tagline: 'Gran escala y beneficios fiscales', coverage: 60, costFactor: 0.88, battery: false, autonomyDays: 0, tax: true,
-    note: 'Proyectos de gran escala que pueden acceder a los incentivos de la Ley 1715 de 2014: deducción en renta, exclusión de IVA, exención de aranceles y depreciación acelerada.' },
+type CostTier = [maxKwp: number, copPerKwp: number];
+
+/**
+ * Perfiles del estimador. Cada perfil ajusta: escala de costo por kWp, tarifa sugerida,
+ * cobertura por defecto, respaldo con baterías y relevancia de los incentivos tributarios.
+ * Todos los valores son REFERENCIAS comerciales; ajústalos con los precios reales de PROSOINPEN.
+ */
+const CALC_PROFILES: Array<{
+  id: CalcProfileId; icon: string; label: string; tagline: string; scale: string;
+  coverage: number; tariffFactor: number; costTiers: CostTier[]; battery: boolean; autonomyDays: number;
+  taxFocus: boolean; note: string; kwhMax: number; kwhStep: number;
+}> = [
+  { id: 'residencial', icon: '🏠', label: 'Residencial', tagline: 'Ahorro en hogares', scale: 'Sistemas de 2 a 8 kWp',
+    coverage: 80, tariffFactor: 1, costTiers: [[3, 4750000], [8, 4200000], [Infinity, 3800000]], battery: false, autonomyDays: 0, taxFocus: false,
+    kwhMax: 3000, kwhStep: 25,
+    note: 'Sistema conectado a la red para reducir la factura de tu hogar. A pequeña escala los costos fijos de logística, estructura e ingeniería pesan más por kWp.' },
+  { id: 'rural', icon: '🌾', label: 'Rural / Fincas', tagline: 'Baterías e independencia', scale: 'Sistemas de 2 a 8 kWp + baterías',
+    coverage: 100, tariffFactor: 1.05, costTiers: [[3, 4950000], [8, 4400000], [Infinity, 4000000]], battery: true, autonomyDays: 1, taxFocus: false,
+    kwhMax: 3000, kwhStep: 25,
+    note: 'En veredas y zonas rurales la continuidad del servicio es la prioridad: sistema híbrido con baterías de litio para tener energía día y noche, independencia de la red pública y bombeo de agua.' },
+  { id: 'comercial', icon: '🏢', label: 'Comercial', tagline: 'Ahorro en horario diurno', scale: 'Sistemas de 15 a 100 kWp',
+    coverage: 70, tariffFactor: 1.2, costTiers: [[15, 3700000], [50, 3300000], [Infinity, 3000000]], battery: false, autonomyDays: 0, taxFocus: true,
+    kwhMax: 20000, kwhStep: 100,
+    note: 'La generación solar coincide con el horario de operación del negocio. A mayor escala baja el costo por kWp y la inversión es más eficiente por unidad de energía.' },
+  { id: 'industrial', icon: '🏭', label: 'Industrial', tagline: 'Gran escala y beneficios fiscales', scale: 'Sistemas de más de 100 kWp',
+    coverage: 60, tariffFactor: 0.95, costTiers: [[50, 3200000], [100, 2900000], [Infinity, 2600000]], battery: false, autonomyDays: 0, taxFocus: true,
+    kwhMax: 80000, kwhStep: 500,
+    note: 'Proyectos de gran escala con economías de escala y acceso a los incentivos tributarios de la Ley 1715 de 2014 (modificada por la Ley 2099 de 2021).' },
 ];
-const BATTERY_COST_PER_KWH = 1400000; // referencia COP por kWh de almacenamiento en litio
+
+/** Tarifa residencial de referencia (COP/kWh) por región; el perfil aplica su factor sectorial. */
+const CALC_REGIONS = [
+  { id: 'caribe', label: 'Región Caribe', tariff: 1050 },
+  { id: 'antioquia', label: 'Antioquia', tariff: 850 },
+  { id: 'bogota', label: 'Bogotá y Cundinamarca', tariff: 880 },
+  { id: 'santanderes', label: 'Santanderes', tariff: 930 },
+  { id: 'occidente', label: 'Eje Cafetero y Valle', tariff: 870 },
+  { id: 'llanos', label: 'Llanos Orientales', tariff: 950 },
+  { id: 'otra', label: 'Otra región', tariff: 900 },
+] as const;
+type CalcRegionId = (typeof CALC_REGIONS)[number]['id'];
+
+const BATTERY_COST_PER_KWH = 1400000; // COP por kWh de almacenamiento en litio (referencia)
+const GRID_CO2_KG_PER_KWH = 0.126;    // factor de emisión de referencia del sistema eléctrico colombiano
+const TREE_CO2_KG_PER_YEAR = 19;      // absorción aproximada de un árbol al año
+const CAR_CO2_KG_PER_KM = 0.19;       // emisión aproximada de un vehículo a gasolina
+const CORPORATE_TAX_RATE = 0.35;      // tarifa general de renta para personas jurídicas
+
+const suggestedTariff = (region: CalcRegionId, profileId: CalcProfileId) => {
+  const base = CALC_REGIONS.find((r) => r.id === region)?.tariff ?? 900;
+  const factor = CALC_PROFILES.find((p) => p.id === profileId)?.tariffFactor ?? 1;
+  return Math.round((base * factor) / 10) * 10;
+};
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -218,7 +259,9 @@ export default function Home() {
   const [calcProfile, setCalcProfile] = useState<CalcProfileId>('residencial');
   const [monthlyKwh, setMonthlyKwh] = useState(450);
   const [monthlyBill, setMonthlyBill] = useState(380000);
-  const [energyRate, setEnergyRate] = useState(850);
+  const [calcRegion, setCalcRegion] = useState<CalcRegionId>('caribe');
+  const [energyRate, setEnergyRate] = useState(() => suggestedTariff('caribe', 'residencial'));
+  const [withBattery, setWithBattery] = useState(false);
   const [solarCoverage, setSolarCoverage] = useState(80);
   const [openFaq, setOpenFaq] = useState<string | null>(faqs[0]?.question ?? null);
 
@@ -229,25 +272,43 @@ export default function Home() {
   const coveredKwh = effectiveKwh * (solarCoverage / 100);
   const suggestedKwp = Math.max(1, Number((coveredKwh / (4.5 * 30 * 0.8)).toFixed(1)));
   const estimatedPanels = Math.max(3, Math.ceil((suggestedKwp * 1000) / 550));
-  const baseCostPerKwp = suggestedKwp <= 3 ? 4750000 : suggestedKwp <= 8 ? 4050000 : suggestedKwp <= 20 ? 3550000 : 3000000;
-  const costPerKwp = Math.round(baseCostPerKwp * profile.costFactor);
-  const batteryKwh = profile.battery ? Math.max(2.5, Number(((effectiveKwh / 30) * profile.autonomyDays).toFixed(1))) : 0;
+  const costPerKwp = (profile.costTiers.find(([max]) => suggestedKwp <= max) ?? profile.costTiers[profile.costTiers.length - 1])[1];
+  const batteryKwh = withBattery ? Math.max(2.5, Number(((effectiveKwh / 30) * Math.max(profile.autonomyDays, 1)).toFixed(1))) : 0;
   const batteryCost = Math.round(batteryKwh * BATTERY_COST_PER_KWH);
   const estimatedInvestment = Math.round(suggestedKwp * costPerKwp + batteryCost);
   const estimatedMonthlySavings = Math.round(coveredKwh * energyRate);
   const estimatedAnnualSavings = estimatedMonthlySavings * 12;
   const estimatedPayback = estimatedAnnualSavings > 0 ? (estimatedInvestment / estimatedAnnualSavings).toFixed(1) : '0';
-  const taxBenefit = profile.tax ? Math.round(estimatedInvestment * 0.5) : 0;
+  // Impacto ambiental
+  const annualKwh = Math.round(coveredKwh * 12);
+  const co2Kg = annualKwh * GRID_CO2_KG_PER_KWH;
+  const co2Tons = co2Kg / 1000;
+  const treesEquivalent = Math.round(co2Kg / TREE_CO2_KG_PER_YEAR);
+  const kmEquivalent = Math.round(co2Kg / CAR_CO2_KG_PER_KM);
+  // Incentivos Ley 1715 / 2099
+  const deductibleAmount = Math.round(estimatedInvestment * 0.5);
+  const taxSavings = Math.round(deductibleAmount * CORPORATE_TAX_RATE);
+  const netInvestment = estimatedInvestment - taxSavings;
+  const netPayback = estimatedAnnualSavings > 0 ? (netInvestment / estimatedAnnualSavings).toFixed(1) : '0';
 
   function selectProfile(id: CalcProfileId) {
+    const next = CALC_PROFILES.find((p) => p.id === id) ?? CALC_PROFILES[0];
     setCalcProfile(id);
-    setSolarCoverage(CALC_PROFILES.find((p) => p.id === id)?.coverage ?? 80);
+    setSolarCoverage(next.coverage);
+    setWithBattery(next.battery);
+    setEnergyRate(suggestedTariff(calcRegion, id));
+    setMonthlyKwh((v) => Math.min(v, next.kwhMax));
+  }
+
+  function selectRegion(id: CalcRegionId) {
+    setCalcRegion(id);
+    setEnergyRate(suggestedTariff(id, calcProfile));
   }
 
   function requestCalcStudy() {
     const msg = [
       'Hola, quiero un estudio personalizado.',
-      `Perfil: ${profile.label}`,
+      `Perfil: ${profile.label} · ${CALC_REGIONS.find((r) => r.id === calcRegion)?.label ?? ''}`,
       `Consumo mensual: ${effectiveKwh.toLocaleString('es-CO')} kWh`,
       `Factura mensual aproximada: $${effectiveBill.toLocaleString('es-CO')}`,
       `Sistema estimado: ${suggestedKwp.toLocaleString('es-CO')} kWp (${estimatedPanels} paneles aprox.)${batteryKwh ? ` + ${batteryKwh.toLocaleString('es-CO')} kWh en baterías` : ''}`,
@@ -721,7 +782,7 @@ export default function Home() {
                 </button>
               ))}
             </div>
-            <p className="calc-profile-note">{profile.note}</p>
+            <p className="calc-profile-note"><b>{profile.scale}.</b> {profile.note}</p>
 
             <div className="solar-calculator__body" aria-label="Calculadora de ahorro solar">
               <div className="solar-calculator__controls">
@@ -733,8 +794,8 @@ export default function Home() {
                 {calcMode === 'kwh' ? (
                   <label className="solar-calculator__input">
                     <span>Consumo mensual: <strong>{monthlyKwh.toLocaleString('es-CO')} kWh</strong></span>
-                    <input aria-label="Consumo mensual en kWh" type="range" min="50" max={profile.id === 'industrial' ? 60000 : profile.id === 'comercial' ? 15000 : 3000} step={profile.id === 'industrial' ? 500 : 50} value={monthlyKwh} onChange={(event) => setMonthlyKwh(Number(event.target.value))} />
-                    <div className="solar-calculator__range"><span>50 kWh</span><span>{(profile.id === 'industrial' ? 60000 : profile.id === 'comercial' ? 15000 : 3000).toLocaleString('es-CO')} kWh</span></div>
+                    <input aria-label="Consumo mensual en kWh" type="range" min="50" max={profile.kwhMax} step={profile.kwhStep} value={monthlyKwh} onChange={(event) => setMonthlyKwh(Number(event.target.value))} />
+                    <div className="solar-calculator__range"><span>50 kWh</span><span>{profile.kwhMax.toLocaleString('es-CO')} kWh</span></div>
                     <small className="calc-hint">Lo encuentras en tu factura como “consumo del mes” (≈ ${effectiveBill.toLocaleString('es-CO')} al mes).</small>
                   </label>
                 ) : (
@@ -756,14 +817,26 @@ export default function Home() {
                 )}
 
                 <label className="solar-calculator__input">
-                  <span>Tarifa de energía: <strong>${energyRate.toLocaleString('es-CO')} / kWh</strong></span>
-                  <input aria-label="Tarifa de energía en pesos colombianos" type="range" min="400" max="1400" step="50" value={energyRate} onChange={(event) => setEnergyRate(Number(event.target.value))} />
-                  <div className="solar-calculator__range"><span>$400</span><span>$1.400</span></div>
+                  <span>Región</span>
+                  <select className="calc-select" value={calcRegion} onChange={(event) => selectRegion(event.target.value as CalcRegionId)} aria-label="Región del proyecto">
+                    {CALC_REGIONS.map((r) => <option key={r.id} value={r.id}>{r.label}</option>)}
+                  </select>
+                  <small className="calc-hint">Sugerimos una tarifa de referencia para tu región y tipo de cliente. Puedes ajustarla con el valor de tu factura.</small>
+                </label>
+                <label className="solar-calculator__input">
+                  <span>Tarifa de energía: <strong>${energyRate.toLocaleString('es-CO')} / kWh</strong> <em className="calc-suggested">{energyRate === suggestedTariff(calcRegion, calcProfile) ? 'sugerida' : 'ajustada'}</em></span>
+                  <input aria-label="Tarifa de energía en pesos colombianos" type="range" min="400" max="1600" step="10" value={energyRate} onChange={(event) => setEnergyRate(Number(event.target.value))} />
+                  <div className="solar-calculator__range"><span>$400</span><span>$1.600</span></div>
                 </label>
                 <label className="solar-calculator__input">
                   <span>Cobertura solar estimada: <strong>{solarCoverage}%</strong></span>
                   <input aria-label="Cobertura solar estimada" type="range" min="30" max="100" step="5" value={solarCoverage} onChange={(event) => setSolarCoverage(Number(event.target.value))} />
                   <div className="solar-calculator__range"><span>30%</span><span>100%</span></div>
+                </label>
+                <label className="calc-switch">
+                  <input type="checkbox" checked={withBattery} onChange={(event) => setWithBattery(event.target.checked)} />
+                  <span className="calc-switch__track" aria-hidden="true" />
+                  <span><b>Respaldo con baterías de litio</b><small>{profile.id === 'rural' ? 'Recomendado en zonas rurales: energía aun cuando falla la red.' : 'Opcional: energía de respaldo ante cortes.'}</small></span>
                 </label>
               </div>
 
@@ -778,14 +851,38 @@ export default function Home() {
                 <div><span>Ahorro anual estimado</span><strong>${estimatedAnnualSavings.toLocaleString('es-CO')}</strong></div>
                 <div><span>Retorno aproximado</span><strong>{estimatedPayback.replace('.', ',')} años</strong></div>
                 <div><span>Costo promedio instalado</span><strong>${costPerKwp.toLocaleString('es-CO')} / kWp</strong></div>
-                {profile.tax ? (
-                  <div className="calc-tax">
-                    <span>Beneficio fiscal potencial · Ley 1715 de 2014</span>
-                    <strong>Hasta ${taxBenefit.toLocaleString('es-CO')}</strong>
-                    <small>Deducción en renta de hasta el 50 % de la inversión, distribuible en varios años, más exclusión de IVA y exención de aranceles. Requiere certificación ante la UPME; consulta con tu contador.</small>
+                <div className="calc-eco">
+                  <span>🌱 Impacto ambiental</span>
+                  <strong>{co2Tons.toLocaleString('es-CO', { maximumFractionDigits: 1 })} t de CO₂ evitadas al año</strong>
+                  <ul>
+                    <li>🌳 Equivale a sembrar <b>{treesEquivalent.toLocaleString('es-CO')} árboles</b> cada año.</li>
+                    <li>🚗 Equivale a no recorrer <b>{kmEquivalent.toLocaleString('es-CO')} km</b> en vehículo.</li>
+                  </ul>
+                  <small>Basado en {annualKwh.toLocaleString('es-CO')} kWh generados al año × {GRID_CO2_KG_PER_KWH.toLocaleString('es-CO')} kg CO₂/kWh.</small>
+                </div>
+
+                <details className={`calc-tax ${profile.taxFocus ? 'is-focus' : ''}`} open={profile.taxFocus} key={profile.taxFocus ? 'tax-open' : 'tax-closed'}>
+                  <summary>
+                    <span>📜 Beneficio tributario · Ley 1715 de 2014 y Ley 2099 de 2021</span>
+                    {profile.taxFocus ? (
+                      <strong>Costo neto estimado: ${netInvestment.toLocaleString('es-CO')}</strong>
+                    ) : (
+                      <strong className="calc-tax__small">¿Declaras renta? También puedes aplicar</strong>
+                    )}
+                  </summary>
+                  <div className="calc-tax__rows">
+                    <div><span>Deducción en renta (hasta 50 % de la inversión, hasta 15 años)</span><b>${deductibleAmount.toLocaleString('es-CO')}</b></div>
+                    <div><span>Ahorro estimado en impuesto (tarifa del {Math.round(CORPORATE_TAX_RATE * 100)} %)</span><b>${taxSavings.toLocaleString('es-CO')}</b></div>
+                    <div><span>Retorno considerando el beneficio</span><b>{netPayback.replace('.', ',')} años</b></div>
                   </div>
-                ) : null}
-                <button type="button" onClick={requestCalcStudy} className="landing-button landing-button--primary">Solicitar estudio real</button>
+                  <ul className="calc-tax__list">
+                    <li><b>Depreciación acelerada:</b> hasta 33,33 % anual de los activos.</li>
+                    <li><b>Exclusión de IVA (19 %)</b> en equipos, elementos y servicios del proyecto.</li>
+                    <li><b>0 % de arancel</b> en la importación de maquinaria y equipos.</li>
+                  </ul>
+                  <small>Aplica a declarantes de renta, personas jurídicas y naturales. Requiere certificación del proyecto ante la UPME y la ANLA según corresponda. Los valores son estimaciones: valida con tu contador.</small>
+                </details>
+                <button type="button" onClick={requestCalcStudy} className="landing-button landing-button--primary">Solicitar estudio técnico y fiscal</button>
               </div>
             </div>
             <p className="solar-calculator__note">Referencia orientativa para Colombia. La tarifa, la radiación, el tipo de techo, los excedentes y las condiciones del proyecto pueden cambiar el resultado final. No constituye una cotización.</p>
