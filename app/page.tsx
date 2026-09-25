@@ -198,6 +198,7 @@ const showcaseSlides: Array<{ title: string; subtitle: string; image: string; po
   { title: 'Energía en la cordillera', subtitle: 'Paneles instalados en terrenos de difícil acceso', image: '/images/web/panel-cordillera.jpg', position: 'center 55%' },
   { title: 'Vivienda rural en ladera', subtitle: 'Soluciones solares para comunidades apartadas', image: '/images/web/ladera-montana.jpg', position: 'center 62%' },
   { title: 'Autoconsumo residencial', subtitle: 'Sistemas sobre cubierta en conjuntos residenciales', image: '/images/web/conjunto-residencial.jpg', position: 'center 70%' },
+  { title: 'Montaje en cubierta', subtitle: 'Nuestro equipo técnico instalando módulos en un proyecto residencial', image: '/images/web/montaje-cubierta.jpg', position: 'center 26%' },
   { title: 'Cubiertas que generan', subtitle: 'Módulos monocristalinos para hogares y empresas', image: '/images/web/cubierta-residencial.jpg', position: 'center 60%' },
 ];
 
