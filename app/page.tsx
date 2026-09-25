@@ -172,6 +172,18 @@ const aboutImages = [
 ];
 const ABOUT_ROTATION_MS = 5000;
 
+/** Íconos de línea para la franja de especialidades (heredan el color del texto). */
+function PillIcon({ label }: { label: string }) {
+  const p = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  const l = label.toLowerCase();
+  let path: JSX.Element;
+  if (l.includes('fotovolt')) path = <><rect x="3" y="4" width="18" height="11" rx="1" {...p} /><path d="M3 9.5h18M9 4v11M15 4v11M12 15v5M8 20h8" {...p} /></>;
+  else if (l.includes('ingenier')) path = <><circle cx="12" cy="12" r="3" {...p} /><path d="M12 2.5v3M12 18.5v3M4.2 7l2.6 1.5M17.2 15.5l2.6 1.5M4.2 17l2.6-1.5M17.2 8.5l2.6-1.5" {...p} /></>;
+  else if (l.includes('obras')) path = <><path d="M3 21h18M5 21V10l7-5 7 5v11" {...p} /><path d="M9 21v-5h6v5" {...p} /></>;
+  else path = <><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3z" {...p} /><path d="M12 12 4 7.5M12 12l8-4.5M12 12v9" {...p} /></>;
+  return <svg className="logo-pill__icon" viewBox="0 0 24 24" aria-hidden="true">{path}</svg>;
+}
+
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [aboutIndex, setAboutIndex] = useState(0);
@@ -426,7 +438,10 @@ export default function Home() {
           <div className="logo-marquee" aria-label="Logos de socios">
             <div className="logo-track">
               {[...partnerLogos, ...partnerLogos].map((logo, index) => (
-                <span key={`${logo}-${index}`} className="logo-pill">{logo}</span>
+                <span key={`${logo}-${index}`} className="logo-pill">
+                  <PillIcon label={logo} />
+                  {logo}
+                </span>
               ))}
             </div>
           </div>

@@ -24,18 +24,20 @@
   --ps-deep-2-rgb: 8, 30, 38;
 }
 :root[data-theme="solar"] {
-  /* Solar refinado: naranja cálido sobre café tostado (antes casi negro) */
-  --ps-accent: #ff6a3d;        --ps-accent-rgb: 255, 106, 61;
-  --ps-accent-2: #ff8a5c;      --ps-accent-2-rgb: 255, 138, 92;
-  --ps-glow: #ffb347;          --ps-glow-rgb: 255, 179, 71;
-  --ps-text: #fbf5ee;          --ps-text-rgb: 251, 245, 238;
-  --ps-on-accent: #1d0c05;
-  --ps-bg-top: #3a1c10;
-  --ps-bg: #1c120d;            --ps-bg-rgb: 28, 18, 13;
-  --ps-deep: #150d09;          --ps-deep-rgb: 21, 13, 9;
-  --ps-surface: #2a1b14;       --ps-surface-rgb: 48, 31, 23;
-  --ps-warm: #33211a;          --ps-warm-rgb: 52, 33, 26;
-  --ps-deep-2-rgb: 36, 24, 18;
+  /* Solar sobrio: charcoal cálido + naranja solo como acento */
+  --ps-accent: #f56b3d;        --ps-accent-rgb: 245, 107, 61;
+  --ps-accent-2: #e8906c;      --ps-accent-2-rgb: 232, 144, 108;
+  --ps-glow: #d8a47f;          --ps-glow-rgb: 216, 164, 127;
+  --ps-text: #f6f1ec;          --ps-text-rgb: 246, 241, 236;
+  --ps-muted-rgb: 196, 184, 174;
+  --ps-on-accent: #1e0f08;
+  --ps-bg-top: #2a1b15;
+  --ps-bg: #241712;            --ps-bg-rgb: 36, 23, 18;
+  --ps-deep: #1f140f;          --ps-deep-rgb: 31, 20, 15;
+  --ps-surface: #2b1c17;       --ps-surface-rgb: 43, 28, 23;
+  --ps-warm: #321f18;          --ps-warm-rgb: 50, 31, 24;
+  --ps-deep-2-rgb: 40, 26, 21;
+  --ps-line: rgba(255, 236, 222, 0.08);
 }
 
 :root {
@@ -2762,40 +2764,6 @@ h3,
 .landing-shell .benefit-card__text { margin-top: 0.3rem; }
 
 
-/* ==========================================================
-   Tema "solar" refinado: más luz, tarjetas visibles, fotos vivas
-   ========================================================== */
-:root[data-theme="solar"] .landing-bg {
-  background:
-    radial-gradient(circle at 50% 6%, rgba(var(--ps-accent-rgb), 0.30), transparent 34%),
-    radial-gradient(circle at 92% 40%, rgba(var(--ps-glow-rgb), 0.12), transparent 26%),
-    radial-gradient(circle at 4% 70%, rgba(var(--ps-accent-rgb), 0.14), transparent 26%),
-    linear-gradient(180deg, var(--ps-bg-top) 0%, var(--ps-bg) 38%, var(--ps-deep) 100%);
-}
-:root[data-theme="solar"] .landing-header,
-:root[data-theme="solar"] .gallery-quick-tabs,
-:root[data-theme="solar"] .logo-marquee,
-:root[data-theme="solar"] .mini-metric,
-:root[data-theme="solar"] .hero-panel-card,
-:root[data-theme="solar"] .value-card,
-:root[data-theme="solar"] .gallery-shell,
-:root[data-theme="solar"] .project-card,
-:root[data-theme="solar"] .cta-panel,
-:root[data-theme="solar"] .footer-panel,
-:root[data-theme="solar"] .landing-service-card,
-:root[data-theme="solar"] .faq-item {
-  background-color: rgba(var(--ps-surface-rgb), 0.78) !important;
-  border-color: rgba(var(--ps-accent-2-rgb), 0.22) !important;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
-}
-:root[data-theme="solar"] .landing-header { background-color: rgba(var(--ps-surface-rgb), 0.86) !important; }
-/* Fotos: menos oscurecidas */
-:root[data-theme="solar"] .showcase-slide__image,
-:root[data-theme="solar"] .about-image-frame img { filter: saturate(0.95) contrast(1.05) brightness(0.9) !important; }
-:root[data-theme="solar"] .showcase-slide__content { background: linear-gradient(180deg, transparent 35%, rgba(var(--ps-deep-rgb), 0.82) 100%) !important; }
-/* Botones secundarios con borde visible */
-:root[data-theme="solar"] .landing-button--ghost { border-color: rgba(var(--ps-text-rgb), 0.28) !important; background: rgba(var(--ps-text-rgb), 0.05) !important; }
-
 /* Franja de especialidades legible (ambos temas) */
 .landing-shell .logo-marquee { padding-top: 0.9rem; padding-bottom: 0.9rem; }
 .landing-shell .logo-pill {
@@ -2807,3 +2775,120 @@ h3,
 :root[data-theme="solar"] .investment-section { background: var(--ps-warm) !important; border: 1px solid rgba(var(--ps-accent-2-rgb), 0.2); }
 :root[data-theme="solar"] .investment-section__backdrop { opacity: 0.55; }
 :root[data-theme="solar"] .benefit-card { background: rgba(var(--ps-surface-rgb), 0.72) !important; border-color: rgba(var(--ps-accent-2-rgb), 0.22) !important; }
+
+
+/* ==========================================================
+   TEMA SOLAR SOBRIO (revisión UX internacional)
+   Superficies planas, bordes sutiles, naranja solo como acento.
+   ========================================================== */
+:root[data-theme="solar"] .landing-bg {
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(var(--ps-accent-rgb), 0.08), transparent 45%),
+    linear-gradient(180deg, var(--ps-bg-top) 0%, var(--ps-bg) 30%, var(--ps-bg) 100%);
+}
+:root[data-theme="solar"] .landing-shell { background: var(--ps-bg); }
+:root[data-theme="solar"] .landing-shell::after { opacity: 0.35; }
+
+/* Tarjetas y paneles: planos, sin sombras, bordes sutiles */
+:root[data-theme="solar"] .gallery-quick-tabs,
+:root[data-theme="solar"] .logo-marquee,
+:root[data-theme="solar"] .mini-metric,
+:root[data-theme="solar"] .hero-panel-card,
+:root[data-theme="solar"] .value-card,
+:root[data-theme="solar"] .gallery-shell,
+:root[data-theme="solar"] .project-card,
+:root[data-theme="solar"] .cta-panel,
+:root[data-theme="solar"] .footer-panel,
+:root[data-theme="solar"] .landing-service-card,
+:root[data-theme="solar"] .faq-item,
+:root[data-theme="solar"] .benefit-card,
+:root[data-theme="solar"] .solar-calculator,
+:root[data-theme="solar"] .portfolio-card--4-card {
+  background: var(--ps-surface) !important;
+  border-color: var(--ps-line) !important;
+  box-shadow: none !important;
+}
+:root[data-theme="solar"] .landing-service-card:hover,
+:root[data-theme="solar"] .value-card:hover,
+:root[data-theme="solar"] .value-card:focus { border-color: rgba(var(--ps-accent-rgb), 0.55) !important; background: var(--ps-warm) !important; box-shadow: none !important; }
+:root[data-theme="solar"] .investment-section { background: var(--ps-surface) !important; border: 1px solid var(--ps-line); }
+:root[data-theme="solar"] .investment-section__backdrop { opacity: 0.35; }
+:root[data-theme="solar"] .big-stat-block { background: var(--ps-warm) !important; border: 1px solid var(--ps-line); }
+:root[data-theme="solar"] .value-card__icon { background: rgba(var(--ps-accent-rgb), 0.12) !important; color: var(--ps-accent) !important; }
+
+/* Textos secundarios en gris cálido */
+:root[data-theme="solar"] .landing-shell p,
+:root[data-theme="solar"] .landing-section-description,
+:root[data-theme="solar"] .hero-copy,
+:root[data-theme="solar"] .cta-copy,
+:root[data-theme="solar"] .value-card p,
+:root[data-theme="solar"] .benefit-card__text,
+:root[data-theme="solar"] .landing-service-card p,
+:root[data-theme="solar"] .faq-item p,
+:root[data-theme="solar"] .footer-copy,
+:root[data-theme="solar"] .footer-list { color: rgb(var(--ps-muted-rgb)) !important; }
+:root[data-theme="solar"] .hero-title--muted { color: rgba(var(--ps-muted-rgb), 0.75) !important; }
+
+/* Encabezado limpio: una sola superficie, controles discretos */
+:root[data-theme="solar"] .landing-header {
+  background: rgba(var(--ps-surface-rgb), 0.92) !important;
+  border: 1px solid var(--ps-line) !important;
+  box-shadow: none !important;
+}
+:root[data-theme="solar"] .landing-header .landing-button--ghost,
+:root[data-theme="solar"] .landing-header .landing-menu-toggle,
+:root[data-theme="solar"] .landing-header .theme-toggle {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: rgba(var(--ps-text-rgb), 0.86) !important;
+  box-shadow: none !important;
+}
+:root[data-theme="solar"] .landing-header .landing-button--ghost:hover,
+:root[data-theme="solar"] .landing-header .landing-menu-toggle:hover,
+:root[data-theme="solar"] .landing-header .theme-toggle:hover { background: rgba(var(--ps-text-rgb), 0.06) !important; color: var(--ps-text) !important; }
+:root[data-theme="solar"] .landing-header .landing-button--primary { box-shadow: none !important; }
+
+/* Accesos rápidos: sin caja, enlaces tipo pestaña */
+:root[data-theme="solar"] .gallery-quick-tabs { background: transparent !important; border-color: transparent !important; border-bottom-color: var(--ps-line) !important; border-radius: 0 !important; }
+:root[data-theme="solar"] .gallery-quick-tab { background: transparent !important; border-color: transparent !important; color: rgba(var(--ps-text-rgb), 0.82) !important; }
+:root[data-theme="solar"] .gallery-quick-tab:hover { color: var(--ps-text) !important; border-bottom: 2px solid var(--ps-accent) !important; }
+
+/* Etiquetas de sección (PORTADA, EMPRESA…): pequeñas y discretas */
+:root[data-theme="solar"] .section-badge {
+  background: transparent !important;
+  border-color: rgba(var(--ps-accent-rgb), 0.35) !important;
+  color: var(--ps-accent-2) !important;
+  font-size: 0.66rem !important;
+  padding: 0.3rem 0.6rem !important;
+}
+:root[data-theme="solar"] .landing-section-heading { border-left-color: rgba(var(--ps-accent-rgb), 0.6) !important; }
+
+/* Botones secundarios */
+:root[data-theme="solar"] .landing-button--ghost { background: transparent !important; border-color: rgba(var(--ps-text-rgb), 0.22) !important; box-shadow: none !important; }
+:root[data-theme="solar"] .landing-button--primary { box-shadow: none !important; }
+
+/* Hero: la foto protagonista y el texto con buen contraste */
+:root[data-theme="solar"] .showcase-slider { border-color: var(--ps-line) !important; box-shadow: none !important; }
+:root[data-theme="solar"] .showcase-slide__image,
+:root[data-theme="solar"] .about-image-frame img { filter: saturate(0.92) contrast(1.04) brightness(0.92) !important; }
+:root[data-theme="solar"] .showcase-slide__content { background: linear-gradient(180deg, transparent 30%, rgba(15, 10, 8, 0.78) 100%) !important; }
+:root[data-theme="solar"] .showcase-slide__label { background: rgba(15, 10, 8, 0.55) !important; border-color: rgba(var(--ps-accent-rgb), 0.45) !important; color: var(--ps-text) !important; }
+
+/* Categorías: secundarias, compactas, con ícono */
+:root[data-theme="solar"] .logo-marquee { background: transparent !important; border-color: transparent !important; }
+:root[data-theme="solar"] .landing-shell .logo-pill {
+  background: var(--ps-surface) !important;
+  border-color: var(--ps-line) !important;
+  color: rgba(var(--ps-text-rgb), 0.86) !important;
+  font-size: 0.7rem;
+}
+:root[data-theme="solar"] .logo-pill__icon { color: var(--ps-accent); }
+
+/* Más aire entre secciones */
+:root[data-theme="solar"] .landing-content > main > section + section,
+:root[data-theme="solar"] .landing-content section.mt-12,
+:root[data-theme="solar"] .landing-content section.mt-16 { margin-top: 4.5rem !important; }
+
+/* Ícono de las categorías (ambos temas) */
+.logo-pill { display: inline-flex !important; align-items: center; gap: 0.55rem; }
+.logo-pill__icon { width: 1.05rem; height: 1.05rem; flex: none; color: var(--ps-accent-2); }
