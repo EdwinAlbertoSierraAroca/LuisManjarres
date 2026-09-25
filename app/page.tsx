@@ -5,6 +5,11 @@ import { useEffect, useState } from 'react';
 import { WhatsAppIcon, whatsappUrl } from './components/whatsapp-contact';
 import ProjectsGallery from './components/ProjectsGallery';
 import ThemeToggle from './components/theme-toggle';
+import ServiceTabs from './components/ServiceTabs';
+import TestimonialsSlider from './components/TestimonialsSlider';
+import BrochureGate from './components/BrochureGate';
+import { testimonials as realTestimonials } from '@/lib/testimonials';
+import { resources } from '@/lib/recursos';
 
 const landingNavGroups = [
   {
@@ -117,9 +122,7 @@ const portfolioItems = [
   },
 ];
 
-// Agrega aquí testimonios REALES de clientes (con su autorización).
-// Mientras la lista esté vacía, la sección y sus enlaces no se muestran.
-const testimonials: Array<{ quote: string; name: string; role: string }> = [];
+// Los testimonios reales se cargan desde lib/testimonials.ts
 
 const regulations = [
   { icon: '⚡', code: 'RETIE', name: 'Reglamento Técnico de Instalaciones Eléctricas',
@@ -528,7 +531,8 @@ export default function Home() {
           <span className="gallery-quick-tabs__label">Explorar</span>
           <a href="#calculadora" className="gallery-quick-tab">Calculadora</a>
           <a href="#respaldo" className="gallery-quick-tab">Normativa y garantías</a>
-          {testimonials.length > 0 ? <a href="#testimonios" className="gallery-quick-tab">Testimonios</a> : null}
+          {realTestimonials.length > 0 ? <a href="#testimonios" className="gallery-quick-tab">Testimonios</a> : null}
+          <a href="/recursos" className="gallery-quick-tab">Guías</a>
           <a href="#faq" className="gallery-quick-tab">Preguntas</a>
           <a href="/proyectos" className="gallery-quick-tab">Galería completa</a>
         </div>
@@ -750,6 +754,15 @@ export default function Home() {
           </section>
 
           {/* SECCIÓN 2: NUESTRO PORTAFOLIO */}
+          <section id="ingenieria" className="mt-12">
+            <div className="landing-section-heading">
+              <span className="section-badge">Portafolio integral</span>
+              <h2 className="section-title section-title--left">Mucho más que paneles solares.</h2>
+              <p className="landing-section-description">Explora nuestras líneas de ingeniería según el tipo de servicio que necesitas.</p>
+            </div>
+            <ServiceTabs />
+          </section>
+
           <section id="nuestro-portafolio" className="mt-16">
             <div className="landing-section-heading mb-8 flex items-end justify-between gap-4">
               <div>
@@ -1019,24 +1032,33 @@ export default function Home() {
           </section>
 
 
-          {testimonials.length > 0 ? (
-          <section id="testimonios" className="landing-testimonials mt-12">
+          {realTestimonials.length > 0 ? (
+          <section id="testimonios" className="mt-12">
             <div className="landing-section-heading">
-              <span className="section-badge">Confianza</span>
+              <span className="section-badge">Clientes</span>
               <h2 className="section-title section-title--left">Lo que dicen nuestros clientes.</h2>
             </div>
-            <div className="landing-testimonials__grid">
-              {testimonials.map((testimonial) => (
-                <blockquote key={testimonial.name} className="testimonial-card">
-                  <span className="testimonial-card__mark">“</span>
-                  <p style={{ color: '#FFFFFF', opacity: 1 }}>{testimonial.quote}</p>
-                  <footer><strong>{testimonial.name}</strong><span style={{ color: '#FFFFFF', opacity: 1 }}>{testimonial.role}</span></footer>
-                </blockquote>
-              ))}
-              <div className="trust-strip"><span>DISEÑO A MEDIDA</span><span>MONITOREO</span><span>SOPORTE TÉCNICO</span><span>ENERGÍA LIMPIA</span></div>
-            </div>
+            <TestimonialsSlider items={realTestimonials} />
           </section>
           ) : null}
+
+          <section id="recursos" className="mt-12">
+            <div className="landing-section-heading">
+              <span className="section-badge">Centro de recursos</span>
+              <h2 className="section-title section-title--left">Aprende antes de invertir.</h2>
+              <p className="landing-section-description">Guías prácticas sobre energía solar en Colombia.</p>
+            </div>
+            <div className="rs-home">
+              {resources.map((r) => (
+                <Link key={r.slug} href={`/recursos/${r.slug}`} className="rs-home__card">
+                  <span>{r.tag} · {r.minutes} min</span>
+                  <b>{r.title}</b>
+                  <em>Leer guía →</em>
+                </Link>
+              ))}
+            </div>
+            <Link href="/recursos" className="rs-home__all">Ver todas las guías →</Link>
+          </section>
 
           <section id="faq" className="landing-faq mt-12">
             <div className="landing-section-heading">
@@ -1088,6 +1110,7 @@ export default function Home() {
                     <WhatsAppIcon className="whatsapp-button__icon" />
                     Conversar por WhatsApp
                   </a>
+                  <BrochureGate />
                 </div>
 
                 <form className="contact-form" onSubmit={handleContactSubmit}>
