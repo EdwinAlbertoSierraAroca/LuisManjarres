@@ -279,3 +279,18 @@
 @media (min-width: 980px) { .v2-hero__caption { left: 40%; } }
 .v2-brand__tag { white-space: nowrap; }
 @media (min-width: 1100px) and (max-width: 1320px) { .v2-header .v2-brand__tag { display: none; } }
+
+/* ---------- franja de especialidades (marquesina) ---------- */
+.v2-band { position: relative; overflow: hidden; padding: 0; transform: rotate(-1.6deg); margin: 2.2rem -2vw; }
+.v2-band__row { display: flex; width: max-content; }
+.v2-band__row--a { background: var(--ps-accent); color: var(--ps-on-accent); animation: v2-marquee 32s linear infinite; }
+.v2-band__row--b { background: rgba(var(--ps-accent-2-rgb), 0.14); color: var(--ps-text); border-top: 1px solid rgba(var(--ps-accent-2-rgb), 0.35); border-bottom: 1px solid rgba(var(--ps-accent-2-rgb), 0.35); animation: v2-marquee 40s linear infinite reverse; }
+.v2-band__track { display: flex; flex: none; }
+.v2-band__item { display: inline-flex; align-items: center; gap: 1.6rem; padding: 0 1.6rem; white-space: nowrap; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.v2-band__row--a .v2-band__item { font-size: clamp(2rem, 4.6vw, 3.8rem); padding-top: 1.1rem; padding-bottom: 1.1rem; text-transform: uppercase; }
+.v2-band__row--a .v2-band__item i { font-style: normal; font-size: 0.55em; opacity: 0.75; }
+.v2-band__row--b .v2-band__item { font-size: clamp(1rem, 1.8vw, 1.35rem); padding-top: 0.85rem; padding-bottom: 0.85rem; letter-spacing: 0.02em; }
+.v2-band__row--b .v2-band__item i { font-style: normal; font-size: 0.5em; color: var(--ps-accent-2); }
+@keyframes v2-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .v2-band__row { animation: none; } }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

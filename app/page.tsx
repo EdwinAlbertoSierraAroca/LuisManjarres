@@ -101,6 +101,9 @@ const faqs = [
   { q: '¿Gestionan los trámites con el operador de red?', a: 'Sí. Acompañamos la documentación, las validaciones y la coordinación necesarias para la conexión del sistema según la normativa aplicable.' },
 ];
 
+const bandItems = ['Energía fotovoltaica', 'Ingeniería eléctrica', 'Obras civiles', 'Infraestructura'];
+const bandItems2 = ['Sistemas aislados', 'Almacenamiento con litio', 'Mantenimiento', 'Zonas no interconectadas', 'Urbanismo'];
+
 const PROJECT_TYPES = [
   { id: 'hogar', label: 'Hogar', hint: 'Residencial' },
   { id: 'empresa', label: 'Empresa', hint: 'Comercial' },
@@ -320,6 +323,29 @@ export default function Home() {
             ))}
             <p className="v2-stats__claim"><span>Experiencia que se construye <b>proyecto a proyecto.</b></span></p>
           </div>
+        </section>
+
+        {/* ================= FRANJA DE ESPECIALIDADES ================= */}
+        <section className="v2-band" aria-label="Nuestras especialidades">
+          <div className="v2-band__row v2-band__row--a" aria-hidden="true">
+            {[0, 1].map((k) => (
+              <div key={k} className="v2-band__track">
+                {bandItems.map((w) => (
+                  <span key={w + k} className="v2-band__item">{w}<i>✦</i></span>
+                ))}
+              </div>
+            ))}
+          </div>
+          <div className="v2-band__row v2-band__row--b" aria-hidden="true">
+            {[0, 1].map((k) => (
+              <div key={k} className="v2-band__track">
+                {bandItems2.map((w) => (
+                  <span key={w + k} className="v2-band__item">{w}<i>●</i></span>
+                ))}
+              </div>
+            ))}
+          </div>
+          <p className="sr-only">Energía fotovoltaica, ingeniería eléctrica, obras civiles, infraestructura, almacenamiento y mantenimiento.</p>
         </section>
 
         {/* ================= 3. QUIÉNES SOMOS ================= */}
