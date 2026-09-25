@@ -184,6 +184,20 @@ function PillIcon({ label }: { label: string }) {
   return <svg className="logo-pill__icon" viewBox="0 0 24 24" aria-hidden="true">{path}</svg>;
 }
 
+type CalcProfileId = 'residencial' | 'rural' | 'comercial' | 'industrial';
+/** Perfiles del estimador. coverage: % del consumo cubierto por defecto; costFactor: ajuste del costo por kWp. */
+const CALC_PROFILES: Array<{ id: CalcProfileId; icon: string; label: string; tagline: string; coverage: number; costFactor: number; battery: boolean; autonomyDays: number; tax: boolean; note: string }> = [
+  { id: 'residencial', icon: '🏠', label: 'Residencial', tagline: 'Ahorro en hogares', coverage: 80, costFactor: 1, battery: false, autonomyDays: 0, tax: false,
+    note: 'Sistema conectado a la red para reducir la factura de tu hogar. Los excedentes pueden entregarse a la red según la regulación vigente.' },
+  { id: 'rural', icon: '🌾', label: 'Rural / Fincas', tagline: 'Baterías e independencia', coverage: 100, costFactor: 1.15, battery: true, autonomyDays: 1, tax: false,
+    note: 'Sistema aislado o híbrido con baterías de litio: energía propia día y noche, independencia de la red pública y bombeo de agua en veredas y pueblos.' },
+  { id: 'comercial', icon: '🏢', label: 'Comercial', tagline: 'Ahorro en horario diurno', coverage: 70, costFactor: 0.95, battery: false, autonomyDays: 0, tax: true,
+    note: 'Ideal para negocios que consumen energía de día: la generación solar coincide con el horario de operación y reduce el costo operativo.' },
+  { id: 'industrial', icon: '🏭', label: 'Industrial', tagline: 'Gran escala y beneficios fiscales', coverage: 60, costFactor: 0.88, battery: false, autonomyDays: 0, tax: true,
+    note: 'Proyectos de gran escala que pueden acceder a los incentivos de la Ley 1715 de 2014: deducción en renta, exclusión de IVA, exención de aranceles y depreciación acelerada.' },
+];
+const BATTERY_COST_PER_KWH = 1400000; // referencia COP por kWh de almacenamiento en litio
+
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [aboutIndex, setAboutIndex] = useState(0);
@@ -200,18 +214,48 @@ export default function Home() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [logoOpen, setLogoOpen] = useState(false);
   const [openLandingGroup, setOpenLandingGroup] = useState('Inicio');
+  const [calcMode, setCalcMode] = useState<'kwh' | 'cop'>('kwh');
+  const [calcProfile, setCalcProfile] = useState<CalcProfileId>('residencial');
   const [monthlyKwh, setMonthlyKwh] = useState(450);
+  const [monthlyBill, setMonthlyBill] = useState(380000);
   const [energyRate, setEnergyRate] = useState(850);
   const [solarCoverage, setSolarCoverage] = useState(80);
   const [openFaq, setOpenFaq] = useState<string | null>(faqs[0]?.question ?? null);
 
-  const suggestedKwp = Math.max(1, Number((monthlyKwh / (4.5 * 30 * 0.8)).toFixed(1)));
-  const estimatedMonthlySavings = Math.round(monthlyKwh * energyRate * (solarCoverage / 100));
-  const estimatedAnnualSavings = estimatedMonthlySavings * 12;
-  const costPerKwp = suggestedKwp <= 3 ? 4750000 : suggestedKwp <= 8 ? 4050000 : suggestedKwp <= 20 ? 3550000 : 3000000;
-  const estimatedInvestment = Math.round(suggestedKwp * costPerKwp);
+  // ---- Estimador solar ----
+  const profile = CALC_PROFILES.find((p) => p.id === calcProfile) ?? CALC_PROFILES[0];
+  const effectiveKwh = calcMode === 'kwh' ? monthlyKwh : Math.max(30, Math.round(monthlyBill / Math.max(energyRate, 1)));
+  const effectiveBill = calcMode === 'cop' ? monthlyBill : Math.round(monthlyKwh * energyRate);
+  const coveredKwh = effectiveKwh * (solarCoverage / 100);
+  const suggestedKwp = Math.max(1, Number((coveredKwh / (4.5 * 30 * 0.8)).toFixed(1)));
   const estimatedPanels = Math.max(3, Math.ceil((suggestedKwp * 1000) / 550));
+  const baseCostPerKwp = suggestedKwp <= 3 ? 4750000 : suggestedKwp <= 8 ? 4050000 : suggestedKwp <= 20 ? 3550000 : 3000000;
+  const costPerKwp = Math.round(baseCostPerKwp * profile.costFactor);
+  const batteryKwh = profile.battery ? Math.max(2.5, Number(((effectiveKwh / 30) * profile.autonomyDays).toFixed(1))) : 0;
+  const batteryCost = Math.round(batteryKwh * BATTERY_COST_PER_KWH);
+  const estimatedInvestment = Math.round(suggestedKwp * costPerKwp + batteryCost);
+  const estimatedMonthlySavings = Math.round(coveredKwh * energyRate);
+  const estimatedAnnualSavings = estimatedMonthlySavings * 12;
   const estimatedPayback = estimatedAnnualSavings > 0 ? (estimatedInvestment / estimatedAnnualSavings).toFixed(1) : '0';
+  const taxBenefit = profile.tax ? Math.round(estimatedInvestment * 0.5) : 0;
+
+  function selectProfile(id: CalcProfileId) {
+    setCalcProfile(id);
+    setSolarCoverage(CALC_PROFILES.find((p) => p.id === id)?.coverage ?? 80);
+  }
+
+  function requestCalcStudy() {
+    const msg = [
+      'Hola, quiero un estudio personalizado.',
+      `Perfil: ${profile.label}`,
+      `Consumo mensual: ${effectiveKwh.toLocaleString('es-CO')} kWh`,
+      `Factura mensual aproximada: $${effectiveBill.toLocaleString('es-CO')}`,
+      `Sistema estimado: ${suggestedKwp.toLocaleString('es-CO')} kWp (${estimatedPanels} paneles aprox.)${batteryKwh ? ` + ${batteryKwh.toLocaleString('es-CO')} kWh en baterías` : ''}`,
+    ].join('\n');
+    const field = document.querySelector<HTMLTextAreaElement>('#contacto textarea[name="message"]');
+    if (field && !field.value.trim()) field.value = msg;
+    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -658,15 +702,59 @@ export default function Home() {
             <div className="landing-section-heading">
               <span className="section-badge">Estimador solar</span>
               <h2 className="section-title section-title--left">Calcula tu ahorro.</h2>
-              <p className="landing-section-description">Ingresa tu consumo mensual promedio y obtén una referencia inmediata.</p>
+              <p className="landing-section-description">Elige tu perfil e ingresa tu consumo o el valor de tu factura. Obtén una referencia inmediata para Colombia.</p>
             </div>
+
+            <div className="calc-profiles" role="radiogroup" aria-label="Perfil del proyecto">
+              {CALC_PROFILES.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={calcProfile === p.id}
+                  className={`calc-profile ${calcProfile === p.id ? 'is-active' : ''}`}
+                  onClick={() => selectProfile(p.id)}
+                >
+                  <span className="calc-profile__icon" aria-hidden="true">{p.icon}</span>
+                  <span className="calc-profile__label">{p.label}</span>
+                  <span className="calc-profile__tag">{p.tagline}</span>
+                </button>
+              ))}
+            </div>
+            <p className="calc-profile-note">{profile.note}</p>
+
             <div className="solar-calculator__body" aria-label="Calculadora de ahorro solar">
               <div className="solar-calculator__controls">
-                <label className="solar-calculator__input">
-                  <span>Consumo mensual: <strong>{monthlyKwh} kWh</strong></span>
-                  <input aria-label="Consumo mensual en kWh" type="range" min="50" max="3000" step="50" value={monthlyKwh} onChange={(event) => setMonthlyKwh(Number(event.target.value))} />
-                  <div className="solar-calculator__range"><span>50 kWh</span><span>3.000 kWh</span></div>
-                </label>
+                <div className="calc-mode" role="tablist" aria-label="Forma de ingresar tu consumo">
+                  <button type="button" role="tab" aria-selected={calcMode === 'kwh'} className={calcMode === 'kwh' ? 'is-active' : ''} onClick={() => setCalcMode('kwh')}><span className="calc-long">Por consumo (kWh)</span><span className="calc-short">Consumo kWh</span></button>
+                  <button type="button" role="tab" aria-selected={calcMode === 'cop'} className={calcMode === 'cop' ? 'is-active' : ''} onClick={() => setCalcMode('cop')}><span className="calc-long">Por factura ($ COP)</span><span className="calc-short">Factura $</span></button>
+                </div>
+
+                {calcMode === 'kwh' ? (
+                  <label className="solar-calculator__input">
+                    <span>Consumo mensual: <strong>{monthlyKwh.toLocaleString('es-CO')} kWh</strong></span>
+                    <input aria-label="Consumo mensual en kWh" type="range" min="50" max={profile.id === 'industrial' ? 60000 : profile.id === 'comercial' ? 15000 : 3000} step={profile.id === 'industrial' ? 500 : 50} value={monthlyKwh} onChange={(event) => setMonthlyKwh(Number(event.target.value))} />
+                    <div className="solar-calculator__range"><span>50 kWh</span><span>{(profile.id === 'industrial' ? 60000 : profile.id === 'comercial' ? 15000 : 3000).toLocaleString('es-CO')} kWh</span></div>
+                    <small className="calc-hint">Lo encuentras en tu factura como “consumo del mes” (≈ ${effectiveBill.toLocaleString('es-CO')} al mes).</small>
+                  </label>
+                ) : (
+                  <label className="solar-calculator__input">
+                    <span>Valor de tu factura mensual</span>
+                    <div className="calc-money">
+                      <span aria-hidden="true">$</span>
+                      <input
+                        aria-label="Valor de la factura mensual en pesos colombianos"
+                        inputMode="numeric"
+                        value={monthlyBill ? monthlyBill.toLocaleString('es-CO') : ''}
+                        onChange={(event) => setMonthlyBill(Math.min(500000000, Number(event.target.value.replace(/\D/g, '')) || 0))}
+                        placeholder="380.000"
+                      />
+                      <span className="calc-money__unit">COP</span>
+                    </div>
+                    <small className="calc-hint">Equivale a ≈ {effectiveKwh.toLocaleString('es-CO')} kWh al mes con la tarifa indicada abajo.</small>
+                  </label>
+                )}
+
                 <label className="solar-calculator__input">
                   <span>Tarifa de energía: <strong>${energyRate.toLocaleString('es-CO')} / kWh</strong></span>
                   <input aria-label="Tarifa de energía en pesos colombianos" type="range" min="400" max="1400" step="50" value={energyRate} onChange={(event) => setEnergyRate(Number(event.target.value))} />
@@ -678,17 +766,29 @@ export default function Home() {
                   <div className="solar-calculator__range"><span>30%</span><span>100%</span></div>
                 </label>
               </div>
+
               <div className="solar-calculator__results">
-                <div><span>Sistema sugerido</span><strong>{suggestedKwp} kWp</strong><small>≈ {estimatedPanels} paneles</small></div>
-                <div className="solar-calculator__investment"><span>Inversión estimada llave en mano</span><strong>${estimatedInvestment.toLocaleString('es-CO')}</strong><small>Incluye equipos, instalación y puesta en marcha</small></div>
+                <div><span>Sistema sugerido</span><strong>{suggestedKwp.toLocaleString('es-CO')} kWp</strong><small>≈ {estimatedPanels} paneles</small></div>
+                <div>
+                  {batteryKwh ? (<><span>Almacenamiento</span><strong>{batteryKwh.toLocaleString('es-CO')} kWh</strong><small>Baterías de litio · {profile.autonomyDays} día de autonomía</small></>)
+                    : (<><span>Consumo cubierto</span><strong>{Math.round(coveredKwh).toLocaleString('es-CO')} kWh</strong><small>de {effectiveKwh.toLocaleString('es-CO')} kWh al mes</small></>)}
+                </div>
+                <div className="solar-calculator__investment"><span>Inversión estimada llave en mano</span><strong>${estimatedInvestment.toLocaleString('es-CO')}</strong><small>Incluye equipos, instalación y puesta en marcha{batteryKwh ? ', con baterías' : ''}</small></div>
                 <div><span>Ahorro mensual estimado</span><strong>${estimatedMonthlySavings.toLocaleString('es-CO')}</strong></div>
                 <div><span>Ahorro anual estimado</span><strong>${estimatedAnnualSavings.toLocaleString('es-CO')}</strong></div>
-                <div><span>Retorno aproximado</span><strong>{estimatedPayback} años</strong></div>
+                <div><span>Retorno aproximado</span><strong>{estimatedPayback.replace('.', ',')} años</strong></div>
                 <div><span>Costo promedio instalado</span><strong>${costPerKwp.toLocaleString('es-CO')} / kWp</strong></div>
-                <a href="#contacto" className="landing-button landing-button--primary">Solicitar estudio real</a>
+                {profile.tax ? (
+                  <div className="calc-tax">
+                    <span>Beneficio fiscal potencial · Ley 1715 de 2014</span>
+                    <strong>Hasta ${taxBenefit.toLocaleString('es-CO')}</strong>
+                    <small>Deducción en renta de hasta el 50 % de la inversión, distribuible en varios años, más exclusión de IVA y exención de aranceles. Requiere certificación ante la UPME; consulta con tu contador.</small>
+                  </div>
+                ) : null}
+                <button type="button" onClick={requestCalcStudy} className="landing-button landing-button--primary">Solicitar estudio real</button>
               </div>
             </div>
-            <p className="solar-calculator__note">Referencia orientativa para Colombia. La tarifa, radiación, tipo de techo, excedentes y condiciones del proyecto pueden cambiar el resultado final.</p>
+            <p className="solar-calculator__note">Referencia orientativa para Colombia. La tarifa, la radiación, el tipo de techo, los excedentes y las condiciones del proyecto pueden cambiar el resultado final. No constituye una cotización.</p>
           </section>
 
           <section id="galeria" className="mt-12">
