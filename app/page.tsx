@@ -3,255 +3,194 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { WhatsAppIcon, whatsappUrl } from './components/whatsapp-contact';
-import ProjectsGallery from './components/ProjectsGallery';
 import ThemeToggle from './components/theme-toggle';
+import './landing-v2.css';
 
-const landingNavGroups = [
-  {
-    title: 'Inicio',
-    items: [{ name: 'Inicio', href: '#top' }],
-  },
-  {
-    title: 'Empresa',
-    items: [
-      { name: 'Quiénes somos', href: '#empresa' },
-      { name: 'Misión', href: '#mision' },
-      { name: 'Visión', href: '#vision' },
-      { name: 'Valores', href: '#valores' },
-      { name: 'Nuestro enfoque', href: '#enfoque' },
-      { name: 'Sobre nosotros', href: '#sobre-nosotros' },
-    ],
-  },
-  {
-    title: 'Soluciones',
-    items: [
-      { name: 'Energía solar residencial', href: '#soluciones' },
-      { name: 'Energía solar empresarial', href: '#soluciones' },
-      { name: 'Sistemas fotovoltaicos', href: '#soluciones' },
-      { name: 'Almacenamiento de energía', href: '#soluciones' },
-      { name: 'Consultoría energética', href: '#soluciones' },
-      { name: 'Calculadora de ahorro', href: '#calculadora' },
-      { name: 'Líneas de solución', href: '#nuestro-portafolio' },
-    ],
-  },
-  {
-    title: 'Proyectos',
-    items: [
-      { name: 'Proyectos realizados', href: '#galeria' },
-      { name: 'Galería', href: '#galeria' },
-    ],
-  },
-  {
-    title: 'Contacto',
-    items: [
-      { name: 'Solicitar propuesta', href: '#contacto' },
-      { name: 'Agenda una asesoría', href: '#contacto' },
-      { name: 'Ubicación', href: '#contacto' },
-      { name: 'WhatsApp', href: whatsappUrl },
-      { name: 'Preguntas frecuentes', href: '#faq' },
-    ],
-  },
+/* ==========================================================
+   CONTENIDO
+   Solo datos confirmados. Para agregar cifras, proyectos, marcas
+   o testimonios reales, edita estas listas.
+   ========================================================== */
+
+const navLinks = [
+  { label: 'Nosotros', href: '#nosotros' },
+  { label: 'Servicios', href: '#servicios' },
+  { label: 'Soluciones', href: '#soluciones' },
+  { label: 'Proyectos', href: '#proyectos' },
+  { label: 'Calculadora', href: '#calculadora' },
+  { label: 'Contacto', href: '#contacto' },
 ];
 
+/** Cifras confirmadas. Agrega kWp instalados, proyectos o municipios cuando estén verificados. */
 const stats = [
-  { label: 'Sistemas en Morales', value: '396' },
-  { label: 'Departamentos con obras', value: '5' },
-  { label: 'Líneas de servicio', value: '5' },
+  { value: '396', suffix: '+', label: 'Sistemas fotovoltaicos', detail: 'instalados en Morales, Bolívar' },
+  { value: '5', suffix: '', label: 'Departamentos con obras', detail: 'La Guajira, Magdalena, Meta, Santander y Bolívar' },
 ];
 
-const valueCards = [
-  { id: 'mision', title: 'Misión', text: 'Proveer soluciones integrales en energía solar fotovoltaica mediante el diseño, instalación y mantenimiento de sistemas eficientes y sostenibles, generando valor económico y ambiental para nuestros clientes.' },
-  { id: 'vision', title: 'Visión', text: 'Ser una empresa líder en el sector de energías renovables a nivel nacional e internacional, reconocida por la calidad de nuestros proyectos, innovación tecnológica y compromiso con el desarrollo sostenible.' },
+type IconName = 'sun' | 'bolt' | 'build' | 'wrench' | 'chart' | 'medal' | 'layers' | 'chip' | 'hand' | 'pin' | 'tool';
+
+const services: Array<{ icon: IconName; title: string; text: string }> = [
+  { icon: 'sun', title: 'Energía fotovoltaica', text: 'Diseño e implementación de sistemas solares para diferentes necesidades de consumo.' },
+  { icon: 'bolt', title: 'Sistemas eléctricos', text: 'Diseño, instalación y adecuación de sistemas eléctricos para proyectos residenciales, comerciales e industriales.' },
+  { icon: 'build', title: 'Obras e infraestructura', text: 'Obras civiles, adecuaciones e infraestructura necesarias para la ejecución de proyectos energéticos y espacios públicos.' },
+  { icon: 'wrench', title: 'Operación y mantenimiento', text: 'Mantenimiento preventivo y correctivo para conservar el desempeño de las instalaciones.' },
+];
+
+const solutions = [
+  { title: 'Granjas solares', text: 'Proyectos fotovoltaicos de generación a mayor escala.', image: '/images/sistema-solar-molino.jpg' },
+  { title: 'Autoconsumo', text: 'Reduce el consumo de energía de la red mediante generación solar propia.', image: '/about/instalacion-techo.jpg' },
+  { title: 'Sistemas híbridos', text: 'Integración de diferentes fuentes y tecnologías de generación.', image: '/images/web/tablero-inversor.jpg' },
+  { title: 'Almacenamiento', text: 'Soluciones con baterías para gestionar y aprovechar mejor la energía.', image: '/images/web/tablero-litio.jpg' },
+  { title: 'Movilidad eléctrica', text: 'Infraestructura de carga y soluciones asociadas a la movilidad eléctrica.', image: '' },
+  { title: 'Equipos e insumos', text: 'Suministro de módulos, inversores, estructuras, protecciones y cable solar.', image: '/images/web/modulos.jpg' },
+];
+
+/** Proyectos destacados con fotografías reales (enlazan a su página en la galería). */
+const featuredProjects = [
   {
-    id: 'quienes-somos',
-    title: 'Quiénes somos',
-    text: 'Somos una empresa de ingeniería especializada en el diseño, desarrollo e implementación de proyectos de energía fotovoltaica y obras civiles. Nos enfocamos en brindar soluciones sostenibles, eficientes y adaptadas a las necesidades de nuestros clientes, contribuyendo a la transición hacia energías limpias.\nNuestro equipo está conformado por profesionales altamente capacitados en ingeniería eléctrica, energías renovables y gestión de proyectos, comprometidos con la innovación y la excelencia técnica.',
+    title: 'Energía solar en zonas no interconectadas',
+    place: 'La Guajira y Meta',
+    solution: 'Sistemas fotovoltaicos aislados con baterías de litio',
+    detail: 'Viviendas rurales sin acceso a la red eléctrica',
+    image: '/images/web/zni-comunidad.jpg',
+    href: '/proyectos/obra-civiles-en-ingenieria-electrica',
+  },
+  {
+    title: 'Polideportivo El Llanito',
+    place: 'Barrancabermeja, Santander',
+    solution: 'Obra civil, estructura metálica y cubiertas',
+    detail: 'Infraestructura deportiva para la comunidad',
+    image: '/images/web/polideportivo.jpg',
+    href: '/proyectos/polideportivo-el-llanito-barrancabermeja',
+  },
+  {
+    title: 'Baterías sanitarias en colegios',
+    place: 'Magdalena',
+    solution: 'Infraestructura institucional',
+    detail: 'Capacidad instalada: 4,9 kWp',
+    image: '/images/web/baterias-sanitarias.jpg',
+    href: '/proyectos/baterias-sanitarias-en-colegios-del-magdalena',
   },
 ];
 
-const landingServices = [
-  { title: 'Implementación de sistemas de energía fotovoltaica', description: 'Proyectos solares a medida para hogares, empresas y comunidades.', icon: '01' },
-  { title: 'Montajes, pruebas y puesta en marcha de sistemas eléctricos', description: 'Instalaciones eléctricas industriales y residenciales con respaldo técnico.', icon: '02' },
-  { title: 'Mantenimiento preventivo y correctivo', description: 'Soporte técnico y cuidado operativo para mantener tus sistemas funcionando.', icon: '03' },
-  { title: 'Ingeniería civil estructural', description: 'Obras civiles y construcciones con soluciones técnicas confiables.', icon: '04' },
-  { title: 'Parques y urbanismo', description: 'Desarrollo e infraestructura para espacios públicos y cubiertas.', icon: '05' },
+const processSteps = [
+  { title: 'Diagnóstico', text: 'Conocemos tus necesidades, tu consumo y las condiciones del proyecto.' },
+  { title: 'Diseño', text: 'Nuestros especialistas desarrollan una solución adaptada.' },
+  { title: 'Propuesta', text: 'Presentamos el alcance, la solución técnica y la inversión.' },
+  { title: 'Ejecución', text: 'Instalamos y ponemos en marcha el proyecto.' },
+  { title: 'Acompañamiento', text: 'Brindamos soporte y mantenimiento después de la instalación.' },
 ];
 
-const investmentBenefits = [
-  { title: 'Ahorro garantizado', text: 'Reduce significativamente tus costos de energía desde el primer mes de operación.' },
-  { title: 'Retorno de inversión', text: 'Recupera tu inversión mientras generas ahorros constantes durante más de 25 años.' },
-  { title: 'Protección tarifaria', text: 'Blindaje financiero contra las alzas constantes de la red eléctrica tradicional.' },
-  { title: 'Valorización de activos', text: 'Aumento del valor comercial y tasación real de tu infraestructura corporativa.' },
-  { title: 'Energía sostenible', text: 'Transición limpia reduciendo de forma medible la huella de carbono.' },
-  { title: 'Inversión inteligente', text: 'Transformación de un gasto fijo inevitable en un activo rentable y duradero.' },
+const reasons: Array<{ icon: IconName; title: string; text: string }> = [
+  { icon: 'chart', title: 'Ingeniería', text: 'Cada proyecto parte de un análisis técnico.' },
+  { icon: 'medal', title: 'Experiencia', text: 'Proyectos de energía e infraestructura ejecutados en campo.' },
+  { icon: 'layers', title: 'Solución integral', text: 'Integramos diferentes disciplinas para desarrollar el proyecto.' },
+  { icon: 'chip', title: 'Tecnología', text: 'Usamos tecnologías actuales para mejorar el desempeño de las soluciones.' },
+  { icon: 'hand', title: 'Acompañamiento', text: 'Nuestro trabajo no termina con la instalación.' },
 ];
 
-const portfolioItems = [
-  {
-    title: 'Granjas solares',
-    subtitle: 'Energía a gran escala',
-    text: 'Desarrollamos proyectos fotovoltaicos de gran capacidad para maximizar la generación y la rentabilidad.',
-    icon: '☀',
-    image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=85',
-  },
-  {
-    title: 'Autoconsumo',
-    subtitle: 'Energía para tu hogar y empresa',
-    text: 'Sistemas solares que te permiten ahorrar desde el primer día y avanzar hacia la independencia energética.',
-    icon: '⌂',
-    image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=85',
-  },
-  {
-    title: 'Insumos y equipos',
-    subtitle: 'Suministros fotovoltaicos',
-    text: 'Estructuras, cable solar, protecciones DC/AC, inversores y paneles seleccionados para proyectos de calidad.',
-    icon: '⌁',
-    image: '/images/sistema-solar-molino.jpg',
-  },
-  {
-    title: 'Movilidad eléctrica',
-    subtitle: 'Impulsamos el cambio',
-    text: 'Soluciones de carga y movilidad eléctrica para un transporte más eficiente, moderno y sostenible.',
-    icon: 'ϟ',
-    image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=85',
-  },
-];
-
-// Agrega aquí testimonios REALES de clientes (con su autorización).
-// Mientras la lista esté vacía, la sección y sus enlaces no se muestran.
+// Agrega aquí testimonios REALES de clientes (con su autorización). Si la lista está vacía, la sección no se muestra.
 const testimonials: Array<{ quote: string; name: string; role: string }> = [];
 
 const faqs = [
-  { question: '¿Qué mantenimiento requieren los paneles?', answer: 'Recomendamos una revisión preventiva y limpieza técnica periódica. Nuestro equipo también puede monitorear el rendimiento de forma remota.' },
-  { question: '¿Qué garantía tienen los sistemas?', answer: 'La cobertura depende del equipo y del proyecto. Presentamos las garantías de componentes, instalación y rendimiento de forma clara en cada propuesta.' },
-  { question: '¿Ustedes gestionan los trámites con la red?', answer: 'Sí. Acompañamos la documentación, las validaciones y la coordinación necesarias para la conexión del sistema según la normativa aplicable.' },
-  { question: '¿Tienen opciones de financiación?', answer: 'Evaluamos alternativas de financiación con aliados y estructuramos la propuesta para que puedas comparar inversión, ahorro y retorno.' },
+  { q: '¿Cuánto cuesta instalar paneles solares?', a: 'El costo depende del consumo, la ubicación, el tipo de instalación, los equipos y las características del proyecto. Realizamos un análisis para determinar la solución adecuada y presentarte una propuesta clara.' },
+  { q: '¿Cuánto puedo ahorrar con energía solar?', a: 'Depende principalmente de tu consumo, la tarifa eléctrica, la radiación disponible y el tamaño del sistema. Puedes hacer una estimación inicial con nuestra calculadora y luego solicitar un estudio personalizado.' },
+  { q: '¿PROSOINPEN realiza las instalaciones?', a: 'Sí. Acompañamos el proyecto desde la ingeniería hasta la instalación y la puesta en marcha, según el alcance contratado.' },
+  { q: '¿Trabajan con empresas?', a: 'Sí. Desarrollamos soluciones para hogares, empresas, industrias, instituciones y comunidades.' },
+  { q: '¿Realizan mantenimiento?', a: 'Sí. Ofrecemos mantenimiento preventivo y correctivo: revisión técnica, limpieza de los módulos y verificación del rendimiento del sistema. Nuestro equipo también puede monitorear el rendimiento de forma remota.' },
+  { q: '¿Gestionan los trámites con el operador de red?', a: 'Sí. Acompañamos la documentación, las validaciones y la coordinación necesarias para la conexión del sistema según la normativa aplicable.' },
 ];
 
-const showcaseSlides = [
-  {
-    title: 'Instalación industrial',
-    subtitle: 'Paneles y almacenamiento para alta demanda',
-    image:
-      'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    title: 'Energía inteligente',
-    subtitle: 'Monitoreo y optimización en tiempo real',
-    image:
-      'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    title: 'Diseño para hogares',
-    subtitle: 'Soluciones elegantes y funcionales',
-    image:
-      '/images/sistema-solar-molino.jpg',
-  },
-];
+const PROJECT_TYPES = [
+  { id: 'hogar', label: 'Hogar', hint: 'Residencial' },
+  { id: 'empresa', label: 'Empresa', hint: 'Comercial' },
+  { id: 'industria', label: 'Industria', hint: 'Gran consumo' },
+] as const;
+type ProjectType = (typeof PROJECT_TYPES)[number]['id'];
 
-const partnerLogos = ['PROSOINPEN S.A.S.', 'ENERGÍA FOTOVOLTAICA', 'INGENIERÍA', 'OBRAS CIVILES'];
+const cop = (n: number) => '$' + Math.round(n).toLocaleString('es-CO');
 
-// Datos históricos de ejemplo (la galería pública ahora usa /api/projects).
-// Se conserva como referencia; `void` evita el error de variable sin uso en el build.
-const legacyGalleryItems = [
-  { id: 'g1', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g2', category: 'Instalaciones', image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g3', category: 'Talleres', image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g4', category: 'Talleres', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g5', category: 'Creaciones', image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g6', category: 'Creaciones', image: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80' },
-  { id: 'g7', category: 'Instalaciones', image: '/images/sistema-solar-molino.jpg' },
-  { id: 'g8', category: 'Talleres', image: 'https://images.unsplash.com/photo-1472141521881-95d0e87e2e39?auto=format&fit=crop&w=1200&q=80' },
-];
-
-void legacyGalleryItems;
-
-const aboutImages = [
-  { src: '/about/instalacion-techo.jpg', alt: 'Equipo instalando paneles solares sobre el techo de una vivienda' },
-  { src: '/about/instalacion-campo.jpg', alt: 'Sistema solar en estructura de piso junto a una cabaña en zona rural' },
-];
-const ABOUT_ROTATION_MS = 5000;
+/* ==========================================================
+   ÍCONOS (trazos simples, heredan el color del tema)
+   ========================================================== */
+function Icon({ name }: { name: IconName }) {
+  const p = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  const paths: Record<IconName, JSX.Element> = {
+    sun: <><circle cx="12" cy="12" r="4" {...p} /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" {...p} /></>,
+    bolt: <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" {...p} />,
+    build: <><path d="M3 21h18M5 21V8l7-5 7 5v13" {...p} /><path d="M9 21v-6h6v6M9 10h.01M15 10h.01" {...p} /></>,
+    wrench: <path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.5 2.5-2.5-.5-.5-2.5 2.5-2.5z" {...p} />,
+    chart: <><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" {...p} /></>,
+    medal: <><circle cx="12" cy="9" r="6" {...p} /><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8" {...p} /></>,
+    layers: <><path d="m12 3 9 5-9 5-9-5 9-5z" {...p} /><path d="m3 13 9 5 9-5" {...p} /></>,
+    chip: <><rect x="6" y="6" width="12" height="12" rx="2" {...p} /><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" {...p} /></>,
+    hand: <><path d="M7 11V6a2 2 0 1 1 4 0v4M11 10V4a2 2 0 1 1 4 0v6M15 9a2 2 0 1 1 4 0v5a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.4L3 14.5a2 2 0 0 1 3.3-2.3L7 13" {...p} /></>,
+    pin: <><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" {...p} /><circle cx="12" cy="10" r="2.5" {...p} /></>,
+    tool: <path d="M4 20 20 4M14 4h6v6" {...p} />,
+  };
+  return <svg viewBox="0 0 24 24" aria-hidden="true">{paths[name]}</svg>;
+}
 
 export default function Home() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [aboutIndex, setAboutIndex] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [logoOpen, setLogoOpen] = useState(false);
+
+  // Calculadora
+  const [monthlyKwh, setMonthlyKwh] = useState(450);
+  const [monthlyBill, setMonthlyBill] = useState(380000);
+  const [projectType, setProjectType] = useState<ProjectType>('hogar');
+
+  // Contacto
+  const [contactMessage, setContactMessage] = useState('');
   const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'sent' | 'mailto' | 'error'>('idle');
   const [contactError, setContactError] = useState('');
 
-  useEffect(() => {
-    if (aboutImages.length < 2) return;
-    const timer = setInterval(() => {
-      setAboutIndex((current) => (current + 1) % aboutImages.length);
-    }, ABOUT_ROTATION_MS);
-    return () => clearInterval(timer);
-  }, []);
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [logoOpen, setLogoOpen] = useState(false);
-  const [openLandingGroup, setOpenLandingGroup] = useState('Inicio');
-  const [monthlyKwh, setMonthlyKwh] = useState(450);
-  const [energyRate, setEnergyRate] = useState(850);
-  const [solarCoverage, setSolarCoverage] = useState(80);
-  const [openFaq, setOpenFaq] = useState<string | null>(faqs[0]?.question ?? null);
-
+  // Estimación (mismas fórmulas de referencia de la versión anterior; cobertura solar del 80 %)
+  const SOLAR_COVERAGE = 0.8;
+  const tariff = Math.min(2500, Math.max(200, monthlyBill / Math.max(monthlyKwh, 1)));
   const suggestedKwp = Math.max(1, Number((monthlyKwh / (4.5 * 30 * 0.8)).toFixed(1)));
-  const estimatedMonthlySavings = Math.round(monthlyKwh * energyRate * (solarCoverage / 100));
-  const estimatedAnnualSavings = estimatedMonthlySavings * 12;
-  const costPerKwp = suggestedKwp <= 3 ? 4750000 : suggestedKwp <= 8 ? 4050000 : suggestedKwp <= 20 ? 3550000 : 3000000;
-  const estimatedInvestment = Math.round(suggestedKwp * costPerKwp);
   const estimatedPanels = Math.max(3, Math.ceil((suggestedKwp * 1000) / 550));
-  const estimatedPayback = estimatedAnnualSavings > 0 ? (estimatedInvestment / estimatedAnnualSavings).toFixed(1) : '0';
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((previous) => (previous + 1) % showcaseSlides.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
+  const monthlySavings = Math.round(monthlyKwh * tariff * SOLAR_COVERAGE);
+  const costPerKwp = suggestedKwp <= 3 ? 4750000 : suggestedKwp <= 8 ? 4050000 : suggestedKwp <= 20 ? 3550000 : 3000000;
+  const referenceInvestment = Math.round(suggestedKwp * costPerKwp);
+  const paybackYears = monthlySavings > 0 ? (referenceInvestment / (monthlySavings * 12)).toFixed(1) : '0';
+  const typeLabel = PROJECT_TYPES.find((t) => t.id === projectType)?.label ?? 'Hogar';
 
   useEffect(() => {
     if (!logoOpen) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setLogoOpen(false);
-    };
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setLogoOpen(false);
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [logoOpen]);
 
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (!hash) return;
+  function requestStudy() {
+    setContactMessage(
+      `Hola, quiero un estudio personalizado.\nTipo de proyecto: ${typeLabel}\nConsumo mensual: ${monthlyKwh} kWh\nPago mensual aproximado: ${cop(monthlyBill)}\nSistema estimado en la calculadora: ${suggestedKwp} kWp (${estimatedPanels} paneles aprox.)`,
+    );
+    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.setTimeout(() => document.getElementById('contact-name')?.focus({ preventScroll: true }), 600);
+  }
 
-    const frame = window.requestAnimationFrame(() => {
-      document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' });
-    });
-
-    return () => window.cancelAnimationFrame(frame);
-  }, []);
-
-  const handleContactSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  async function handleContactSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const formData = new FormData(form);
+    const fd = new FormData(form);
     const payload = {
-      name: String(formData.get('name') ?? ''),
-      email: String(formData.get('email') ?? ''),
-      phone: String(formData.get('phone') ?? ''),
-      message: String(formData.get('message') ?? ''),
-      website: String(formData.get('website') ?? ''),
+      name: String(fd.get('name') ?? ''),
+      email: String(fd.get('email') ?? ''),
+      phone: String(fd.get('phone') ?? ''),
+      message: String(fd.get('message') ?? ''),
+      website: String(fd.get('website') ?? ''),
     };
     setContactStatus('sending');
     setContactError('');
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
         setContactStatus('sent');
         form.reset();
+        setContactMessage('');
         return;
       }
       if (!data.fallback) {
@@ -260,1050 +199,506 @@ export default function Home() {
         return;
       }
     } catch {
-      // Sin conexión con el servidor: usamos el correo del visitante como respaldo.
+      // Sin conexión con el servidor: se usa el correo del visitante como respaldo.
     }
     const subject = `Solicitud de información de ${payload.name}`;
     const body = [`Nombre: ${payload.name}`, `Correo: ${payload.email}`, `Teléfono: ${payload.phone}`, '', payload.message].join('\n');
     window.location.href = `mailto:ing.edwinsierra@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setContactStatus('mailto');
-  };
+  }
 
   return (
-    <div className="landing-shell" id="top">
+    <div className="landing-shell v2" id="top">
       <div className="landing-bg" />
 
-      <div className="landing-content mx-auto max-w-[1280px] px-4 py-5 lg:px-8">
-        <header className="landing-header">
-          <div className="flex items-center justify-between gap-4 px-5 py-4">
-            <div className="flex items-center gap-4">
+      {/* ================= ENCABEZADO ================= */}
+      <header className="v2-header">
+        <div className="v2-wrap">
+          <div className="v2-header__bar">
+            <div className="v2-brand">
               <button
                 type="button"
                 className="brand-logo-wrap"
-                title="PROSOINPEN S.A.S. — NIT: 901960765-2 · clic para ampliar"
                 aria-label="Ampliar logo de PROSOINPEN S.A.S."
                 aria-haspopup="dialog"
                 onClick={() => setLogoOpen(true)}
               >
-                <img
-                  src="/logo-prosoinpen.svg"
-                  alt="Logo de PROSOINPEN S.A.S. — Proyectos y Soluciones de Ingeniería El Pentágono, NIT 901960765-2"
-                  className="brand-logo"
-                  width={400}
-                  height={430}
-                />
-                <span className="brand-logo-zoom" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
-                    <circle cx="11" cy="11" r="7" />
-                    <path d="M16.5 16.5 21 21M11 8.5v5M8.5 11h5" />
-                  </svg>
-                </span>
+                <img src="/logo-prosoinpen.svg" alt="Logo de PROSOINPEN S.A.S." className="brand-logo" width={400} height={430} />
               </button>
-              <div>
-                <div className="brand-kicker">PROSOINPEN</div>
-                <div className="brand-name brand-name--landing header-brand-name">S.A.S.<span className="header-brand-nit"> · NIT 901960765-2</span></div>
+              <a href="#top" className="min-w-0">
+                <div className="v2-brand__name">PROSOINPEN</div>
+                <div className="v2-brand__tag">Ingeniería · Energía · Infraestructura</div>
+              </a>
+            </div>
+
+            <nav className="v2-nav" aria-label="Navegación principal">
+              {navLinks.map((l) => (
+                <a key={l.href} href={l.href}>{l.label}</a>
+              ))}
+            </nav>
+
+            <div className="v2-header__actions">
+              <ThemeToggle className="theme-toggle--header" />
+              <a href="#contacto" className="v2-btn v2-btn--primary">
+                <span className="v2-cta-long">Solicitar cotización</span>
+                <span className="v2-cta-short">Cotizar</span>
+              </a>
+              <button
+                type="button"
+                className="v2-burger"
+                aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+                aria-expanded={menuOpen}
+                aria-controls="v2-mobile-nav"
+                onClick={() => setMenuOpen((v) => !v)}
+              >
+                <span /><span /><span />
+              </button>
+            </div>
+          </div>
+
+          {menuOpen ? (
+            <nav id="v2-mobile-nav" className="v2-mobile-nav" aria-label="Navegación móvil">
+              {navLinks.map((l) => (
+                <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)}>{l.label}</a>
+              ))}
+              <ThemeToggle className="theme-toggle--block" />
+            </nav>
+          ) : null}
+        </div>
+      </header>
+
+      <main className="landing-content">
+        {/* ================= 1. HERO ================= */}
+        <section className="v2-hero">
+          <div className="v2-wrap v2-hero__grid">
+            <div>
+              <span className="v2-kicker">PROSOINPEN S.A.S. · Colombia</span>
+              <h1 className="v2-h1">
+                Ingeniería y energía para proyectos que <span className="v2-hl">generan resultados.</span>
+              </h1>
+              <p className="v2-lead">
+                Diseñamos e implementamos soluciones de energía solar, sistemas eléctricos e infraestructura para hogares, empresas y proyectos de gran escala.
+              </p>
+              <div className="v2-hero__actions">
+                <a href="#contacto" className="v2-btn v2-btn--primary">Solicitar cotización</a>
+                <a href="#proyectos" className="v2-btn v2-btn--ghost">Conocer nuestros proyectos</a>
+              </div>
+              <div className="v2-hero__trust">
+                <span>Diseño a la medida</span>
+                <span>Instalación en campo</span>
+                <span>Soporte y mantenimiento</span>
               </div>
             </div>
 
-            <nav className="hidden" aria-label="Navegación principal" />
-
-            <div className="flex items-center gap-3">
-              <ThemeToggle />
-              <button
-                type="button"
-                className="landing-menu-toggle"
-                aria-label="Abrir menú de navegación"
-                aria-expanded={mobileNavOpen}
-                aria-controls="landing-mobile-nav"
-                onClick={() => setMobileNavOpen((value) => !value)}
-              >
-                {mobileNavOpen ? 'Cerrar' : 'Menú'}
-              </button>
-              <Link href="/admin/login" className="landing-button landing-button--ghost hidden lg:inline-flex" aria-label="Iniciar sesión como administrador">
-                🔐 Ingresar
-              </Link>
-              <a href="#contacto" className="landing-button landing-button--ghost hidden lg:inline-flex">Agendar</a>
-              <a href="#contacto" className="landing-button landing-button--primary header-cta">
-                <span className="header-cta__long">Solicitar propuesta</span>
-                <span className="header-cta__short">Cotizar</span>
-              </a>
-            </div>
-          </div>
-        </header>
-
-        {mobileNavOpen ? (
-          <nav id="landing-mobile-nav" className="landing-nav-accordion" aria-label="Navegación por secciones">
-            {landingNavGroups.map((group) => {
-              const isOpen = openLandingGroup === group.title;
-              return (
-                <div key={group.title} className="landing-nav-group">
-                  <button
-                    type="button"
-                    className="landing-nav-group__trigger"
-                    aria-expanded={isOpen}
-                    onClick={() => setOpenLandingGroup(isOpen ? '' : group.title)}
-                  >
-                    <span>{group.title}</span>
-                    <span className={`landing-nav-group__caret ${isOpen ? 'open' : ''}`}>⌃</span>
-                  </button>
-                  {isOpen ? (
-                    <div className="landing-nav-group__items">
-                      {group.items.map((item) => (
-                        <Link
-                          key={item.name}
-                          href={item.href}
-                          className="landing-nav-link landing-nav-link--mobile"
-                          onClick={() => setMobileNavOpen(false)}
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
-                    </div>
-                  ) : null}
-                </div>
-              );
-            })}
-
-            <div className="landing-nav-group">
-              <Link
-                href="/admin/login"
-                className="landing-nav-link landing-nav-link--mobile"
-                onClick={() => setMobileNavOpen(false)}
-              >
-                🔐 Acceso administración
-              </Link>
-              <ThemeToggle className="theme-toggle--block" />
-            </div>
-          </nav>
-        ) : null}
-
-        <div className="gallery-quick-tabs" aria-label="Accesos rápidos">
-          <span className="gallery-quick-tabs__label">Explorar</span>
-          <a href="#calculadora" className="gallery-quick-tab">Calculadora</a>
-          {testimonials.length > 0 ? <a href="#testimonios" className="gallery-quick-tab">Testimonios</a> : null}
-          <a href="#faq" className="gallery-quick-tab">Preguntas</a>
-          <a href="/proyectos" className="gallery-quick-tab">Galería completa</a>
-        </div>
-
-        <section className="mt-4">
-          <div className="landing-section-heading showcase-header">
-            <div>
-              <span className="section-badge">Portada</span>
-              <h2 className="section-title section-title--left">Energía con presencia real.</h2>
-              <p className="landing-section-description">Una mirada a los proyectos y soluciones que impulsan una nueva era energética.</p>
-            </div>
-          </div>
-
-          <div className="showcase-slider">
-            <div
-              className="showcase-track"
-              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-            >
-              {showcaseSlides.map((slide) => (
-                <article key={slide.title} className="showcase-slide">
-                  <img src={slide.image} alt={slide.title} className="showcase-slide__image" />
-                  <div className="showcase-slide__content">
-                    <span className="showcase-slide__label">PROSOINPEN S.A.S.</span>
-                    <h3>{slide.title}</h3>
-                    <p>{slide.subtitle}</p>
+            <div className="v2-hero__media">
+              <div className="v2-hero__photo">
+                <img src="/images/web/hero-tecnico.jpg" alt="Técnico de PROSOINPEN instalando módulos solares en Cubarral, Meta" />
+                <div className="v2-hero__caption">
+                  <div>
+                    <b>Montaje de sistema solar</b>
+                    <span>Cubarral, Meta</span>
                   </div>
-                </article>
-              ))}
+                  <span className="v2-tag-real">Proyecto real</span>
+                </div>
+              </div>
+              <div className="v2-hero__inset">
+                <img src="/images/web/zni-guajira.jpg" alt="Sistema solar aislado junto a una vivienda rural en La Guajira" />
+              </div>
             </div>
           </div>
+        </section>
 
-          <div className="showcase-dots" aria-label="Selector de imagen">
-            {showcaseSlides.map((slide, index) => (
-              <button
-                key={`${slide.title}-dot`}
-                type="button"
-                aria-label={`Ver imagen ${index + 1}`}
-                className={`showcase-dot ${index === activeIndex ? 'active' : ''}`}
-                onClick={() => setActiveIndex(index)}
-              />
+        {/* ================= 2. CIFRAS ================= */}
+        <section className="v2-stats" aria-label="Nuestra experiencia en números">
+          <div className="v2-wrap v2-stats__grid">
+            {stats.map((s) => (
+              <div key={s.label} className="v2-stat">
+                <div className="v2-stat__n">{s.value}<small>{s.suffix}</small></div>
+                <div className="v2-stat__l">{s.label}</div>
+                <div className="v2-stat__d">{s.detail}</div>
+              </div>
             ))}
+            <p className="v2-stats__claim"><span>Experiencia que se construye <b>proyecto a proyecto.</b></span></p>
           </div>
+        </section>
 
-          <div className="logo-marquee" aria-label="Logos de socios">
-            <div className="logo-track">
-              {[...partnerLogos, ...partnerLogos].map((logo, index) => (
-                <span key={`${logo}-${index}`} className="logo-pill">{logo}</span>
+        {/* ================= 3. QUIÉNES SOMOS ================= */}
+        <section id="nosotros" className="v2-section">
+          <div className="v2-wrap">
+            <div className="v2-about">
+              <div>
+                <span className="v2-kicker">Quiénes somos</span>
+                <h2 className="v2-h2">Ingeniería para transformar la energía en oportunidades</h2>
+                <p className="v2-p">
+                  PROSOINPEN S.A.S. es una empresa colombiana orientada al desarrollo de soluciones de ingeniería en energía, sistemas eléctricos e infraestructura.
+                </p>
+                <p className="v2-p">
+                  Integramos conocimiento técnico, tecnología y experiencia en campo para desarrollar proyectos que respondan a las necesidades específicas de cada cliente.
+                </p>
+                <div className="v2-pillars">
+                  <div className="v2-pillar"><b>Diseño</b><span>Ingeniería adaptada a cada proyecto.</span></div>
+                  <div className="v2-pillar"><b>Ejecución</b><span>Instalación y puesta en marcha.</span></div>
+                  <div className="v2-pillar"><b>Acompañamiento</b><span>Soporte durante todo el ciclo del proyecto.</span></div>
+                </div>
+              </div>
+              <div className="v2-about__photo">
+                <img src="/images/web/equipo-montaje.jpg" alt="Equipo de PROSOINPEN montando módulos fotovoltaicos en campo" />
+              </div>
+            </div>
+            <div className="v2-mv">
+              <div><b>Misión</b><p>Proveer soluciones integrales en energía solar fotovoltaica mediante el diseño, la instalación y el mantenimiento de sistemas eficientes y sostenibles, generando valor económico y ambiental para nuestros clientes.</p></div>
+              <div><b>Visión</b><p>Ser una empresa líder en el sector de energías renovables a nivel nacional e internacional, reconocida por la calidad de nuestros proyectos, la innovación tecnológica y el compromiso con el desarrollo sostenible.</p></div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= 4. SERVICIOS ================= */}
+        <section id="servicios" className="v2-section v2-section--alt">
+          <div className="v2-wrap">
+            <div className="v2-head">
+              <span className="v2-kicker">Servicios</span>
+              <h2 className="v2-h2">¿Qué hacemos?</h2>
+              <p className="v2-lead">Acompañamos cada proyecto con ingeniería, ejecución y soporte técnico.</p>
+            </div>
+            <div className="v2-services">
+              {services.map((s) => (
+                <article key={s.title} className="v2-service">
+                  <div className="v2-icon"><Icon name={s.icon} /></div>
+                  <h3 className="v2-h3">{s.title}</h3>
+                  <p className="v2-p">{s.text}</p>
+                  <a href="#soluciones" className="v2-link">Ver soluciones <span aria-hidden="true">→</span></a>
+                </article>
               ))}
             </div>
           </div>
         </section>
 
-        <main id="empresa" className="pt-8">
-          <section id="enfoque" className="landing-hero">
-            <div className="landing-section-heading landing-section-heading--hero">
-              <span className="section-badge">Empresa</span>
-              <p className="landing-section-description">Una compañía solar enfocada en transformar la energía en una ventaja estratégica.</p>
+        {/* ================= 5. SOLUCIONES ================= */}
+        <section id="soluciones" className="v2-section">
+          <div className="v2-wrap">
+            <div className="v2-head">
+              <span className="v2-kicker">Soluciones</span>
+              <h2 className="v2-h2">Soluciones para diferentes necesidades</h2>
+              <p className="v2-lead">Tecnologías que podemos implementar según el consumo, el sitio y los objetivos de cada cliente.</p>
             </div>
-
-            <div className="grid gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
-              <div className="relative z-10">
-                <h1 className="hero-title">
-                  <span>Ingeniería y energía</span>
-                  <span className="hero-title--muted">para una nueva era.</span>
-                </h1>
-
-                <p className="hero-copy">
-                  Ofrecemos soluciones de ingeniería y energía fotovoltaica para proyectos que requieren precisión técnica, eficiencia y compromiso con el desarrollo sostenible.
-                </p>
-
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <a href="#contacto" className="landing-button landing-button--primary">Contáctanos</a>
-                  <a href="#valores" className="landing-button landing-button--ghost">Nuestra historia</a>
-                </div>
-
-                <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                  {stats.map((stat) => (
-                    <div key={stat.label} className="mini-metric">
-                      <div className="mini-metric__label">{stat.label}</div>
-                      <div className="mini-metric__value" style={{ color: '#FFFFFF', opacity: 1 }}>{stat.value}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="relative">
-                <div className="hero-panel-card">
-                  <div className="hero-panel-card__header">
-                    <div>
-                      <div className="panel-tag">Perfil</div>
-                      <div className="hero-panel-title" style={{ color: '#FFFFFF', opacity: 1 }}>PROSOINPEN S.A.S.</div>
-                    </div>
-                    <span className="status-pill">NIT 901960765-2</span>
-                  </div>
-
-                  <div className="hero-panel-card__content">
-                    <div className="big-stat-block">
-                      <div className="panel-tag">Proyecto destacado</div>
-                      <div className="big-stat" style={{ color: '#FFFFFF', opacity: 1 }}>396</div>
-                      <div className="info-block__caption">sistemas fotovoltaicos · Municipio de Morales, Bolívar</div>
-                    </div>
-
-                    <div className="info-block" style={{ color: '#FFFFFF', opacity: 1 }}>
-                      Diseñamos soluciones energéticas inteligentes para acompañar a clientes desde la estrategia hasta la operación, con rigor técnico y una experiencia de primer nivel en cada etapa.
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </section>
-
-          {/* SECCIÓN 1: SOBRE NOSOTROS */}
-          <section
-            id="sobre-nosotros"
-            className="mt-16 relative overflow-hidden rounded-[28px] border border-white/10"
-            style={{
-              backgroundImage:
-                "linear-gradient(90deg, rgba(var(--ps-deep-rgb), 0.96) 0%, rgba(var(--ps-deep-rgb), 0.86) 42%, rgba(var(--ps-deep-rgb), 0.58) 100%), url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1800&q=85')",
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          >
-            <div className="relative z-10 p-6 sm:p-8 lg:p-10">
-              <div className="landing-section-heading mb-8 max-w-4xl">
-                <span className="section-badge">Sobre nosotros</span>
-                <h2 className="section-title section-title--left">
-                  Convertimos la energía en una inversión inteligente
-                </h2>
-                <p className="landing-section-description">
-                  En PROSOINPEN S.A.S. ayudamos a empresas y hogares a convertir la energía en una oportunidad de inversión y rentabilidad autosostenible durante más de 25 años. Creemos que la transición energética no solo protege a las generaciones futuras, sino que hoy se convierte en una decisión financiera inteligente y altamente estratégica.
-                </p>
-              </div>
-
-              <div className="benefits-grid">
-                {investmentBenefits.map((benefit) => (
-                  <article
-                    key={benefit.title}
-                    className="benefit-card"
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.04)',
-                      borderColor: 'rgba(255, 255, 255, 0.12)',
-                      backdropFilter: 'blur(10px)',
-                    }}
-                  >
-                    <div
-                      className="benefit-card__icon"
-                      aria-hidden="true"
-                      style={{ color: 'var(--ps-accent-2)' }}
-                    >
-                      ✦
-                    </div>
-                    <h3 className="benefit-card__title" style={{ color: '#FFFFFF', opacity: 1 }}>{benefit.title}</h3>
-                    <p className="benefit-card__text" style={{ color: '#FFFFFF', opacity: 1 }}>{benefit.text}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section id="valores" className="mt-12">
-            <div className="landing-section-heading mb-7">
-              <span className="section-badge">Equipo</span>
-              <h2 className="section-title section-title--left">Ingeniería detrás de cada proyecto.</h2>
-              <p className="landing-section-description">Conoce al equipo y los principios que convierten cada proyecto solar en una decisión clara, rentable y sostenible.</p>
-            </div>
-
-            <div className="about-layout">
-              <div className="about-image-frame">
-                {aboutImages.map((image, index) => (
-                  <img
-                    key={image.src}
-                    src={image.src}
-                    alt={image.alt}
-                    className={`about-image-slide ${index === aboutIndex ? 'is-active' : ''}`}
-                    aria-hidden={index !== aboutIndex}
-                  />
-                ))}
-                <span className="about-image-caption">Ingeniería que se ve en cada detalle</span>
-              </div>
-              <div className="value-grid">
-                {valueCards.map((card, index) => (
-                  <article id={card.id} key={card.title} tabIndex={0} className={`value-card ${index === 0 ? 'value-card--large' : ''}`}>
-                    <div className="value-card__icon">{card.title[0]}</div>
-                    <h3 style={{ color: '#FFFFFF', opacity: 1 }}>{card.title}</h3>
-                    <p style={{ color: '#FFFFFF', opacity: 1 }}>{card.text}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section id="soluciones" className="landing-services-section mt-12">
-            <div className="landing-section-heading mb-7 flex items-end justify-between gap-4">
-              <div>
-                <span className="section-badge">Soluciones</span>
-                <h2 className="section-title section-title--left">Nuestros servicios</h2>
-              </div>
-              <span className="landing-section-index">SOL / 05</span>
-            </div>
-
-            <div className="landing-services-grid">
-              {landingServices.map((service) => (
-                <article
-                  key={service.title}
-                  className="landing-service-card"
-                  
-                >
-                  <span className="landing-service-card__index">{service.icon}</span>
-                  <h3 style={{ color: '#FFFFFF', opacity: 1 }}>{service.title}</h3>
-                  <p style={{ color: '#FFFFFF', opacity: 1 }}>{service.description}</p>
-                  <a href="#contacto" aria-label={`Solicitar información sobre ${service.title}`}>Explorar <span aria-hidden="true">↗</span></a>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          {/* SECCIÓN 2: NUESTRO PORTAFOLIO */}
-          <section id="nuestro-portafolio" className="mt-16">
-            <div className="landing-section-heading mb-8 flex items-end justify-between gap-4">
-              <div>
-                <span className="section-badge">Soluciones</span>
-                <h2 className="section-title section-title--left">Líneas de solución</h2>
-                <p className="landing-section-description">
-                  Soluciones inteligentes en energía solar y movilidad eléctrica para un futuro más rentable y sostenible.
-                </p>
-              </div>
-              <span className="landing-section-index">SOL / 04</span>
-            </div>
-
-            <div className="portfolio-grid portfolio-grid--4-cards">
-              {portfolioItems.slice(0, 4).map((item) => (
-                <article key={item.title} className="portfolio-card portfolio-card--4-card">
-                  <div className="portfolio-card--4-card__media">
-                    <img src={item.image} alt={item.title} className="portfolio-card--4-card__image" />
-                    <div className="portfolio-card--4-card__gradient" />
-                    <span className="portfolio-card--4-card__icon">{item.icon}</span>
-                  </div>
-
-                  <div className="portfolio-card--4-card__content">
-                    <div className="portfolio-card--4-card__title-row">
-                      <div>
-                        <h3 style={{ color: '#FFFFFF', opacity: 1 }}>{item.title}</h3>
-                        <span>{item.subtitle}</span>
-                      </div>
-                      <span className="portfolio-card--4-card__arrow">↗</span>
-                    </div>
-
-                    <p style={{ color: '#FFFFFF', opacity: 1 }}>{item.text}</p>
-
-                    <a href="#contacto" aria-label={`Explorar solución ${item.title}`}>
-                      Explorar solución <span>→</span>
-                    </a>
+            <div className="v2-solutions">
+              {solutions.map((s, i) => (
+                <article key={s.title} className={`v2-solution ${s.image ? '' : 'v2-solution--solid'}`}>
+                  {s.image ? <img src={s.image} alt="" loading="lazy" /> : <span className="v2-solution__glyph" aria-hidden="true">ϟ</span>}
+                  <span className="v2-solution__n">{String(i + 1).padStart(2, '0')}</span>
+                  <div className="v2-solution__body">
+                    <h3 className="v2-h3">{s.title}</h3>
+                    <p className="v2-p">{s.text}</p>
                   </div>
                 </article>
               ))}
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section id="calculadora" className="solar-calculator mt-12">
-            <div className="landing-section-heading">
-              <span className="section-badge">Estimador solar</span>
-              <h2 className="section-title section-title--left">Calcula tu ahorro.</h2>
-              <p className="landing-section-description">Ingresa tu consumo mensual promedio y obtén una referencia inmediata.</p>
+        {/* ================= 6. PROYECTOS ================= */}
+        <section id="proyectos" className="v2-section v2-section--alt">
+          <div className="v2-wrap">
+            <div className="v2-head">
+              <span className="v2-kicker">Proyectos</span>
+              <h2 className="v2-h2">Proyectos que hablan por nosotros</h2>
+              <p className="v2-lead">Conoce algunos de los proyectos en los que hemos participado y las soluciones implementadas por nuestro equipo.</p>
             </div>
-            <div className="solar-calculator__body" aria-label="Calculadora de ahorro solar">
-              <div className="solar-calculator__controls">
-                <label className="solar-calculator__input">
-                  <span>Consumo mensual: <strong>{monthlyKwh} kWh</strong></span>
-                  <input aria-label="Consumo mensual en kWh" type="range" min="50" max="3000" step="50" value={monthlyKwh} onChange={(event) => setMonthlyKwh(Number(event.target.value))} />
-                  <div className="solar-calculator__range"><span>50 kWh</span><span>3.000 kWh</span></div>
-                </label>
-                <label className="solar-calculator__input">
-                  <span>Tarifa de energía: <strong>${energyRate.toLocaleString('es-CO')} / kWh</strong></span>
-                  <input aria-label="Tarifa de energía en pesos colombianos" type="range" min="400" max="1400" step="50" value={energyRate} onChange={(event) => setEnergyRate(Number(event.target.value))} />
-                  <div className="solar-calculator__range"><span>$400</span><span>$1.400</span></div>
-                </label>
-                <label className="solar-calculator__input">
-                  <span>Cobertura solar estimada: <strong>{solarCoverage}%</strong></span>
-                  <input aria-label="Cobertura solar estimada" type="range" min="30" max="100" step="5" value={solarCoverage} onChange={(event) => setSolarCoverage(Number(event.target.value))} />
-                  <div className="solar-calculator__range"><span>30%</span><span>100%</span></div>
-                </label>
-              </div>
-              <div className="solar-calculator__results">
-                <div><span>Sistema sugerido</span><strong>{suggestedKwp} kWp</strong><small>≈ {estimatedPanels} paneles</small></div>
-                <div className="solar-calculator__investment"><span>Inversión estimada llave en mano</span><strong>${estimatedInvestment.toLocaleString('es-CO')}</strong><small>Incluye equipos, instalación y puesta en marcha</small></div>
-                <div><span>Ahorro mensual estimado</span><strong>${estimatedMonthlySavings.toLocaleString('es-CO')}</strong></div>
-                <div><span>Ahorro anual estimado</span><strong>${estimatedAnnualSavings.toLocaleString('es-CO')}</strong></div>
-                <div><span>Retorno aproximado</span><strong>{estimatedPayback} años</strong></div>
-                <div><span>Costo promedio instalado</span><strong>${costPerKwp.toLocaleString('es-CO')} / kWp</strong></div>
-                <a href="#contacto" className="landing-button landing-button--primary">Solicitar estudio real</a>
-              </div>
-            </div>
-            <p className="solar-calculator__note">Referencia orientativa para Colombia. La tarifa, radiación, tipo de techo, excedentes y condiciones del proyecto pueden cambiar el resultado final.</p>
-          </section>
-
-          <section id="galeria" className="mt-12">
-            <div className="gallery-shell">
-              <div className="gallery-heading">
-                <span className="section-badge">Proyectos</span>
-                <h2 className="section-title section-title--left">Nuestro portafolio</h2>
-                <p className="landing-section-description">Explora soluciones, instalaciones y equipos que convierten la energía en resultados reales.</p>
-              </div>
-
-              <div className="gallery-toolbar">
-                <Link href="/proyectos" className="landing-button landing-button--primary">Ver galería completa</Link>
-              </div>
-
-              <ProjectsGallery />
-            </div>
-          </section>
-
-
-          {testimonials.length > 0 ? (
-          <section id="testimonios" className="landing-testimonials mt-12">
-            <div className="landing-section-heading">
-              <span className="section-badge">Confianza</span>
-              <h2 className="section-title section-title--left">Lo que dicen nuestros clientes.</h2>
-            </div>
-            <div className="landing-testimonials__grid">
-              {testimonials.map((testimonial) => (
-                <blockquote key={testimonial.name} className="testimonial-card">
-                  <span className="testimonial-card__mark">“</span>
-                  <p style={{ color: '#FFFFFF', opacity: 1 }}>{testimonial.quote}</p>
-                  <footer><strong>{testimonial.name}</strong><span style={{ color: '#FFFFFF', opacity: 1 }}>{testimonial.role}</span></footer>
-                </blockquote>
-              ))}
-              <div className="trust-strip"><span>DISEÑO A MEDIDA</span><span>MONITOREO</span><span>SOPORTE TÉCNICO</span><span>ENERGÍA LIMPIA</span></div>
-            </div>
-          </section>
-          ) : null}
-
-          <section id="faq" className="landing-faq mt-12">
-            <div className="landing-section-heading">
-              <span className="section-badge">Preguntas frecuentes</span>
-              <h2 className="section-title section-title--left">Todo más claro.</h2>
-              <p className="landing-section-description">Resolvemos las dudas más comunes antes de comenzar tu proyecto.</p>
-            </div>
-            <div className="faq-list">
-              {faqs.map((faq) => {
-                const isOpen = openFaq === faq.question;
-                return (
-                  <div key={faq.question} className={`faq-item ${isOpen ? 'open' : ''}`}>
-                    <button type="button" aria-expanded={isOpen} onClick={() => setOpenFaq(isOpen ? null : faq.question)}>
-                      <span>{faq.question}</span><span aria-hidden="true">{isOpen ? '−' : '+'}</span>
-                    </button>
-                    {isOpen ? <p>{faq.answer}</p> : null}
+            <div className="v2-projects">
+              {featuredProjects.map((p, i) => (
+                <Link key={p.title} href={p.href} className="v2-project">
+                  <div className="v2-project__img">
+                    <img src={p.image} alt={p.title} loading="lazy" />
+                    <span className="v2-project__num">PROYECTO {String(i + 1).padStart(2, '0')}</span>
                   </div>
-                );
-              })}
+                  <div className="v2-project__body">
+                    <h3 className="v2-h3">{p.title}</h3>
+                    <div className="v2-meta">
+                      <span><i aria-hidden="true">📍</i>{p.place}</span>
+                      <span><i aria-hidden="true">⚡</i>{p.solution}</span>
+                      <span><i aria-hidden="true">📊</i>{p.detail}</span>
+                    </div>
+                    <span className="v2-link">Ver proyecto <span aria-hidden="true">→</span></span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="v2-projects__more">
+              <Link href="/proyectos" className="v2-btn v2-btn--ghost">Ver todos los proyectos y fotografías</Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= 7. CASO DE ÉXITO ================= */}
+        <section className="v2-section" aria-labelledby="caso-titulo">
+          <div className="v2-wrap">
+            <div className="v2-head">
+              <span className="v2-kicker">Caso de éxito</span>
+              <h2 id="caso-titulo" className="v2-h2">De la necesidad al resultado</h2>
+            </div>
+            <div className="v2-case">
+              <div className="v2-case__hero">
+                <span className="v2-kicker">Proyecto fotovoltaico</span>
+                <div className="v2-case__big">396<small>sistemas fotovoltaicos instalados</small></div>
+                <div className="v2-case__place">📍 Municipio de Morales, Bolívar</div>
+              </div>
+              <div className="v2-case__steps">
+                <div className="v2-case__step"><b>El desafío</b><p>Llevar generación fotovoltaica a múltiples usuarios del municipio.</p></div>
+                <div className="v2-case__step"><b>La solución</b><p>Implementación de sistemas fotovoltaicos adaptados a las condiciones del proyecto.</p></div>
+                <div className="v2-case__step"><b>El resultado</b><p>396 sistemas fotovoltaicos instalados y en funcionamiento.</p></div>
+                <div className="v2-case__step"><b>¿Tu proyecto?</b><a href="#contacto" className="v2-btn v2-btn--primary">Hablemos de tu proyecto</a></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= 8. CALCULADORA ================= */}
+        <section id="calculadora" className="v2-section v2-section--alt">
+          <div className="v2-wrap">
+            <div className="v2-head v2-head--center">
+              <span className="v2-kicker">Calculadora solar</span>
+              <h2 className="v2-h2">¿Cuánto podrías ahorrar con energía solar?</h2>
+              <p className="v2-lead">Realiza una estimación inicial de la solución que podría adaptarse a tu consumo.</p>
+            </div>
+
+            <div className="v2-calc">
+              <div className="v2-calc__steps">
+                <div className="v2-step">
+                  <div className="v2-step__head">
+                    <span className="v2-step__label"><i>1</i>¿Cuánto consumes al mes?</span>
+                    <span className="v2-step__value">{monthlyKwh.toLocaleString('es-CO')} kWh</span>
+                  </div>
+                  <input className="v2-range" type="range" min={50} max={3000} step={10} value={monthlyKwh} onChange={(e) => setMonthlyKwh(Number(e.target.value))} aria-label="Consumo mensual en kWh" />
+                  <div className="v2-range__ends"><span>50 kWh</span><span>3.000 kWh</span></div>
+                </div>
+
+                <div className="v2-step">
+                  <div className="v2-step__head">
+                    <span className="v2-step__label"><i>2</i>¿Cuánto pagas aproximadamente?</span>
+                    <span className="v2-step__value">{cop(monthlyBill)}</span>
+                  </div>
+                  <input className="v2-range" type="range" min={50000} max={6000000} step={10000} value={monthlyBill} onChange={(e) => setMonthlyBill(Number(e.target.value))} aria-label="Pago mensual aproximado en pesos" />
+                  <div className="v2-range__ends"><span>$50.000</span><span>$6.000.000</span></div>
+                </div>
+
+                <div className="v2-step">
+                  <div className="v2-step__head">
+                    <span className="v2-step__label"><i>3</i>¿Qué tipo de proyecto tienes?</span>
+                  </div>
+                  <div className="v2-types" role="radiogroup" aria-label="Tipo de proyecto">
+                    {PROJECT_TYPES.map((t) => (
+                      <label key={t.id} className="v2-type">
+                        <input type="radio" name="project-type" value={t.id} checked={projectType === t.id} onChange={() => setProjectType(t.id)} />
+                        <span>{t.label}<small>{t.hint}</small></span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <aside className="v2-result" aria-live="polite">
+                <span className="v2-kicker">Tu sistema estimado</span>
+                <div className="v2-result__main"><b>{suggestedKwp.toLocaleString('es-CO')}</b><span>kWp</span></div>
+                <p className="v2-p">≈ {estimatedPanels} paneles · proyecto tipo {typeLabel.toLowerCase()}</p>
+                <div className="v2-result__rows">
+                  <div><span>Ahorro estimado</span><strong>{cop(monthlySavings)} / mes</strong></div>
+                  <div><span>Retorno estimado</span><strong>{paybackYears.replace('.', ',')} años</strong></div>
+                  <div><span>Inversión de referencia</span><strong>{cop(referenceInvestment)}</strong></div>
+                </div>
+                <p className="v2-result__ask">¿Quieres conocer el valor real de tu proyecto?</p>
+                <button type="button" className="v2-btn v2-btn--primary" onClick={requestStudy}>Solicitar estudio personalizado</button>
+                <p className="v2-disclaimer">
+                  Los resultados son estimaciones y pueden variar según la ubicación, el consumo, la tarifa eléctrica, las condiciones del sitio y las características del proyecto. No constituyen una cotización.
+                </p>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= 9. PROCESO ================= */}
+        <section id="proceso" className="v2-section">
+          <div className="v2-wrap">
+            <div className="v2-head">
+              <span className="v2-kicker">Nuestro proceso</span>
+              <h2 className="v2-h2">Así desarrollamos tu proyecto</h2>
+            </div>
+            <ol className="v2-process">
+              {processSteps.map((s, i) => (
+                <li key={s.title} className="v2-pstep">
+                  <span className="v2-pstep__n">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className="v2-h3">{s.title}</h3>
+                  <p className="v2-p">{s.text}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ================= 10. POR QUÉ PROSOINPEN ================= */}
+        <section className="v2-section v2-section--alt" aria-labelledby="porque-titulo">
+          <div className="v2-wrap">
+            <div className="v2-head">
+              <span className="v2-kicker">¿Por qué PROSOINPEN?</span>
+              <h2 id="porque-titulo" className="v2-h2">Una solución integral, de principio a fin</h2>
+            </div>
+            <div className="v2-why">
+              {reasons.map((r) => (
+                <div key={r.title} className="v2-why__item">
+                  <div className="v2-icon"><Icon name={r.icon} /></div>
+                  <h3 className="v2-h3">{r.title}</h3>
+                  <p className="v2-p">{r.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ================= 12. TESTIMONIOS (solo si hay reales) ================= */}
+        {testimonials.length > 0 ? (
+          <section id="testimonios" className="v2-section">
+            <div className="v2-wrap">
+              <div className="v2-head"><span className="v2-kicker">Testimonios</span><h2 className="v2-h2">Lo que dicen nuestros clientes</h2></div>
+              <div className="v2-why">
+                {testimonials.map((t) => (
+                  <blockquote key={t.name} className="v2-why__item">
+                    <p className="v2-p">“{t.quote}”</p>
+                    <footer className="v2-p" style={{ marginTop: '1rem' }}><b>{t.name}</b><br />{t.role}</footer>
+                  </blockquote>
+                ))}
+              </div>
             </div>
           </section>
+        ) : null}
 
-          <section id="contacto" className="mt-12 pb-10">
-            <div className="cta-panel">
-              <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-                <div className="landing-section-heading landing-section-heading--contact">
-                  <span className="section-badge">Contacto</span>
-                  <h2 className="section-title section-title--left">Hablemos de tu próximo proyecto.</h2>
-                  <p className="cta-copy">
-                    Te acompañamos desde el diagnóstico inicial hasta la puesta en marcha, con un equipo humano, técnico y responsable en cada etapa.
-                  </p>
-                  <a className="whatsapp-button" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                    <WhatsAppIcon className="whatsapp-button__icon" />
-                    Conversar por WhatsApp
+        {/* ================= 13. PREGUNTAS FRECUENTES ================= */}
+        <section id="faq" className="v2-section">
+          <div className="v2-wrap">
+            <div className="v2-head v2-head--center">
+              <span className="v2-kicker">Preguntas frecuentes</span>
+              <h2 className="v2-h2">Resolvemos tus dudas</h2>
+            </div>
+            <div className="v2-faq">
+              {faqs.map((f, i) => (
+                <details key={f.q} open={i === 0}>
+                  <summary>{f.q}</summary>
+                  <p>{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ================= 14. CTA FINAL + CONTACTO ================= */}
+        <section id="contacto" className="v2-section" style={{ paddingTop: 0 }}>
+          <div className="v2-wrap">
+            <div className="v2-cta">
+              <div>
+                <span className="v2-kicker">Contacto</span>
+                <h2 className="v2-h2">¿Tienes un proyecto energético?</h2>
+                <p className="v2-lead">Cuéntanos qué necesitas. Nuestro equipo puede ayudarte a evaluar la solución más adecuada para tu proyecto.</p>
+                <div className="v2-cta__actions">
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="v2-btn v2-btn--wa">
+                    <WhatsAppIcon className="whatsapp-button__icon" /> Hablar con un asesor
                   </a>
+                  <a href="#contact-form" className="v2-btn v2-btn--ghost">Solicitar cotización</a>
                 </div>
-
-                <form className="contact-form" onSubmit={handleContactSubmit}>
-                  <label>
-                    <span>Nombre</span>
-                    <input name="name" type="text" autoComplete="name" required maxLength={100} />
-                  </label>
-                  <label>
-                    <span>Correo electrónico</span>
-                    <input name="email" type="email" autoComplete="email" required maxLength={160} />
-                  </label>
-                  <label>
-                    <span>Teléfono</span>
-                    <input name="phone" type="tel" autoComplete="tel" maxLength={30} />
-                  </label>
-                  <label className="contact-form__message">
-                    <span>¿En qué podemos ayudarte?</span>
-                    <textarea name="message" required maxLength={1200} rows={4} />
-                  </label>
-                  <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="contact-form__trap" />
-                  <button type="submit" className="landing-button landing-button--primary" disabled={contactStatus === 'sending'}>
-                    {contactStatus === 'sending' ? 'Enviando...' : 'Solicitar información'}
-                  </button>
-                  {contactStatus === 'sent' ? (
-                    <p className="contact-form__notice" role="status">
-                      ¡Gracias! Recibimos tu solicitud y te contactaremos muy pronto.
-                    </p>
-                  ) : null}
-                  {contactStatus === 'mailto' ? (
-                    <p className="contact-form__notice" role="status">
-                      Abrimos tu aplicación de correo con el mensaje listo. Si no se abrió, escríbenos por{' '}
-                      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
-                    </p>
-                  ) : null}
-                  {contactStatus === 'error' ? (
-                    <p className="contact-form__notice contact-form__notice--error" role="alert">
-                      {contactError} También puedes escribirnos por{' '}
-                      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
-                    </p>
-                  ) : null}
-                </form>
+                <div className="v2-cta__contact">
+                  <span>📱 WhatsApp: <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">+57 311 216 7711</a></span>
+                  <span>📧 Correo: <a href="mailto:ing.edwinsierra@gmail.com">ing.edwinsierra@gmail.com</a></span>
+                  <span>📍 Colombia</span>
+                </div>
               </div>
+
+              <form id="contact-form" className="v2-form" onSubmit={handleContactSubmit}>
+                <label>Nombre<input id="contact-name" name="name" type="text" autoComplete="name" required maxLength={100} /></label>
+                <label>Teléfono<input name="phone" type="tel" autoComplete="tel" maxLength={30} /></label>
+                <label className="full">Correo electrónico<input name="email" type="email" autoComplete="email" required maxLength={160} /></label>
+                <label className="full">¿En qué podemos ayudarte?
+                  <textarea name="message" required maxLength={1200} rows={5} value={contactMessage} onChange={(e) => setContactMessage(e.target.value)} placeholder="Cuéntanos sobre tu proyecto: tipo, ubicación y consumo aproximado." />
+                </label>
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="contact-form__trap" />
+                <button type="submit" className="v2-btn v2-btn--primary" disabled={contactStatus === 'sending'}>
+                  {contactStatus === 'sending' ? 'Enviando…' : 'Solicitar cotización'}
+                </button>
+                {contactStatus === 'sent' ? <p className="contact-form__notice" role="status">¡Gracias! Recibimos tu solicitud y te contactaremos muy pronto.</p> : null}
+                {contactStatus === 'mailto' ? (
+                  <p className="contact-form__notice" role="status">
+                    Abrimos tu aplicación de correo con el mensaje listo. Si no se abrió, escríbenos por{' '}
+                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+                  </p>
+                ) : null}
+                {contactStatus === 'error' ? (
+                  <p className="contact-form__notice contact-form__notice--error" role="alert">
+                    {contactError} También puedes escribirnos por{' '}
+                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+                  </p>
+                ) : null}
+              </form>
             </div>
-          </section>
-        </main>
+          </div>
+        </section>
+      </main>
 
-
-        <style jsx global>{`
-          :root {
-            --solar-green: var(--ps-accent-2);
-            --solar-green-soft: rgba(var(--ps-accent-rgb), 0.16);
-            --solar-dark: var(--ps-deep);
-            --solar-card: rgba(var(--ps-deep-2-rgb), 0.78);
-          }
-
-          html { scroll-behavior: smooth; }
-
-          .investment-section {
-            position: relative;
-            overflow: hidden;
-            min-height: 570px;
-            border: 1px solid rgba(var(--ps-glow-rgb), 0.14);
-            border-radius: 22px;
-            isolation: isolate;
-            background: var(--ps-deep);
-          }
-
-          .investment-section__backdrop {
-            position: absolute;
-            inset: 0;
-            z-index: -2;
-            background:
-              linear-gradient(90deg, rgba(var(--ps-deep-rgb), .94) 0%, rgba(var(--ps-deep-rgb), .76) 38%, rgba(var(--ps-deep-rgb), .42) 100%),
-              url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1800&q=90') center/cover;
-            transform: scale(1.02);
-          }
-
-          .investment-section::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            background: radial-gradient(circle at 75% 50%, rgba(var(--ps-glow-rgb), .10), transparent 38%);
-            pointer-events: none;
-          }
-
-          .investment-section__content {
-            position: relative;
-            padding: 64px 38px;
-          }
-
-          .investment-intro {
-            max-width: 690px;
-            margin-bottom: 34px;
-          }
-
-          .investment-intro .section-title {
-            max-width: 650px;
-            margin-top: 14px;
-            text-shadow: 0 0 28px rgba(var(--ps-glow-rgb), .08);
-          }
-
-          .investment-intro .landing-section-description {
-            max-width: 700px;
-          }
-
-          .benefits-grid {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px;
-          }
-
-          .benefit-card {
-            min-height: 125px;
-            padding: 18px 20px;
-            border: 1px solid rgba(255,255,255,.16);
-            border-radius: 15px;
-            background: rgba(var(--ps-deep-2-rgb), .58);
-            backdrop-filter: blur(10px);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 12px 35px rgba(0,0,0,.14);
-            transition: transform .28s ease, border-color .28s ease, background .28s ease, box-shadow .28s ease;
-          }
-
-          .benefit-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(var(--ps-glow-rgb), .48);
-            background: rgba(var(--ps-deep-2-rgb), .76);
-            box-shadow: 0 14px 45px rgba(0,0,0,.28), 0 0 25px rgba(var(--ps-glow-rgb), .07);
-          }
-
-          .benefit-card__top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-          }
-
-          .benefit-card__icon {
-            display: grid;
-            place-items: center;
-            width: 31px;
-            height: 31px;
-            border: 1px solid rgba(var(--ps-glow-rgb), .38);
-            border-radius: 8px;
-            color: var(--solar-green);
-            background: rgba(var(--ps-glow-rgb), .09);
-            box-shadow: 0 0 18px rgba(var(--ps-glow-rgb), .10);
-          }
-
-          .benefit-card__number {
-            font-size: 12px;
-            letter-spacing: .16em;
-            color: rgba(255,255,255,.38);
-          }
-
-          .benefit-card__title {
-            margin: 0 0 6px;
-            font-size: 15px;
-            color: #fff;
-          }
-
-          .benefit-card__text {
-            margin: 0;
-            color: rgba(255,255,255,.63);
-            font-size: 13.5px;
-            line-height: 1.55;
-          }
-
-          /* PORTAFOLIO: 4 tarjetas, cuadrícula 2 x 2 */
-          .portfolio-grid--4-cards {
-            width: min(100%, 900px);
-            margin: 0 auto;
-            display: grid !important;
-            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-            grid-template-rows: repeat(2, auto);
-            gap: 16px !important;
-            align-items: stretch;
-          }
-
-          .portfolio-card--4-card {
-            min-width: 0;
-            overflow: hidden;
-            padding: 0 !important;
-            border: 1px solid rgba(255,255,255,.12) !important;
-            border-radius: 14px;
-            background: var(--ps-surface) !important;
-            box-shadow: 0 10px 30px rgba(0,0,0,.20);
-            transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
-          }
-
-          .portfolio-card--4-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(var(--ps-glow-rgb), .50) !important;
-            box-shadow: 0 18px 45px rgba(0,0,0,.34), 0 0 24px rgba(var(--ps-glow-rgb), .08);
-          }
-
-          .portfolio-card--4-card__media {
-            position: relative;
-            width: 100%;
-            height: 165px;
-            overflow: hidden;
-          }
-
-          .portfolio-card--4-card__image {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: cover;
-            transition: transform .5s ease;
-          }
-
-          .portfolio-card--4-card:hover .portfolio-card--4-card__image {
-            transform: scale(1.06);
-          }
-
-          .portfolio-card--4-card__gradient {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0) 42%, rgba(var(--ps-deep-rgb), .72) 100%);
-          }
-
-          .portfolio-card--4-card__icon {
-            position: absolute;
-            left: 13px;
-            bottom: -1px;
-            transform: translateY(50%);
-            width: 34px;
-            height: 34px;
-            display: grid;
-            place-items: center;
-            border: 1px solid rgba(var(--ps-glow-rgb), .62);
-            border-radius: 8px;
-            color: var(--ps-accent-2);
-            background: rgba(var(--ps-accent-rgb), 0.12);
-            box-shadow: 0 0 18px rgba(var(--ps-glow-rgb), .14);
-            font-size: 16px;
-            z-index: 2;
-          }
-
-          .portfolio-card--4-card__content {
-            padding: 22px 14px 15px;
-          }
-
-          .portfolio-card--4-card__title-row {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 10px;
-          }
-
-          .portfolio-card--4-card__title-row h3 {
-            margin: 0;
-            color: #fff;
-            font-size: 15px;
-            line-height: 1.2;
-          }
-
-          .portfolio-card--4-card__title-row span:not(.portfolio-card--4-card__arrow) {
-            display: block;
-            margin-top: 5px;
-            color: var(--ps-accent-2);
-            font-size: 9px;
-          }
-
-          .portfolio-card--4-card__arrow {
-            color: var(--ps-accent-2);
-            font-size: 17px;
-            transition: transform .25s ease;
-          }
-
-          .portfolio-card--4-card:hover .portfolio-card--4-card__arrow {
-            transform: translate(3px, -3px);
-          }
-
-          .portfolio-card--4-card__content p {
-            min-height: 43px;
-            margin: 12px 0 12px;
-            color: rgba(255,255,255,.58);
-            font-size: 12px;
-            line-height: 1.55;
-          }
-
-          .portfolio-card--4-card__content a {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: color .2s ease, gap .2s ease;
-          }
-
-          .portfolio-card--4-card__content a:hover {
-            color: var(--ps-accent-2);
-            gap: 10px;
-          }
-
-          .portfolio-heading {
-            max-width: 760px;
-          }
-
-          .portfolio-card--visual {
-            overflow: hidden;
-            padding: 0 !important;
-            border: 1px solid rgba(255,255,255,.13) !important;
-            border-radius: 15px;
-            background: rgba(var(--ps-deep-2-rgb), .88) !important;
-            box-shadow: 0 14px 40px rgba(0,0,0,.18);
-            transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
-          }
-
-          .portfolio-card--visual:hover {
-            transform: translateY(-7px);
-            border-color: rgba(var(--ps-glow-rgb), .55) !important;
-            box-shadow: 0 20px 55px rgba(0,0,0,.35), 0 0 28px rgba(var(--ps-glow-rgb), .08);
-          }
-
-          .portfolio-card__image-wrap {
-            position: relative;
-            height: 185px;
-            overflow: hidden;
-          }
-
-          .portfolio-card__image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform .55s ease, filter .55s ease;
-          }
-
-          .portfolio-card--visual:hover .portfolio-card__image {
-            transform: scale(1.07);
-            filter: saturate(1.08);
-          }
-
-          .portfolio-card__image-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(var(--ps-deep-rgb), .82));
-          }
-
-          .portfolio-card__icon {
-            position: absolute;
-            left: 14px;
-            bottom: 14px;
-            display: grid;
-            place-items: center;
-            width: 38px;
-            height: 38px;
-            border: 1px solid rgba(var(--ps-glow-rgb), .5);
-            border-radius: 9px;
-            color: var(--solar-green);
-            background: rgba(var(--ps-deep-rgb), .78);
-            backdrop-filter: blur(7px);
-            font-size: 19px;
-            box-shadow: 0 0 20px rgba(var(--ps-glow-rgb), .12);
-          }
-
-          .portfolio-card__counter {
-            position: absolute;
-            right: 15px;
-            bottom: 16px;
-            font-size: 12px;
-            letter-spacing: .18em;
-            color: rgba(255,255,255,.58);
-          }
-
-          .portfolio-card__body {
-            padding: 18px 19px 19px;
-          }
-
-          .portfolio-card__header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 15px;
-          }
-
-          .portfolio-card__title {
-            margin: 0;
-            font-size: 17px;
-            line-height: 1.2;
-            color: #fff;
-          }
-
-          .portfolio-card__subtitle {
-            margin-top: 5px;
-            color: var(--solar-green);
-            font-size: 12px;
-            letter-spacing: .04em;
-          }
-
-          .portfolio-card__arrow {
-            color: var(--solar-green);
-            font-size: 19px;
-            transition: transform .25s ease;
-          }
-
-          .portfolio-card--visual:hover .portfolio-card__arrow {
-            transform: translate(3px, -3px);
-          }
-
-          .portfolio-card__text {
-            margin: 13px 0 15px;
-            color: rgba(255,255,255,.58);
-            font-size: 13.5px;
-            line-height: 1.6;
-          }
-
-          .portfolio-card__link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #fff;
-            font-size: 13.5px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: color .25s ease, gap .25s ease;
-          }
-
-          .portfolio-card__link:hover {
-            color: var(--solar-green);
-            gap: 12px;
-          }
-
-          /* Máxima legibilidad: blanco puro 100% en TODAS las cards (sobrescribe jsx con hash) */
-          .value-card h3, .value-card p,
-          .benefit-card__title, .benefit-card__text,
-          .portfolio-card--4-card__title-row h3, .portfolio-card--4-card__content p,
-          .portfolio-card__title, .portfolio-card__text {
-            color: #FFFFFF !important;
-            opacity: 1 !important;
-          }
-
-          @media (max-width: 760px) {
-            .investment-section__content { padding: 42px 20px; }
-            .investment-section { min-height: auto; }
-            .benefits-grid { grid-template-columns: 1fr; }
-            .portfolio-grid--4-cards {
-              grid-template-columns: 1fr !important;
-              grid-template-rows: none;
-              width: 100%;
-            }
-            .portfolio-card--4-card__media {
-              height: 190px;
-            }
-          }
-        `}</style>
-
-        <footer className="footer-panel">
-          <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+      {/* ================= 15. FOOTER ================= */}
+      <footer className="v2-footer">
+        <div className="v2-wrap">
+          <div className="v2-footer__grid">
             <div>
-              <div className="flex items-center gap-4">
-                <button
-                  type="button"
-                  className="brand-logo-wrap"
-                  title="PROSOINPEN S.A.S. — NIT: 901960765-2 · clic para ampliar"
-                  aria-label="Ampliar logo de PROSOINPEN S.A.S."
-                  aria-haspopup="dialog"
-                  onClick={() => setLogoOpen(true)}
-                >
-                  <img
-                    src="/logo-prosoinpen.svg"
-                    alt="Logo de PROSOINPEN S.A.S. — NIT 901960765-2"
-                    className="brand-logo"
-                    width={400}
-                    height={430}
-                    loading="lazy"
-                  />
-                  <span className="brand-logo-zoom" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
-                      <circle cx="11" cy="11" r="7" />
-                      <path d="M16.5 16.5 21 21M11 8.5v5M8.5 11h5" />
-                    </svg>
-                  </span>
+              <div className="v2-brand">
+                <button type="button" className="brand-logo-wrap" aria-label="Ampliar logo de PROSOINPEN S.A.S." onClick={() => setLogoOpen(true)}>
+                  <img src="/logo-prosoinpen.svg" alt="Logo de PROSOINPEN S.A.S." className="brand-logo" width={400} height={430} />
                 </button>
                 <div>
-                  <div className="brand-kicker">PROSOINPEN</div>
-                  <div className="brand-name brand-name--landing">S.A.S. · NIT 901960765-2</div>
+                  <div className="v2-brand__name">PROSOINPEN S.A.S.</div>
+                  <div className="v2-brand__tag">Ingeniería · Energía · Infraestructura</div>
                 </div>
               </div>
-              <p className="footer-copy">
-                Proyectos y soluciones de ingeniería, energía fotovoltaica, sistemas eléctricos y obras civiles.
+              <p className="v2-p" style={{ marginTop: '1.2rem', maxWidth: '26rem' }}>
+                Proyectos y Soluciones de Ingeniería El Pentágono S.A.S. · NIT 901960765-2
               </p>
             </div>
-
             <div>
-              <div className="footer-title">Navegación</div>
-              <ul className="footer-list">
-                <li><Link href="#empresa">Empresa</Link></li>
-                <li><Link href="#valores">Valores</Link></li>
-                <li><Link href="#contacto">Contacto</Link></li>
+              <h4>Navegación</h4>
+              <ul>
+                <li><a href="#top">Inicio</a></li>
+                {navLinks.map((l) => <li key={l.href}><a href={l.href}>{l.label}</a></li>)}
               </ul>
             </div>
-
             <div>
-              <div className="footer-title">Contacto</div>
-              <ul className="footer-list">
-                <li>PROSOINPEN S.A.S.</li>
-                <li>NIT: 901960765-2</li>
-                <li>Proyectos y Soluciones de Ingeniería El Pentágono S.A.S.</li>
+              <h4>Contacto</h4>
+              <ul>
+                <li><a href={whatsappUrl} target="_blank" rel="noopener noreferrer">📱 WhatsApp +57 311 216 7711</a></li>
+                <li><a href="mailto:ing.edwinsierra@gmail.com">📧 ing.edwinsierra@gmail.com</a></li>
+                <li>📍 Colombia</li>
               </ul>
             </div>
           </div>
-
-          <div className="footer-bottom footer-bottom--theme">
-            <span>© {new Date().getFullYear()} PROSOINPEN S.A.S. · NIT 901960765-2. Todos los derechos reservados.</span>
-            <ThemeToggle />
+          <div className="v2-footer__bottom">
+            <span>© {new Date().getFullYear()} PROSOINPEN S.A.S. Todos los derechos reservados.</span>
+            <span style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              <Link href="/admin/login">Acceso administración</Link>
+              <ThemeToggle />
+            </span>
           </div>
-        </footer>
+        </div>
+      </footer>
 
-        {logoOpen ? (
-          <div
-            className="logo-lightbox"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Logo de PROSOINPEN S.A.S. ampliado"
-            onClick={() => setLogoOpen(false)}
-          >
-            <div className="logo-lightbox__backdrop" aria-hidden="true" />
-            <div
-              className="logo-lightbox__panel"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <button
-                type="button"
-                className="logo-lightbox__close"
-                aria-label="Cerrar logo ampliado"
-                autoFocus
-                onClick={() => setLogoOpen(false)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Escape') setLogoOpen(false);
-                }}
-              >
-                ✕
-              </button>
-              <div className="logo-lightbox__media">
-                <img
-                  src="/logo-prosoinpen.svg"
-                  alt="Logo completo de PROSOINPEN S.A.S. — Proyectos y Soluciones de Ingeniería El Pentágono, NIT 901960765-2"
-                  width={520}
-                  height={560}
-                />
-              </div>
-              <div className="logo-lightbox__title">PROSOINPEN S.A.S.</div>
-              <div className="logo-lightbox__subtitle">NIT 901960765-2</div>
-              <p className="logo-lightbox__text">
-                Proyectos y Soluciones de Ingeniería El Pentágono S.A.S.
-              </p>
-              <p className="logo-lightbox__hint">Haz clic fuera o en ✕ para cerrar</p>
+      {/* Logo ampliado */}
+      {logoOpen ? (
+        <div className="logo-lightbox" role="dialog" aria-modal="true" aria-label="Logo de PROSOINPEN S.A.S. ampliado" onClick={() => setLogoOpen(false)}>
+          <div className="logo-lightbox__backdrop" aria-hidden="true" />
+          <div className="logo-lightbox__panel" onClick={(e) => e.stopPropagation()}>
+            <button type="button" className="logo-lightbox__close" aria-label="Cerrar logo ampliado" autoFocus onClick={() => setLogoOpen(false)}>✕</button>
+            <div className="logo-lightbox__media">
+              <img src="/logo-prosoinpen.svg" alt="Logo completo de PROSOINPEN S.A.S., NIT 901960765-2" width={520} height={560} />
             </div>
+            <div className="logo-lightbox__title">PROSOINPEN S.A.S.</div>
+            <div className="logo-lightbox__subtitle">NIT 901960765-2</div>
+            <p className="logo-lightbox__text">Proyectos y Soluciones de Ingeniería El Pentágono S.A.S.</p>
+            <p className="logo-lightbox__hint">Haz clic fuera o en ✕ para cerrar</p>
           </div>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </div>
   );
 }
