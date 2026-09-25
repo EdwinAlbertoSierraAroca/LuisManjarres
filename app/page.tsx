@@ -155,11 +155,23 @@ const postSales = [
   { icon: '🛠️', title: 'Soporte técnico local', text: 'Atención preventiva y correctiva en la región.' },
 ];
 
-const faqs = [
-  { question: '¿Qué mantenimiento requieren los paneles?', answer: 'Recomendamos una revisión preventiva y limpieza técnica periódica. Nuestro equipo también puede monitorear el rendimiento de forma remota.' },
-  { question: '¿Qué garantía tienen los sistemas?', answer: 'La cobertura depende del equipo y del proyecto. Presentamos las garantías de componentes, instalación y rendimiento de forma clara en cada propuesta.' },
-  { question: '¿Ustedes gestionan los trámites con la red?', answer: 'Sí. Acompañamos la documentación, las validaciones y la coordinación necesarias para la conexión del sistema según la normativa aplicable.' },
-  { question: '¿Tienen opciones de financiación?', answer: 'Evaluamos alternativas de financiación con aliados y estructuramos la propuesta para que puedas comparar inversión, ahorro y retorno.' },
+type FaqCategory = 'instalacion' | 'ley';
+const FAQ_TABS: Array<{ id: 'todos' | FaqCategory; label: string }> = [
+  { id: 'todos', label: 'Todas' },
+  { id: 'instalacion', label: 'Instalación y red' },
+  { id: 'ley', label: 'Ley 1715 y financiación' },
+];
+
+const faqs: Array<{ category: FaqCategory; question: string; answer: string }> = [
+  { category: 'instalacion', question: '¿Qué mantenimiento requieren los paneles?', answer: 'Recomendamos una revisión preventiva y limpieza técnica periódica. Nuestro equipo también puede monitorear el rendimiento de forma remota.' },
+  { category: 'instalacion', question: '¿Qué garantía tienen los sistemas?', answer: 'La cobertura depende del equipo y del proyecto. Presentamos las garantías de componentes, instalación y rendimiento de forma clara en cada propuesta.' },
+  { category: 'instalacion', question: '¿Ustedes gestionan los trámites con la red?', answer: 'Sí. Acompañamos la documentación, las validaciones y la coordinación necesarias para la conexión del sistema según la normativa aplicable.' },
+  { category: 'ley', question: '¿Tienen opciones de financiación?', answer: 'Evaluamos alternativas de financiación con aliados y estructuramos la propuesta para que puedas comparar inversión, ahorro y retorno.' },
+  { category: 'instalacion', question: '¿Qué pasa en los días lluviosos, nublados o durante la noche?', answer: 'Los paneles siguen generando energía en días nublados aprovechando la radiación difusa, aunque en menor cantidad. En la noche o ante picos de demanda, tu inmueble toma la energía de la red pública de forma automática (en sistemas On-Grid) o utiliza las baterías de respaldo (en sistemas Off-Grid e híbridos).' },
+  { category: 'ley', question: '¿Cómo funcionan los beneficios tributarios en Colombia (Ley 1715)?', answer: 'Al invertir en tu sistema solar puedes deducir de tu impuesto de renta hasta el 50 % del valor de la inversión, acceder a la exclusión de IVA en equipos y servicios y a 0 % de aranceles en la importación de equipos. Te asesoramos con la documentación ante la UPME para hacerlos efectivos.' },
+  { category: 'instalacion', question: '¿Qué pasa con la energía excedente que mis paneles producen y no consumo?', answer: 'Con la Resolución CREG 174 de 2021, los excedentes que no consumas se entregan a la red eléctrica y la comercializadora te los reconoce en tu factura mensual de energía, según las reglas de la resolución.' },
+  { category: 'instalacion', question: '¿El sistema solar funciona si se va la luz en mi sector?', answer: 'En los sistemas conectados a la red (On-Grid) el inversor se apaga durante el corte por seguridad de los operarios de la red. Si necesitas energía ininterrumpida (fincas, empresas o clínicas), diseñamos sistemas híbridos con baterías que se activan al instante durante los cortes.' },
+  { category: 'instalacion', question: '¿Cuánto tiempo toma la instalación y puesta en marcha del proyecto?', answer: 'El montaje físico en techo o estructura toma entre 2 y 5 días según el tamaño del sistema. El proceso completo, incluidos los trámites de legalización y conexión ante el operador de red, toma en promedio de 4 a 8 semanas.' },
 ];
 
 const showcaseSlides = [
@@ -298,6 +310,8 @@ export default function Home() {
   const [withBattery, setWithBattery] = useState(false);
   const [solarCoverage, setSolarCoverage] = useState(80);
   const [openFaq, setOpenFaq] = useState<string | null>(faqs[0]?.question ?? null);
+  const [faqTab, setFaqTab] = useState<'todos' | FaqCategory>('todos');
+  const visibleFaqs = faqTab === 'todos' ? faqs : faqs.filter((f) => f.category === faqTab);
 
   // ---- Estimador solar ----
   const profile = CALC_PROFILES.find((p) => p.id === calcProfile) ?? CALC_PROFILES[0];
@@ -1066,8 +1080,16 @@ export default function Home() {
               <h2 className="section-title section-title--left">Todo más claro.</h2>
               <p className="landing-section-description">Resolvemos las dudas más comunes antes de comenzar tu proyecto.</p>
             </div>
+            <div className="faq-tabs" role="tablist" aria-label="Filtrar preguntas por categoría">
+              {FAQ_TABS.map((tab) => (
+                <button key={tab.id} type="button" role="tab" aria-selected={faqTab === tab.id} className={faqTab === tab.id ? 'is-active' : ''} onClick={() => setFaqTab(tab.id)}>
+                  {tab.label}
+                  <span>{tab.id === 'todos' ? faqs.length : faqs.filter((f) => f.category === tab.id).length}</span>
+                </button>
+              ))}
+            </div>
             <div className="faq-list">
-              {faqs.map((faq) => {
+              {visibleFaqs.map((faq) => {
                 const isOpen = openFaq === faq.question;
                 return (
                   <div key={faq.question} className={`faq-item ${isOpen ? 'open' : ''}`}>
@@ -1079,6 +1101,18 @@ export default function Home() {
                 );
               })}
             </div>
+            <div className="faq-cta">
+              <div><b>¿Tienes alguna pregunta específica sobre tu proyecto?</b><p>Un ingeniero de PROSOINPEN te responde directamente.</p></div>
+              <a className="whatsapp-button" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon className="whatsapp-button__icon" />
+                Hablar con un ingeniero por WhatsApp
+              </a>
+            </div>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) }) }}
+            />
+
           </section>
 
           <section className="legal-card mt-12" aria-labelledby="legal-titulo">

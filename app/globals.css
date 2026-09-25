@@ -3130,3 +3130,15 @@ h3,
 .brochure-gate__error { color: #f87171 !important; font-size: 0.85rem; }
 .brochure-gate__ok { font-size: 0.92rem; color: var(--ps-text) !important; }
 .brochure-gate__ok a { color: var(--ps-accent-2); text-decoration: underline; }
+
+/* Preguntas frecuentes: filtros y cierre */
+.faq-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.2rem 0 1rem; }
+.faq-tabs button { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem; border-radius: 999px; border: 1px solid rgba(var(--ps-text-rgb), 0.18); background: transparent; color: rgba(var(--ps-text-rgb), 0.8); font-weight: 800; font-size: 0.88rem; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease; }
+.faq-tabs button span { min-width: 1.4rem; padding: 0.05rem 0.4rem; border-radius: 999px; background: rgba(var(--ps-text-rgb), 0.1); font-size: 0.72rem; text-align: center; }
+.faq-tabs button:hover { border-color: rgba(var(--ps-accent-rgb), 0.6); }
+.faq-tabs button.is-active { background: var(--ps-accent); border-color: var(--ps-accent); color: var(--ps-on-accent); }
+.faq-tabs button.is-active span { background: rgba(0, 0, 0, 0.15); }
+.faq-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.2rem; padding: 1.1rem 1.3rem; border-radius: 8px; border: 1px solid rgba(37, 211, 102, 0.35); background: rgba(37, 211, 102, 0.06); }
+.faq-cta b { color: var(--ps-text); font-size: 1rem; }
+.faq-cta p { margin-top: 0.2rem; font-size: 0.88rem; color: rgba(var(--ps-text-rgb), 0.72) !important; }
+.faq-cta .whatsapp-button { margin-top: 0 !important; }
