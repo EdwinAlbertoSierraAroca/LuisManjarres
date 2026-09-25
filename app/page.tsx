@@ -101,6 +101,13 @@ const faqs = [
   { q: '¿Gestionan los trámites con el operador de red?', a: 'Sí. Acompañamos la documentación, las validaciones y la coordinación necesarias para la conexión del sistema según la normativa aplicable.' },
 ];
 
+const HERO_ROTATION_MS = 5000;
+const heroSlides = [
+  { image: '/images/web/hero-tecnico.jpg', title: 'Instalación en campo', place: 'Cubarral, Meta', alt: 'Técnico de PROSOINPEN instalando módulos solares en Cubarral, Meta', position: '35% 30%' },
+  { image: '/images/sistema-solar-molino.jpg', title: 'Sistema solar en piso', place: 'Sistema fotovoltaico rural', alt: 'Sistema solar fotovoltaico sobre estructura en zona rural', position: '55% 50%' },
+  { image: '/images/web/tablero-litio.jpg', title: 'Energía inteligente', place: 'Inversor y baterías de litio', alt: 'Tablero con inversor y batería de litio instalado por PROSOINPEN', position: '50% 40%' },
+];
+
 const bandItems = ['Energía fotovoltaica', 'Ingeniería eléctrica', 'Obras civiles', 'Infraestructura'];
 const bandItems2 = ['Sistemas aislados', 'Almacenamiento con litio', 'Mantenimiento', 'Zonas no interconectadas', 'Urbanismo'];
 
@@ -136,6 +143,13 @@ function Icon({ name }: { name: IconName }) {
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [heroIndex, setHeroIndex] = useState(0);
+
+  // Carrusel del hero: cambia cada 5 segundos (se reinicia al elegir una imagen)
+  useEffect(() => {
+    const timer = window.setTimeout(() => setHeroIndex((i) => (i + 1) % heroSlides.length), HERO_ROTATION_MS);
+    return () => window.clearTimeout(timer);
+  }, [heroIndex]);
   const [logoOpen, setLogoOpen] = useState(false);
 
   // Calculadora
@@ -295,13 +309,35 @@ export default function Home() {
 
             <div className="v2-hero__media">
               <div className="v2-hero__photo">
-                <img src="/images/web/hero-tecnico.jpg" alt="Técnico de PROSOINPEN instalando módulos solares en Cubarral, Meta" />
+                {heroSlides.map((s, i) => (
+                  <img
+                    key={s.image}
+                    src={s.image}
+                    alt={s.alt}
+                    className={`v2-hero__slide ${i === heroIndex ? 'is-active' : ''}`}
+                    style={{ objectPosition: s.position }}
+                    aria-hidden={i !== heroIndex}
+                  />
+                ))}
                 <div className="v2-hero__caption">
-                  <div>
-                    <b>Montaje de sistema solar</b>
-                    <span>Cubarral, Meta</span>
+                  <div key={heroIndex} className="v2-hero__caption-text">
+                    <b>{heroSlides[heroIndex].title}</b>
+                    <span>{heroSlides[heroIndex].place}</span>
                   </div>
                   <span className="v2-tag-real">Proyecto real</span>
+                </div>
+                <div className="v2-hero__dots" role="tablist" aria-label="Seleccionar imagen">
+                  {heroSlides.map((s, i) => (
+                    <button
+                      key={s.image}
+                      type="button"
+                      role="tab"
+                      aria-selected={i === heroIndex}
+                      aria-label={`Ver ${s.title}`}
+                      className={i === heroIndex ? 'is-active' : ''}
+                      onClick={() => setHeroIndex(i)}
+                    />
+                  ))}
                 </div>
               </div>
               <div className="v2-hero__inset">

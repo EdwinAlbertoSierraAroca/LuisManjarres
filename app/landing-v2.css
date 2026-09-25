@@ -294,3 +294,13 @@
 @keyframes v2-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .v2-band__row { animation: none; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Carrusel del hero (3 imágenes, cada 5 s, fundido suave) */
+.v2-hero__slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.04); transition: opacity 1.1s ease, transform 6s ease; }
+.v2-hero__slide.is-active { opacity: 1; transform: scale(1); }
+.v2-hero__caption-text { animation: v2-fade-up 0.7s ease both; }
+@keyframes v2-fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.v2-hero__dots { position: absolute; z-index: 3; top: 1rem; right: 1rem; display: flex; gap: 0.4rem; }
+.v2-hero__dots button { width: 0.6rem; height: 0.6rem; border-radius: 999px; background: rgba(255, 255, 255, 0.55); border: 0; padding: 0; cursor: pointer; transition: width 0.3s ease, background 0.3s ease; }
+.v2-hero__dots button.is-active { width: 1.8rem; background: var(--ps-accent); }
+@media (prefers-reduced-motion: reduce) { .v2-hero__slide { transition: none; transform: none; } .v2-hero__caption-text { animation: none; } }
