@@ -9,7 +9,7 @@ const manrope = Manrope({
 });
 
 const themeInitScript =
-  "try{var t=localStorage.getItem('ps-theme');if(t==='solar'||t==='marca'){document.documentElement.dataset.theme=t}}catch(e){}";
+  "try{var t=localStorage.getItem('ps-theme');if(t==='solar'||t==='marca'||t==='terracota'){document.documentElement.dataset.theme=t}}catch(e){}";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://luis-manjarres.vercel.app';
 
