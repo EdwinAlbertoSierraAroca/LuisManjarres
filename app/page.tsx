@@ -174,7 +174,7 @@ const faqs: Array<{ category: FaqCategory; question: string; answer: string }> =
   { category: 'instalacion', question: '¿Cuánto tiempo toma la instalación y puesta en marcha del proyecto?', answer: 'El montaje físico en techo o estructura toma entre 2 y 5 días según el tamaño del sistema. El proceso completo, incluidos los trámites de legalización y conexión ante el operador de red, toma en promedio de 4 a 8 semanas.' },
 ];
 
-const showcaseSlides = [
+const showcaseSlides: Array<{ title: string; subtitle: string; image: string; position?: string }> = [
   {
     title: 'Instalación industrial',
     subtitle: 'Paneles y almacenamiento para alta demanda',
@@ -193,6 +193,12 @@ const showcaseSlides = [
     image:
       '/images/sistema-solar-molino.jpg',
   },
+  { title: 'Luz donde la red no llega', subtitle: 'Sistema aislado para vivienda rural en zona de montaña', image: '/images/web/cabana-noche.jpg', position: '60% center' },
+  { title: 'Sistema aislado en poste', subtitle: 'Estructura metálica elevada para vivienda rural', image: '/images/web/poste-solar.jpg', position: 'center 58%' },
+  { title: 'Energía en la cordillera', subtitle: 'Paneles instalados en terrenos de difícil acceso', image: '/images/web/panel-cordillera.jpg', position: 'center 55%' },
+  { title: 'Vivienda rural en ladera', subtitle: 'Soluciones solares para comunidades apartadas', image: '/images/web/ladera-montana.jpg', position: 'center 62%' },
+  { title: 'Autoconsumo residencial', subtitle: 'Sistemas sobre cubierta en conjuntos residenciales', image: '/images/web/conjunto-residencial.jpg', position: 'center 70%' },
+  { title: 'Cubiertas que generan', subtitle: 'Módulos monocristalinos para hogares y empresas', image: '/images/web/cubierta-residencial.jpg', position: 'center 60%' },
 ];
 
 const partnerLogos = ['PROSOINPEN S.A.S.', 'ENERGÍA FOTOVOLTAICA', 'INGENIERÍA', 'OBRAS CIVILES'];
@@ -429,7 +435,7 @@ export default function Home() {
     }
     const subject = `Solicitud de información de ${payload.name}`;
     const body = [`Nombre: ${payload.name}`, `Correo: ${payload.email}`, `Teléfono: ${payload.phone}`, '', payload.message].join('\n');
-    window.location.href = `mailto:ing.edwinsierra@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:proyectospentagonosas@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setContactStatus('mailto');
   };
 
@@ -567,7 +573,7 @@ export default function Home() {
             >
               {showcaseSlides.map((slide) => (
                 <article key={slide.title} className="showcase-slide">
-                  <img src={slide.image} alt={slide.title} className="showcase-slide__image" />
+                  <img src={slide.image} alt={slide.title} className="showcase-slide__image" style={slide.position ? { objectPosition: slide.position } : undefined} loading="lazy" />
                   <div className="showcase-slide__content">
                     <span className="showcase-slide__label">PROSOINPEN S.A.S.</span>
                     <h3>{slide.title}</h3>
@@ -658,6 +664,25 @@ export default function Home() {
                   </div>
                 </div>
 
+              </div>
+            </div>
+          </section>
+
+          <section id="impacto" className="impact-band" aria-labelledby="impacto-titulo">
+            <img src="/images/web/cabana-noche.jpg" alt="Vivienda rural iluminada con energía solar al anochecer" className="impact-band__bg" loading="lazy" />
+            <figure className="impact-band__inset">
+              <img src="/images/web/poste-solar.jpg" alt="Sistema solar aislado sobre estructura en poste" loading="lazy" />
+              <figcaption><b>Sistema aislado</b> · Estructura en poste</figcaption>
+            </figure>
+            <div className="impact-band__content">
+              <span className="section-badge">Nuestro impacto</span>
+              <h2 id="impacto-titulo" className="impact-band__title">Llevamos luz donde la red <span>no llega.</span></h2>
+              <p className="impact-band__lead">En las Zonas No Interconectadas de Colombia, un sistema solar bien diseñado cambia la vida de una familia: luz en la noche, equipos funcionando y energía propia, limpia y confiable.</p>
+              <div className="impact-band__stats">
+                <div><b>396</b><span>Sistemas solares</span><small>Municipio de Morales, Bolívar</small></div>
+                <div><b>5</b><span>Departamentos</span><small>Guajira, Magdalena, Meta, Santander y Bolívar</small></div>
+                <div><b>5</b><span>Líneas de servicio</span><small>De la ingeniería a la obra civil</small></div>
+                <div><b>25<i>+</i></b><span>Años de ahorro</span><small>Vida útil de un sistema fotovoltaico</small></div>
               </div>
             </div>
           </section>
@@ -1649,6 +1674,7 @@ export default function Home() {
               <ul className="footer-list">
                 <li>PROSOINPEN S.A.S.</li>
                 <li>NIT: 901960765-2</li>
+                <li><a href="mailto:proyectospentagonosas@gmail.com">proyectospentagonosas@gmail.com</a></li>
                 <li>Proyectos y Soluciones de Ingeniería El Pentágono S.A.S.</li>
               </ul>
             </div>

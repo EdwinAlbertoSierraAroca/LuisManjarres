@@ -3142,3 +3142,36 @@ h3,
 .faq-cta b { color: var(--ps-text); font-size: 1rem; }
 .faq-cta p { margin-top: 0.2rem; font-size: 0.88rem; color: rgba(var(--ps-text-rgb), 0.72) !important; }
 .faq-cta .whatsapp-button { margin-top: 0 !important; }
+
+/* ===== Banda de impacto (ZNI) ===== */
+.impact-band { position: relative; margin-top: 4rem; min-height: 640px; border-radius: 28px; overflow: hidden; background: #0e0b09; color: #F5F1ED; isolation: isolate; }
+.impact-band__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% center; z-index: -2; }
+.impact-band::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(14,11,9,.15) 0%, rgba(14,11,9,.35) 35%, rgba(14,11,9,.92) 70%, #0e0b09 100%); }
+.impact-band__inset { position: absolute; top: 1.75rem; right: 1.75rem; width: 210px; margin: 0; background: #F5F1ED; padding: 6px 6px 0; box-shadow: 0 14px 34px rgba(0,0,0,.4); transform: rotate(1.5deg); }
+.impact-band__inset img { width: 100%; height: 250px; object-fit: cover; object-position: center 35%; display: block; }
+.impact-band__inset figcaption { font-size: .72rem; color: #3a2e27; padding: .55rem .2rem .6rem; }
+.impact-band__inset figcaption b { color: #F56B3D; }
+.impact-band__content { position: relative; padding: 18rem 2.5rem 2.5rem; max-width: 1100px; }
+.impact-band__title { font-size: clamp(2.1rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.02; letter-spacing: -.03em; text-transform: uppercase; margin: 1rem 0 1rem; color: #F5F1ED; }
+.impact-band__title span { color: #F56B3D; }
+.impact-band__lead { max-width: 720px; color: rgba(245,241,237,.82); line-height: 1.65; }
+.impact-band__stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2.2rem; border-top: 1px solid rgba(245,241,237,.16); }
+.impact-band__stats > div { padding: 1.3rem 1.2rem 0 0; display: flex; flex-direction: column; gap: .3rem; }
+.impact-band__stats > div + div { padding-left: 1.2rem; border-left: 1px solid rgba(245,241,237,.16); }
+.impact-band__stats b { font-size: 2.6rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: #F5F1ED; }
+.impact-band__stats i { font-style: normal; color: #F56B3D; font-size: 1.5rem; }
+.impact-band__stats span { font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #F56B3D; }
+.impact-band__stats small { font-size: .78rem; color: rgba(245,241,237,.62); line-height: 1.45; }
+@media (max-width: 760px) {
+  .impact-band { min-height: 0; border-radius: 20px; }
+  .impact-band__bg { height: 420px; }
+  .impact-band__inset { width: 118px; top: 1rem; right: 1rem; padding: 4px 4px 0; }
+  .impact-band__inset img { height: 140px; }
+  .impact-band__inset figcaption { font-size: .6rem; padding: .35rem .1rem .4rem; }
+  .impact-band__content { padding: 15rem 1.25rem 1.75rem; }
+  .impact-band__stats { grid-template-columns: 1fr 1fr; }
+  .impact-band__stats > div { padding: 1.1rem .8rem 1rem 0; }
+  .impact-band__stats > div + div { padding-left: 0; border-left: 0; }
+  .impact-band__stats > div:nth-child(even) { padding-left: .9rem; border-left: 1px solid rgba(245,241,237,.16); }
+  .impact-band__stats > div:nth-child(n+3) { border-top: 1px solid rgba(245,241,237,.16); }
+}
