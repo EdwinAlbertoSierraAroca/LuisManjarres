@@ -174,7 +174,25 @@ const faqs: Array<{ category: FaqCategory; question: string; answer: string }> =
   { category: 'instalacion', question: '¿Cuánto tiempo toma la instalación y puesta en marcha del proyecto?', answer: 'El montaje físico en techo o estructura toma entre 2 y 5 días según el tamaño del sistema. El proceso completo, incluidos los trámites de legalización y conexión ante el operador de red, toma en promedio de 4 a 8 semanas.' },
 ];
 
-type ShowcaseSlide = { title: string; subtitle: string; image: string; position?: string };
+type ShowcaseSlide = { title: string; subtitle: string; image: string; position?: string; kind?: 'logo' };
+
+/** Cada cuántas fotos se intercala una diapositiva con el logo de la empresa. */
+const LOGO_EVERY = 3;
+const LOGO_SLIDE: ShowcaseSlide = {
+  kind: 'logo',
+  title: 'PROSOINPEN S.A.S.',
+  subtitle: 'Proyectos y Soluciones de Ingeniería El Pentágono',
+  image: '/logo-prosoinpen.png',
+};
+
+function withLogoSlides(slides: ShowcaseSlide[]): ShowcaseSlide[] {
+  const out: ShowcaseSlide[] = [];
+  slides.forEach((slide, index) => {
+    out.push(slide);
+    if ((index + 1) % LOGO_EVERY === 0 && index < slides.length - 1) out.push(LOGO_SLIDE);
+  });
+  return out;
+}
 
 /** Máximo de fotos de la galería (subidas desde el panel) que se suman al slider. */
 const MAX_UPLOADED_SLIDES = 20;
@@ -332,7 +350,7 @@ const suggestedTariff = (region: CalcRegionId, profileId: CalcProfileId) => {
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [uploadedSlides, setUploadedSlides] = useState<ShowcaseSlide[]>([]);
-  const allSlides = [...showcaseSlides, ...uploadedSlides];
+  const allSlides = withLogoSlides([...showcaseSlides, ...uploadedSlides]);
   const slideCount = allSlides.length;
   const [aboutIndex, setAboutIndex] = useState(0);
   const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'sent' | 'mailto' | 'error'>('idle');
@@ -511,11 +529,11 @@ export default function Home() {
                 onClick={() => setLogoOpen(true)}
               >
                 <img
-                  src="/logo-prosoinpen.svg"
+                  src="/logo-prosoinpen.png"
                   alt="Logo de PROSOINPEN S.A.S. — Proyectos y Soluciones de Ingeniería El Pentágono, NIT 901960765-2"
                   className="brand-logo"
-                  width={400}
-                  height={430}
+                  width={640}
+                  height={651}
                 />
                 <span className="brand-logo-zoom" aria-hidden="true">
                   <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
@@ -524,7 +542,7 @@ export default function Home() {
                   </svg>
                 </span>
               </button>
-              <div>
+              <div className="header-brand-text">
                 <div className="brand-kicker">PROSOINPEN</div>
                 <div className="brand-name brand-name--landing header-brand-name">S.A.S.<span className="header-brand-nit"> · NIT 901960765-2</span></div>
               </div>
@@ -627,6 +645,20 @@ export default function Home() {
               style={{ transform: `translateX(-${activeIndex * 100}%)` }}
             >
               {allSlides.map((slide, index) => (
+                slide.kind === 'logo' ? (
+                  <article key={`logo-${index}`} className="showcase-slide showcase-slide--logo" aria-label="PROSOINPEN S.A.S.">
+                    <div className="showcase-logo">
+                      <div className="showcase-logo__card">
+                        <img src="/logo-prosoinpen.png" alt="Logo de PROSOINPEN S.A.S. — NIT 901960765-2" width={640} height={651} loading="lazy" />
+                      </div>
+                      <div className="showcase-logo__text">
+                        <span className="showcase-slide__label">Energía · Ingeniería · Obra civil</span>
+                        <h3>PROSOINPEN S.A.S.</h3>
+                        <p>Proyectos y Soluciones de Ingeniería El Pentágono · NIT 901960765-2</p>
+                      </div>
+                    </div>
+                  </article>
+                ) : (
                 <article key={`${slide.image}-${index}`} className="showcase-slide">
                   <img src={slide.image} alt={slide.title} className="showcase-slide__image" style={slide.position ? { objectPosition: slide.position } : undefined} loading="lazy" />
                   <div className="showcase-slide__content">
@@ -635,6 +667,7 @@ export default function Home() {
                     <p>{slide.subtitle}</p>
                   </div>
                 </article>
+                )
               ))}
             </div>
           </div>
@@ -1691,11 +1724,11 @@ export default function Home() {
                   onClick={() => setLogoOpen(true)}
                 >
                   <img
-                    src="/logo-prosoinpen.svg"
+                    src="/logo-prosoinpen.png"
                     alt="Logo de PROSOINPEN S.A.S. — NIT 901960765-2"
                     className="brand-logo"
-                    width={400}
-                    height={430}
+                    width={640}
+                    height={651}
                     loading="lazy"
                   />
                   <span className="brand-logo-zoom" aria-hidden="true">
@@ -1768,10 +1801,10 @@ export default function Home() {
               </button>
               <div className="logo-lightbox__media">
                 <img
-                  src="/logo-prosoinpen.svg"
+                  src="/logo-prosoinpen.png"
                   alt="Logo completo de PROSOINPEN S.A.S. — Proyectos y Soluciones de Ingeniería El Pentágono, NIT 901960765-2"
-                  width={520}
-                  height={560}
+                  width={640}
+                  height={651}
                 />
               </div>
               <div className="logo-lightbox__title">PROSOINPEN S.A.S.</div>

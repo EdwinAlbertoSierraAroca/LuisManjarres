@@ -18,7 +18,7 @@ export function WhatsAppFloat() {
     <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Contactar a PROSOINPEN por WhatsApp">
       <span className="whatsapp-float__brand">
         <img
-          src="/logo-prosoinpen.svg"
+          src="/logo-prosoinpen.png"
           alt="PROSOINPEN"
           className="whatsapp-float__logo"
         />

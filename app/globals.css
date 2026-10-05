@@ -3219,3 +3219,32 @@ h3,
   .pv-lb__title { font-size: .78rem; }
   .pv-thumb { width: 64px; height: 48px; }
 }
+
+/* ===== Logo oficial (PNG) al doble de tamaño ===== */
+.brand-logo-wrap { width: 224px; aspect-ratio: 640 / 651; padding: 10px; border-radius: 26px; }
+.brand-logo { aspect-ratio: 640 / 651; border-radius: 18px; }
+.logo-lightbox__media img { aspect-ratio: 640 / 651; }
+.brand-logo-wrap::after { bottom: 18px; }
+@media (max-width: 1024px) { .brand-logo-wrap { width: 168px; } }
+@media (max-width: 640px) {
+  .brand-logo-wrap { width: 140px; border-radius: 20px; padding: 7px; }
+  .landing-header .brand-logo-wrap { width: 104px; border-radius: 16px; padding: 6px; }
+}
+
+/* ===== Diapositiva de marca en el slider (cada 3 fotos) ===== */
+.showcase-slide--logo { background: radial-gradient(120% 120% at 20% 20%, rgba(var(--ps-accent-rgb), .35) 0%, rgba(var(--ps-deep-rgb), .96) 55%, rgb(var(--ps-deep-2-rgb)) 100%) !important; }
+.showcase-logo { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: clamp(1.5rem, 5vw, 4rem); padding: 2rem; }
+.showcase-logo__card { flex: none; height: min(78%, 320px); width: auto; aspect-ratio: 640 / 651; background: #fff; border-radius: 24px; padding: 10px; box-shadow: 0 24px 60px rgba(0,0,0,.35), 0 0 0 3px rgba(var(--ps-accent-2-rgb), .35); animation: brandFloat 5s ease-in-out infinite; }
+.showcase-logo__card img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 18px; }
+.showcase-logo__text { max-width: 440px; color: #fff; }
+.showcase-logo__text h3 { margin: .8rem 0 .5rem; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.05; color: #fff; }
+.showcase-logo__text p { margin: 0; font-size: 1rem; line-height: 1.55; color: rgba(255,255,255,.78); }
+@media (max-width: 640px) {
+  .showcase-logo { gap: .9rem; padding: 1rem; justify-content: flex-start; }
+  .showcase-logo__card { height: min(72%, 170px); border-radius: 16px; padding: 6px; }
+  .showcase-logo__text h3 { font-size: 1.25rem; margin: .45rem 0 .25rem; }
+  .showcase-logo__text p { font-size: .75rem; line-height: 1.4; }
+  .showcase-logo__text .showcase-slide__label { font-size: .55rem; }
+  .landing-header .header-brand-text { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .showcase-logo__card { animation: none; } }
