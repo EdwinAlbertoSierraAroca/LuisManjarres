@@ -363,6 +363,7 @@ export default function Home() {
   const [aboutIndex, setAboutIndex] = useState(0);
   const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'sent' | 'mailto' | 'error'>('idle');
   const [contactError, setContactError] = useState('');
+  const [contactFallback, setContactFallback] = useState<{ whatsapp: string; mailto: string } | null>(null);
 
   useEffect(() => {
     if (aboutImages.length < 2) return;
@@ -538,9 +539,13 @@ export default function Home() {
     } catch {
       // Sin conexión con el servidor: usamos el correo del visitante como respaldo.
     }
-    const subject = `Solicitud de información de ${payload.name}`;
-    const body = [`Nombre: ${payload.name}`, `Correo: ${payload.email}`, `Teléfono: ${payload.phone}`, '', payload.message].join('\n');
-    window.location.href = `mailto:proyectospentagonosas@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    // El servidor no pudo enviar el correo: NO abrimos la app de correo del visitante.
+    // Mostramos opciones directas (WhatsApp con el mensaje listo o correo) sin perder lo escrito.
+    const summary = [`Hola, soy ${payload.name}.`, payload.message, `Correo: ${payload.email}`, payload.phone ? `Teléfono: ${payload.phone}` : ''].filter(Boolean).join('\n');
+    setContactFallback({
+      whatsapp: `https://wa.me/573112167711?text=${encodeURIComponent(summary)}`,
+      mailto: `mailto:proyectospentagonosas@gmail.com?subject=${encodeURIComponent(`Solicitud de información de ${payload.name}`)}&body=${encodeURIComponent(summary)}`,
+    });
     setContactStatus('mailto');
   };
 
@@ -1381,9 +1386,11 @@ export default function Home() {
                     </p>
                   ) : null}
                   {contactStatus === 'mailto' ? (
-                    <p className="contact-form__notice" role="status">
-                      Abrimos tu aplicación de correo con el mensaje listo. Si no se abrió, escríbenos por{' '}
-                      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+                    <p className="contact-form__notice contact-form__notice--error" role="alert">
+                      No pudimos enviar tu solicitud automáticamente en este momento. Envíala en un clic por{' '}
+                      <a href={contactFallback?.whatsapp ?? whatsappUrl} target="_blank" rel="noopener noreferrer"><b>WhatsApp</b></a>
+                      {' '}(con tu mensaje listo) o escríbenos a{' '}
+                      <a href={contactFallback?.mailto ?? 'mailto:proyectospentagonosas@gmail.com'}>proyectospentagonosas@gmail.com</a>.
                     </p>
                   ) : null}
                   {contactStatus === 'error' ? (
