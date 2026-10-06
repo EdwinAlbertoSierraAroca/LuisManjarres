@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { WhatsAppIcon, whatsappUrl } from './components/whatsapp-contact';
 import ProjectsGallery from './components/ProjectsGallery';
 import ThemeToggle from './components/theme-toggle';
@@ -372,6 +372,30 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const mobileNavRef = useRef<HTMLElement | null>(null);
+  const menuToggleRef = useRef<HTMLButtonElement | null>(null);
+
+  // Cierra el menú al hacer clic/tocar fuera de él o al presionar Escape.
+  useEffect(() => {
+    if (!mobileNavOpen) return;
+    const onPointer = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (mobileNavRef.current?.contains(target) || menuToggleRef.current?.contains(target)) return;
+      setMobileNavOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileNavOpen(false);
+        menuToggleRef.current?.focus();
+      }
+    };
+    document.addEventListener('pointerdown', onPointer);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onPointer);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [mobileNavOpen]);
   const [logoOpen, setLogoOpen] = useState(false);
   const [openLandingGroup, setOpenLandingGroup] = useState('Inicio');
   const [calcMode, setCalcMode] = useState<'kwh' | 'cop'>('kwh');
@@ -564,6 +588,7 @@ export default function Home() {
                 type="button"
                 className="landing-menu-toggle"
                 aria-label="Abrir menú de navegación"
+                ref={menuToggleRef}
                 aria-expanded={mobileNavOpen}
                 aria-controls="landing-mobile-nav"
                 onClick={() => setMobileNavOpen((value) => !value)}
@@ -580,10 +605,14 @@ export default function Home() {
               </a>
             </div>
           </div>
-        </header>
-
         {mobileNavOpen ? (
-          <nav id="landing-mobile-nav" className="landing-nav-accordion" aria-label="Navegación por secciones">
+          <nav id="landing-mobile-nav" ref={mobileNavRef} className="landing-nav-accordion" aria-label="Navegación por secciones">
+            <div className="landing-nav-accordion__head">
+              <span>Menú</span>
+              <button type="button" className="landing-nav-accordion__close" onClick={() => setMobileNavOpen(false)} aria-label="Cerrar menú">
+                ✕ <span>Cerrar</span>
+              </button>
+            </div>
             {landingNavGroups.map((group) => {
               const isOpen = openLandingGroup === group.title;
               return (
@@ -627,6 +656,9 @@ export default function Home() {
             </div>
           </nav>
         ) : null}
+        </header>
+
+
 
         <div className="gallery-quick-tabs" aria-label="Accesos rápidos">
           <span className="gallery-quick-tabs__label">Explorar</span>
