@@ -3270,3 +3270,4 @@ h3,
   .dl-card__media { max-width: 300px; width: 100%; margin: 0 auto; }
   .dl-card__actions .landing-button { width: 100%; justify-content: center; text-align: center; }
 }
+.landing-header .landing-button { white-space: nowrap; }

@@ -47,13 +47,20 @@ const landingNavGroups = [
     ],
   },
   {
+    title: 'Video y brochure',
+    items: [
+      { name: 'Ver video corporativo', href: '/material#video' },
+      { name: 'Ver brochure PDF', href: '/material#brochure' },
+      { name: 'Descargar video y PDF', href: '/material#archivos' },
+    ],
+  },
+  {
     title: 'Contacto',
     items: [
       { name: 'Solicitar propuesta', href: '#contacto' },
       { name: 'Agenda una asesoría', href: '#contacto' },
       { name: 'Ubicación', href: '#contacto' },
       { name: 'WhatsApp', href: whatsappUrl },
-      { name: 'Video y brochure', href: '#descargas' },
       { name: 'Preguntas frecuentes', href: '#faq' },
     ],
   },
@@ -566,7 +573,8 @@ export default function Home() {
               <Link href="/admin/login" className="landing-button landing-button--ghost hidden lg:inline-flex" aria-label="Iniciar sesión como administrador">
                 🔐 Ingresar
               </Link>
-              <a href="#contacto" className="landing-button landing-button--ghost hidden lg:inline-flex">Agendar</a>
+              <Link href="/material" className="landing-button landing-button--ghost hidden lg:inline-flex">🎬 Video y PDF</Link>
+              <a href="#contacto" className="landing-button landing-button--ghost hidden 2xl:inline-flex">Agendar</a>
               <a href="#contacto" className="landing-button landing-button--primary header-cta">
                 <span className="header-cta__long">Solicitar propuesta</span>
                 <span className="header-cta__short">Cotizar</span>
@@ -627,7 +635,7 @@ export default function Home() {
           <a href="#respaldo" className="gallery-quick-tab">Normativa y garantías</a>
           {realTestimonials.length > 0 ? <a href="#testimonios" className="gallery-quick-tab">Testimonios</a> : null}
           <a href="/recursos" className="gallery-quick-tab">Guías</a>
-          <a href="#descargas" className="gallery-quick-tab">Video y brochure</a>
+          <a href="/material" className="gallery-quick-tab">Video y brochure</a>
           <a href="#faq" className="gallery-quick-tab">Preguntas</a>
           <a href="/proyectos" className="gallery-quick-tab">Galería completa</a>
         </div>
@@ -1235,6 +1243,8 @@ export default function Home() {
               </article>
             </div>
             <p className="dl-share">
+              <Link href="/material">Abrir visor completo (video y brochure página por página) →</Link>
+              <br />
               ¿Quieres compartirlos?{' '}
               <a href={`https://wa.me/?text=${encodeURIComponent('Conoce a PROSOINPEN S.A.S. — video y brochure: https://www.prosoinpen.com/#descargas')}`} target="_blank" rel="noopener noreferrer">Enviar enlace por WhatsApp →</a>
             </p>
