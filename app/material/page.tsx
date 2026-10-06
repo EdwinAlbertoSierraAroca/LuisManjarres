@@ -11,6 +11,8 @@ export const metadata: Metadata = {
 const BROCHURE_PDF = '/brochure/PROSOINPEN_Brochure_2026.pdf';
 const VIDEO_FULL = '/media/PROSOINPEN_Video_Vertical.mp4';
 const VIDEO_WEB = '/media/prosoinpen-video-web.mp4';
+const VIDEO_H = '/media/PROSOINPEN_Video_Horizontal.mp4';
+const VIDEO_H_WEB = '/media/prosoinpen-video-horizontal-web.mp4';
 
 const brochurePages = [
   'Portada',
@@ -27,7 +29,8 @@ const brochurePages = [
 
 const files = [
   { name: 'Brochure corporativo 2026', detail: 'PDF · 10 páginas · 5,5 MB', href: BROCHURE_PDF, download: 'PROSOINPEN_Brochure_2026.pdf' },
-  { name: 'Video corporativo (calidad completa)', detail: 'MP4 vertical 1080×1920 · 45 s · 18 MB', href: VIDEO_FULL, download: 'PROSOINPEN_Video_Corporativo.mp4' },
+  { name: 'Video horizontal 16:9 (computador, TV, YouTube)', detail: 'MP4 1920×1080 · 45 s', href: VIDEO_H, download: 'PROSOINPEN_Video_Horizontal.mp4' },
+  { name: 'Video vertical 9:16 (celular, WhatsApp, redes)', detail: 'MP4 vertical 1080×1920 · 45 s · 18 MB', href: VIDEO_FULL, download: 'PROSOINPEN_Video_Corporativo.mp4' },
   { name: 'Video corporativo (versión liviana)', detail: 'MP4 vertical 540×960 · 45 s · 3 MB · ideal para WhatsApp', href: VIDEO_WEB, download: 'PROSOINPEN_Video_Corporativo_liviano.mp4' },
 ];
 
@@ -48,6 +51,18 @@ export default function MaterialPage() {
         </nav>
 
         <section id="video" className="mt-block" aria-labelledby="mt-video">
+          <div className="mt-video-h">
+            <video controls playsInline preload="metadata" poster="/media/video-poster-h.jpg" aria-label="Video corporativo horizontal de PROSOINPEN S.A.S.">
+              <source src={VIDEO_H_WEB} type="video/mp4" />
+            </video>
+            <div className="mt-video-h__bar">
+              <span className="dl-card__tag">Video · 45 s · versión horizontal para computador y TV</span>
+              <div className="dl-card__actions">
+                <a className="landing-button landing-button--primary" href={VIDEO_H} download="PROSOINPEN_Video_Horizontal.mp4">Descargar horizontal</a>
+                <a className="landing-button landing-button--ghost" href={VIDEO_FULL} download="PROSOINPEN_Video_Corporativo.mp4">Descargar vertical</a>
+              </div>
+            </div>
+          </div>
           <div className="mt-video">
             <div className="mt-video__player">
               <video controls playsInline preload="metadata" poster="/media/video-poster.jpg" aria-label="Video corporativo de PROSOINPEN S.A.S.">

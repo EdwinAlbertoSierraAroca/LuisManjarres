@@ -3281,3 +3281,6 @@ h3,
 .landing-nav-accordion__close { display: inline-flex; align-items: center; gap: .4rem; padding: .45rem .8rem; border-radius: 999px; border: 1px solid rgba(var(--ps-text-rgb), .2); background: rgba(var(--ps-surface-rgb), .8); color: var(--ps-text); font-weight: 800; font-size: .85rem; cursor: pointer; }
 .landing-nav-accordion__close:hover, .landing-nav-accordion__close:focus-visible { border-color: var(--ps-accent); outline: none; }
 .landing-header .landing-nav-accordion { top: calc(100% + 8px); right: 0; background: rgb(var(--ps-bg-rgb)); backdrop-filter: none; max-height: min(75vh, 640px); overflow-y: auto; }
+/* El video nunca se recorta: en pantalla completa se ve entero */
+.dl-card__media video, .mt-video__player video { object-fit: contain; background: #0e0b09; }
+video:fullscreen, video:-webkit-full-screen { object-fit: contain !important; background: #000; }

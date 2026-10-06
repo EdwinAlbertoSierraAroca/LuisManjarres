@@ -1258,7 +1258,8 @@ export default function Home() {
                   <h3>Video corporativo</h3>
                   <p>Nuestros proyectos de energía solar, ingeniería y obra civil en menos de un minuto. Ideal para WhatsApp, Instagram o TikTok.</p>
                   <div className="dl-card__actions">
-                    <a className="landing-button landing-button--primary" href="/media/PROSOINPEN_Video_Vertical.mp4" download="PROSOINPEN_Video_Corporativo.mp4">Descargar video (MP4 · 18 MB)</a>
+                    <a className="landing-button landing-button--primary" href="/media/PROSOINPEN_Video_Vertical.mp4" download="PROSOINPEN_Video_Corporativo.mp4">Descargar vertical (celular)</a>
+                    <a className="landing-button landing-button--ghost" href="/media/PROSOINPEN_Video_Horizontal.mp4" download="PROSOINPEN_Video_Horizontal.mp4">Descargar horizontal (PC/TV)</a>
                   </div>
                 </div>
               </article>
