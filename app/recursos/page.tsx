@@ -6,6 +6,8 @@ import '../recursos.css';
 export const metadata: Metadata = {
   title: 'Centro de recursos de energía solar',
   description: 'Guías prácticas sobre energía solar en Colombia: cómo leer tu factura, beneficios de la Ley 1715 y tipos de sistemas solares.',
+  alternates: { canonical: '/recursos' },
+  openGraph: { title: 'Centro de recursos de energía solar | PROSOINPEN S.A.S.', url: '/recursos', images: ['/og-prosoinpen.jpg'] },
 };
 
 export default function RecursosPage() {

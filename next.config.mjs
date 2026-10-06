@@ -19,13 +19,25 @@ const cspValue = [
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  async redirects() {
+    return [
+      // El dominio de Vercel redirige al dominio oficial (evita contenido duplicado en Google).
+      { source: '/:path*', has: [{ type: 'host', value: 'luis-manjarres.vercel.app' }], destination: 'https://www.prosoinpen.com/:path*', permanent: true },
+    ];
+  },
   async headers() {
     // En desarrollo (localhost) NO enviar headers de seguridad HTTPS
     // porque HSTS + upgrade-insecure-requests rompen http://localhost:3000
+    // Páginas internas y de demostración: nunca se indexan en Google.
+    const noindex = ['/admin', '/admin/:path*', '/dashboard', '/analytics', '/brand-studio', '/clientes', '/cotizaciones', '/leads', '/empresa', '/servicios', '/api/:path*'].map((source) => ({
+      source,
+      headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+    }));
     if (isDev) {
-      return [];
+      return noindex;
     }
     return [
+      ...noindex,
       {
         source: '/(.*)',
         headers: [

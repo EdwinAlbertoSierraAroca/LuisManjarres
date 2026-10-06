@@ -105,14 +105,14 @@ const portfolioItems = [
     subtitle: 'Energía a gran escala',
     text: 'Desarrollamos proyectos fotovoltaicos de gran capacidad para maximizar la generación y la rentabilidad.',
     icon: '☀',
-    image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=85',
+    image: '/images/web/granja-montana.jpg',
   },
   {
     title: 'Autoconsumo',
     subtitle: 'Energía para tu hogar y empresa',
     text: 'Sistemas solares que te permiten ahorrar desde el primer día y avanzar hacia la independencia energética.',
     icon: '⌂',
-    image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=85',
+    image: '/images/web/conjunto-residencial.jpg',
   },
   {
     title: 'Insumos y equipos',
@@ -239,16 +239,16 @@ function slidesFromProjects(projects: GalleryApiProject[]): ShowcaseSlide[] {
 
 const showcaseSlides: ShowcaseSlide[] = [
   {
-    title: 'Instalación industrial',
-    subtitle: 'Paneles y almacenamiento para alta demanda',
-    image:
-      'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
+    title: 'Energía solar fotovoltaica en Colombia',
+    subtitle: 'Sistemas solares para hogares, empresas y zonas rurales',
+    image: '/images/web/granja-montana.jpg',
+    position: 'center 55%',
   },
   {
     title: 'Energía inteligente',
-    subtitle: 'Monitoreo y optimización en tiempo real',
-    image:
-      'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80',
+    subtitle: 'Inversores y baterías de litio con monitoreo en tiempo real',
+    image: '/images/web/tablero-inversor.jpg',
+    position: 'center 35%',
   },
   {
     title: 'Diseño para hogares',
@@ -706,7 +706,7 @@ export default function Home() {
                   </article>
                 ) : (
                 <article key={`${slide.image}-${index}`} className="showcase-slide">
-                  <img src={slide.image} alt={slide.title} className="showcase-slide__image" style={slide.position ? { objectPosition: slide.position } : undefined} loading="lazy" />
+                  <img src={slide.image} alt={`${slide.title} — PROSOINPEN S.A.S.`} className="showcase-slide__image" style={slide.position ? { objectPosition: slide.position } : undefined} loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : 'auto'} decoding="async" />
                   <div className="showcase-slide__content">
                     <span className="showcase-slide__label">PROSOINPEN S.A.S.</span>
                     <h3>{slide.title}</h3>
@@ -752,8 +752,8 @@ export default function Home() {
             <div className="grid gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
               <div className="relative z-10">
                 <h1 className="hero-title">
-                  <span>Ingeniería y energía</span>
-                  <span className="hero-title--muted">para una nueva era.</span>
+                  <span>Ingeniería y energía solar</span>
+                  <span className="hero-title--muted">para una nueva era en Colombia.</span>
                 </h1>
 
                 <p className="hero-copy">
@@ -827,7 +827,7 @@ export default function Home() {
             className="mt-16 relative overflow-hidden rounded-[28px] border border-white/10"
             style={{
               backgroundImage:
-                "linear-gradient(90deg, rgba(var(--ps-deep-rgb), 0.96) 0%, rgba(var(--ps-deep-rgb), 0.86) 42%, rgba(var(--ps-deep-rgb), 0.58) 100%), url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1800&q=85')",
+                "linear-gradient(90deg, rgba(var(--ps-deep-rgb), 0.96) 0%, rgba(var(--ps-deep-rgb), 0.86) 42%, rgba(var(--ps-deep-rgb), 0.58) 100%), url('/images/web/modulos.jpg')",
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
@@ -1433,7 +1433,7 @@ export default function Home() {
             z-index: -2;
             background:
               linear-gradient(90deg, rgba(var(--ps-deep-rgb), .94) 0%, rgba(var(--ps-deep-rgb), .76) 38%, rgba(var(--ps-deep-rgb), .42) 100%),
-              url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1800&q=90') center/cover;
+              url('/images/web/granja-montana.jpg') center/cover;
             transform: scale(1.02);
           }
 

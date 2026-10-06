@@ -6,6 +6,8 @@ import '../recursos.css';
 export const metadata: Metadata = {
   title: 'Video y brochure corporativo',
   description: 'Mira el video corporativo de PROSOINPEN S.A.S., hojea el brochure 2026 página por página y descárgalos para compartir.',
+  alternates: { canonical: '/material' },
+  openGraph: { title: 'Video y brochure corporativo | PROSOINPEN S.A.S.', url: '/material', images: ['/media/video-poster-h.jpg'] },
 };
 
 const BROCHURE_PDF = '/brochure/PROSOINPEN_Brochure_2026.pdf';

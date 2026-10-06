@@ -1,7 +1,12 @@
 import Link from 'next/link';
 import ProjectsGallery from '../components/ProjectsGallery';
 
-export const metadata = { title: 'Nuestros proyectos' };
+export const metadata = {
+  title: 'Proyectos de energía solar e ingeniería',
+  description: 'Galería de proyectos de PROSOINPEN S.A.S.: sistemas solares fotovoltaicos en zonas rurales y no interconectadas, montajes eléctricos, obras civiles y urbanismo en Colombia.',
+  alternates: { canonical: '/proyectos' },
+  openGraph: { title: 'Proyectos de energía solar e ingeniería | PROSOINPEN S.A.S.', url: '/proyectos', images: ['/og-prosoinpen.jpg'] },
+};
 
 // Datos históricos (la galería pública usa /api/projects).
 // `void` evita error de variable sin uso en el build.

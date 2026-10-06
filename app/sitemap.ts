@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { resources } from '@/lib/recursos';
 import { readDb } from '@/lib/gallery-store';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.prosoinpen.com';
+import { SITE_URL as siteUrl } from '@/lib/seo';
 
 export const revalidate = 3600;
 

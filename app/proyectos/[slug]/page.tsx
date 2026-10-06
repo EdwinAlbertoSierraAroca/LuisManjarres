@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ensureSeed } from '@/lib/gallery-seed';
@@ -6,6 +7,27 @@ import Viewer from './Viewer';
 
 // Los proyectos se leen de la base (Redis) en cada visita: la página debe ser dinámica.
 export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  try {
+    await ensureSeed();
+    const db = await readDb();
+    const p = db.projects.find((x) => x.slug === params.slug && x.active);
+    if (!p) return { title: 'Proyecto no encontrado', robots: { index: false } };
+    const cat = db.categories.find((c) => c.id === p.categoryId);
+    const bits = [cat?.name, p.location, p.year ? String(p.year) : '', p.powerKwp ? `${p.powerKwp} kWp` : ''].filter(Boolean).join(' · ');
+    const description = (p.description?.trim() || `Proyecto de PROSOINPEN S.A.S.: ${p.title}. ${bits}.`).slice(0, 300);
+    const img = p.coverImage || p.images?.[0]?.url;
+    return {
+      title: p.title,
+      description,
+      alternates: { canonical: `/proyectos/${p.slug}` },
+      openGraph: { title: `${p.title} | PROSOINPEN S.A.S.`, description, url: `/proyectos/${p.slug}`, type: 'article', images: img ? [img] : ['/og-prosoinpen.jpg'] },
+    };
+  } catch {
+    return { title: 'Proyecto', alternates: { canonical: `/proyectos/${params.slug}` } };
+  }
+}
 
 export default async function Page({ params }: { params: { slug: string } }) {
   await ensureSeed();

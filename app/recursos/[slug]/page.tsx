@@ -11,7 +11,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const r = getResource(params.slug);
   if (!r) return {};
-  return { title: r.title, description: r.description, openGraph: { title: r.title, description: r.description, type: 'article' } };
+  return { title: r.title, description: r.description, alternates: { canonical: `/recursos/${r.slug}` }, openGraph: { title: r.title, description: r.description, type: 'article', url: `/recursos/${r.slug}`, images: ['/og-prosoinpen.jpg'] } };
 }
 
 export default function RecursoPage({ params }: { params: { slug: string } }) {

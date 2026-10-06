@@ -1,11 +1,20 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/seo';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.prosoinpen.com';
+// Páginas internas o de demostración que no deben aparecer en Google.
+const PRIVATE_PATHS = ['/admin', '/dashboard', '/analytics', '/brand-studio', '/clientes', '/cotizaciones', '/leads', '/empresa', '/servicios'];
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [{ userAgent: '*', allow: '/', disallow: ['/admin', '/api/'] }],
-    sitemap: `${siteUrl}/sitemap.xml`,
-    host: siteUrl,
+    rules: [
+      {
+        userAgent: '*',
+        allow: ['/', '/api/projects'],
+        // /api/projects queda permitido: Google lo necesita para ver la galería y el slider.
+        disallow: [...PRIVATE_PATHS, '/api/admin', '/api/contact', '/api/brochure'],
+      },
+    ],
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }
