@@ -558,7 +558,7 @@ export default function Home() {
 
             <nav className="hidden" aria-label="Navegación principal" />
 
-            <div className="flex items-center gap-3">
+            <div className="header-actions flex items-center gap-3">
               <ThemeToggle />
               <button
                 type="button"
@@ -574,7 +574,6 @@ export default function Home() {
                 🔐 Ingresar
               </Link>
               <Link href="/material" className="landing-button landing-button--ghost hidden lg:inline-flex">🎬 Video y PDF</Link>
-              <a href="#contacto" className="landing-button landing-button--ghost hidden 2xl:inline-flex">Agendar</a>
               <a href="#contacto" className="landing-button landing-button--primary header-cta">
                 <span className="header-cta__long">Solicitar propuesta</span>
                 <span className="header-cta__short">Cotizar</span>

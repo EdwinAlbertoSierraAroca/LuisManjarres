@@ -3271,3 +3271,7 @@ h3,
   .dl-card__actions .landing-button { width: 100%; justify-content: center; text-align: center; }
 }
 .landing-header .landing-button { white-space: nowrap; }
+/* Encabezado: los botones nunca se salen del recuadro */
+.landing-header > div { min-width: 0; }
+.header-actions { flex-wrap: wrap; justify-content: flex-end; min-width: 0; row-gap: .6rem; }
+.landing-header .header-brand-text { display: none; } /* el logo ya muestra nombre y NIT */
