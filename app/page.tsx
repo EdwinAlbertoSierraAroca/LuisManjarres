@@ -53,6 +53,7 @@ const landingNavGroups = [
       { name: 'Agenda una asesoría', href: '#contacto' },
       { name: 'Ubicación', href: '#contacto' },
       { name: 'WhatsApp', href: whatsappUrl },
+      { name: 'Video y brochure', href: '#descargas' },
       { name: 'Preguntas frecuentes', href: '#faq' },
     ],
   },
@@ -626,6 +627,7 @@ export default function Home() {
           <a href="#respaldo" className="gallery-quick-tab">Normativa y garantías</a>
           {realTestimonials.length > 0 ? <a href="#testimonios" className="gallery-quick-tab">Testimonios</a> : null}
           <a href="/recursos" className="gallery-quick-tab">Guías</a>
+          <a href="#descargas" className="gallery-quick-tab">Video y brochure</a>
           <a href="#faq" className="gallery-quick-tab">Preguntas</a>
           <a href="/proyectos" className="gallery-quick-tab">Galería completa</a>
         </div>
@@ -1185,6 +1187,57 @@ export default function Home() {
               ))}
             </div>
             <Link href="/recursos" className="rs-home__all">Ver todas las guías →</Link>
+          </section>
+
+          <section id="descargas" className="mt-12" aria-labelledby="descargas-titulo">
+            <div className="landing-section-heading">
+              <span className="section-badge">Material corporativo</span>
+              <h2 id="descargas-titulo" className="section-title section-title--left">Conócenos en video y en PDF.</h2>
+              <p className="landing-section-description">Mira nuestro video, revisa el brochure y descárgalos para compartirlos con tu equipo, junta directiva o comunidad.</p>
+            </div>
+            <div className="dl-grid">
+              <article className="dl-card">
+                <div className="dl-card__media dl-card__media--video">
+                  <video
+                    controls
+                    playsInline
+                    preload="none"
+                    poster="/media/video-poster.jpg"
+                    aria-label="Video corporativo de PROSOINPEN S.A.S."
+                  >
+                    <source src="/media/prosoinpen-video-web.mp4" type="video/mp4" />
+                    Tu navegador no puede reproducir el video. <a href="/media/PROSOINPEN_Video_Vertical.mp4">Descárgalo aquí</a>.
+                  </video>
+                </div>
+                <div className="dl-card__body">
+                  <span className="dl-card__tag">Video · 45 s · formato vertical</span>
+                  <h3>Video corporativo</h3>
+                  <p>Nuestros proyectos de energía solar, ingeniería y obra civil en menos de un minuto. Ideal para WhatsApp, Instagram o TikTok.</p>
+                  <div className="dl-card__actions">
+                    <a className="landing-button landing-button--primary" href="/media/PROSOINPEN_Video_Vertical.mp4" download="PROSOINPEN_Video_Corporativo.mp4">Descargar video (MP4 · 18 MB)</a>
+                  </div>
+                </div>
+              </article>
+              <article className="dl-card">
+                <a className="dl-card__media dl-card__media--pdf" href="/brochure/PROSOINPEN_Brochure_2026.pdf" target="_blank" rel="noopener noreferrer" aria-label="Abrir el brochure en PDF">
+                  <img src="/media/brochure-cover.jpg" alt="Portada del brochure de PROSOINPEN S.A.S." loading="lazy" width={496} height={702} />
+                  <span className="dl-card__open">Ver brochure ↗</span>
+                </a>
+                <div className="dl-card__body">
+                  <span className="dl-card__tag">PDF · 10 páginas</span>
+                  <h3>Brochure corporativo 2026</h3>
+                  <p>Servicios, impacto en zonas no interconectadas, portafolio de proyectos y datos de contacto con códigos QR.</p>
+                  <div className="dl-card__actions">
+                    <a className="landing-button landing-button--primary" href="/brochure/PROSOINPEN_Brochure_2026.pdf" download="PROSOINPEN_Brochure_2026.pdf">Descargar PDF (5,5 MB)</a>
+                    <a className="landing-button landing-button--ghost" href="/brochure/PROSOINPEN_Brochure_2026.pdf" target="_blank" rel="noopener noreferrer">Ver en línea</a>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <p className="dl-share">
+              ¿Quieres compartirlos?{' '}
+              <a href={`https://wa.me/?text=${encodeURIComponent('Conoce a PROSOINPEN S.A.S. — video y brochure: https://www.prosoinpen.com/#descargas')}`} target="_blank" rel="noopener noreferrer">Enviar enlace por WhatsApp →</a>
+            </p>
           </section>
 
           <section id="faq" className="landing-faq mt-12">
