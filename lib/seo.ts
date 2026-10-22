@@ -41,7 +41,7 @@ export function organizationJsonLd() {
         logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo-prosoinpen.png`, width: 640, height: 651 },
         image: `${SITE_URL}${OG_IMAGE}`,
         description: SEO_DESCRIPTION,
-        email: 'proyectospentagonosas@gmail.com',
+        email: 'contacto@prosoinpen.com',
         telephone: '+57 311 216 7711',
         areaServed: { '@type': 'Country', name: 'Colombia' },
         contactPoint: [
@@ -49,7 +49,7 @@ export function organizationJsonLd() {
             '@type': 'ContactPoint',
             contactType: 'customer service',
             telephone: '+57-311-216-7711',
-            email: 'proyectospentagonosas@gmail.com',
+            email: 'contacto@prosoinpen.com',
             areaServed: 'CO',
             availableLanguage: ['Spanish'],
           },

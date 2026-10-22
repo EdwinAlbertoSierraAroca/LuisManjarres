@@ -8,7 +8,14 @@ export const runtime = 'nodejs';
  * Registra la descarga del brochure corporativo como un contacto (lead) y
  * devuelve el enlace del PDF. El aviso llega al correo de la empresa vía Resend.
  */
-const TO = process.env.CONTACT_TO_EMAIL || 'ing.edwinsierra@gmail.com';
+// Destinatarios: el correo oficial del dominio + los de CONTACT_TO_EMAIL (separados por coma).
+const TO = Array.from(
+  new Set(
+    ['contacto@prosoinpen.com', ...(process.env.CONTACT_TO_EMAIL || 'proyectospentagonosas@gmail.com').split(',')]
+      .map((e) => e.trim().toLowerCase())
+      .filter(Boolean),
+  ),
+);
 const FROM = process.env.CONTACT_FROM || 'PROSOINPEN Web <onboarding@resend.dev>';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const BROCHURE_URL = '/brochure/PROSOINPEN_Brochure_2026.pdf';
@@ -36,7 +43,7 @@ export async function POST(req: Request) {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: FROM, to: [TO], reply_to: email, subject: `Lead: descarga de brochure — ${company || email}`, text, html }),
+        body: JSON.stringify({ from: FROM, to: TO, reply_to: email, subject: `Lead: descarga de brochure — ${company || email}`, text, html }),
         cache: 'no-store',
       });
       if (!res.ok) console.error('[api/brochure] Resend respondió', res.status, await res.text().catch(() => ''));

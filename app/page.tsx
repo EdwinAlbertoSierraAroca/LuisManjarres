@@ -544,7 +544,7 @@ export default function Home() {
     const summary = [`Hola, soy ${payload.name}.`, payload.message, `Correo: ${payload.email}`, payload.phone ? `Teléfono: ${payload.phone}` : ''].filter(Boolean).join('\n');
     setContactFallback({
       whatsapp: `https://wa.me/573112167711?text=${encodeURIComponent(summary)}`,
-      mailto: `mailto:proyectospentagonosas@gmail.com?subject=${encodeURIComponent(`Solicitud de información de ${payload.name}`)}&body=${encodeURIComponent(summary)}`,
+      mailto: `mailto:contacto@prosoinpen.com?cc=proyectospentagonosas@gmail.com&subject=${encodeURIComponent(`Solicitud de información de ${payload.name}`)}&body=${encodeURIComponent(summary)}`,
     });
     setContactStatus('mailto');
   };
@@ -1391,7 +1391,7 @@ export default function Home() {
                       No pudimos enviar tu solicitud automáticamente en este momento. Envíala en un clic por{' '}
                       <a href={contactFallback?.whatsapp ?? whatsappUrl} target="_blank" rel="noopener noreferrer"><b>WhatsApp</b></a>
                       {' '}(con tu mensaje listo) o escríbenos a{' '}
-                      <a href={contactFallback?.mailto ?? 'mailto:proyectospentagonosas@gmail.com'}>proyectospentagonosas@gmail.com</a>.
+                      <a href={contactFallback?.mailto ?? 'mailto:contacto@prosoinpen.com'}>contacto@prosoinpen.com</a>.
                     </p>
                   ) : null}
                   {contactStatus === 'error' ? (
@@ -1864,6 +1864,7 @@ export default function Home() {
               <ul className="footer-list">
                 <li>PROSOINPEN S.A.S.</li>
                 <li>NIT: 901960765-2</li>
+                <li><a href="mailto:contacto@prosoinpen.com">contacto@prosoinpen.com</a></li>
                 <li><a href="mailto:proyectospentagonosas@gmail.com">proyectospentagonosas@gmail.com</a></li>
                 <li>Proyectos y Soluciones de Ingeniería El Pentágono S.A.S.</li>
               </ul>

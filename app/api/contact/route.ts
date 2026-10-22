@@ -11,7 +11,14 @@ export const runtime = 'nodejs';
  *   CONTACT_TO_EMAIL (opcional)     destino; por defecto ing.edwinsierra@gmail.com
  *   CONTACT_FROM     (opcional)     remitente; por defecto onboarding@resend.dev
  */
-const TO = process.env.CONTACT_TO_EMAIL || 'ing.edwinsierra@gmail.com';
+// Destinatarios: el correo oficial del dominio + los de CONTACT_TO_EMAIL (separados por coma).
+const TO = Array.from(
+  new Set(
+    ['contacto@prosoinpen.com', ...(process.env.CONTACT_TO_EMAIL || 'proyectospentagonosas@gmail.com').split(',')]
+      .map((e) => e.trim().toLowerCase())
+      .filter(Boolean),
+  ),
+);
 const FROM = process.env.CONTACT_FROM || 'PROSOINPEN Web <onboarding@resend.dev>';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -55,7 +62,7 @@ export async function POST(req: Request) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: FROM, to: [TO], reply_to: email, subject: `Solicitud de información — ${name}`, text, html }),
+    body: JSON.stringify({ from: FROM, to: TO, reply_to: email, subject: `Solicitud de información — ${name}`, text, html }),
     cache: 'no-store',
   });
 
